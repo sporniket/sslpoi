@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.sporniket.scripting.ssl</groupId>
@@ -18,6 +19,14 @@
 		<version.maven-surefire-report-plugin>2.18.1</version.maven-surefire-report-plugin>
 		<version.maven-pmd-plugin>3.4</version.maven-pmd-plugin>
 		<version.maven-release-plugin>2.5.2</version.maven-release-plugin>
+
+		<!-- jflex libs and plugin version -->
+		<version.jflex>1.6.1</version.jflex>
+		<version.jflex-plugin>${version.jflex}</version.jflex-plugin>
+
+		<!-- cup libs and plugin version -->
+		<version.cup>11b</version.cup>
+		<version.cup-plugin>1.0.1</version.cup-plugin>
 	</properties>
 
 	<name>SpornyScript Language</name>
@@ -78,7 +87,60 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<!-- default setup for specific plugins -->
+		<pluginManagement>
+			<plugins>
+				<!-- Lexer -->
+				<plugin>
+					<groupId>de.jflex</groupId>
+					<artifactId>jflex-maven-plugin</artifactId>
+					<version>${version.jflex-plugin}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Parser -->
+				<plugin>
+					<groupId>com.github.vbmacher</groupId>
+					<artifactId>cup-maven-plugin</artifactId>
+					<version>${version.cup-plugin}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
+
+	<!-- default dependencies versions for the whole project -->
+	<dependencyManagement>
+		<dependencies>
+			<!-- jflex -->
+			<dependency>
+				<groupId>de.jflex</groupId>
+				<artifactId>jflex</artifactId>
+				<version>${version.jflex}</version>
+			</dependency>
+
+			<!-- cup -->
+			<dependency>
+				<groupId>com.github.vbmacher</groupId>
+				<artifactId>java-cup-runtime</artifactId>
+				<version>${version.cup}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<reporting>
 		<plugins>
 			<plugin>
@@ -144,8 +206,8 @@
 	<scm>
 		<connection>scm:git:${url.base}.git</connection>
 		<url>${url.base}</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 	<issueManagement>
 		<system>GitHub.com</system>
 		<url>${url.base}/issues</url>

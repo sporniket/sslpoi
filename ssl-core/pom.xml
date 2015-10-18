@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
-	<groupId>com.sporniket.scripting.ssl</groupId>
-	<artifactId>ssl</artifactId>
-	<version>0.0.0-SNAPSHOT</version>
+		<groupId>com.sporniket.scripting.ssl</groupId>
+		<artifactId>ssl</artifactId>
+		<version>0.0.0-SNAPSHOT</version>
 		<relativePath>../ssl/pom.xml</relativePath>
 	</parent>
-  <artifactId>ssl-core</artifactId>
-  <packaging>jar</packaging>
-  <name>ssl-core</name>
+	<artifactId>ssl-core</artifactId>
+	<packaging>jar</packaging>
+	<name>ssl-core</name>
 	<url>${url.base}/blob/master/${project.artifactId}</url>
- 	<distributionManagement>
+	<distributionManagement>
 		<site>
 			<id>localMvnSite</id>
 			<name>SpornyScript Language - core</name>
@@ -22,6 +22,12 @@
 		<!-- ===INTERNAL DEPENDENCIES -->
 
 		<!-- ===EXTERNAL DEPENDENCIES (non test) -->
+
+		<!-- cup -->
+		<dependency>
+			<groupId>com.github.vbmacher</groupId>
+			<artifactId>java-cup-runtime</artifactId>
+		</dependency>
 
 		<!-- ===TEST DEPENDENCIES -->
 		<dependency>
@@ -41,6 +47,27 @@
 				<configuration>
 					<source>${version.jdk}</source>
 					<target>${version.jdk}</target>
+				</configuration>
+			</plugin>
+
+			<!-- Lexer -->
+			<plugin>
+				<groupId>de.jflex</groupId>
+				<artifactId>jflex-maven-plugin</artifactId>
+				<configuration>
+<!-- 					<outputDirectory>${project.build.directory}/generated-sources/jflex/com/sporniket/scripting/ssl/vess</outputDirectory> -->
+				</configuration>
+			</plugin>
+
+			<!-- Parser -->
+			<plugin>
+				<groupId>com.github.vbmacher</groupId>
+				<artifactId>cup-maven-plugin</artifactId>
+				<configuration>
+					<cupDefinition>src/main/cup/vess.cup</cupDefinition>
+					<className>AnalyzerSyntaxic</className>
+					<symbolsName>AnalyzerSymbols</symbolsName>
+					<packageName>com.sporniket.scripting.ssl.vess</packageName>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -69,4 +96,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</reporting></project>
+	</reporting>
+</project>
