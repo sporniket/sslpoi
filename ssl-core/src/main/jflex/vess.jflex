@@ -11,6 +11,7 @@ import java_cup.runtime.*;
 
 %class AnalyzerLexical
 %unicode
+%cupsym AnalyzerSymbols
 %cup
 %line
 %column
@@ -31,15 +32,22 @@ InputCharacter = [^\r\n]
 WhiteSpace     = {LineTerminator} | [ \t\f]
 
 /* comments */
-Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
+//Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
 
-TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+//TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 // Comment can be the last line of the file, without line terminator.
-EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
-DocumentationComment = "/**" {CommentContent} "*"+ "/"
-CommentContent       = ( [^*] | \*+ [^/*] )*
+//EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
+//DocumentationComment = "/**" {CommentContent} "*"+ "/"
+//CommentContent       = ( [^*] | \*+ [^/*] )*
 
-Identifier = [:jletter:] [:jletterdigit:]*
+//char classes
+Alpha = [A-Za-z]
+Num = [0-9]
+NumNotZero = [1-9]
+AlphaNum = {Alpha} | {Num}
+
+Identifier = {Alpha} {AlphaNum}*
+ClassName = {Identifier} ( "." {Identifier} )+
 
 DecIntegerLiteral = 0 | [1-9][0-9]*
 
@@ -48,42 +56,43 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 %%
 
 /* keywords */
-<YYINITIAL> "abstract"           { return symbol(sym.ABSTRACT); }
-<YYINITIAL> "boolean"            { return symbol(sym.BOOLEAN); }
-<YYINITIAL> "break"              { return symbol(sym.BREAK); }
+<YYINITIAL> "define"           { return symbol(AnalyzerSymbols.DEFINE); }
+<YYINITIAL> "as"            { return symbol(AnalyzerSymbols.AS); }
+<YYINITIAL> "new"              { return symbol(AnalyzerSymbols.NEW); }
 
 <YYINITIAL> {
   /* identifiers */ 
-  {Identifier}                   { return symbol(sym.IDENTIFIER); }
+  {ClassName}                   { return symbol(AnalyzerSymbols.CLASSNAME); }
+  {Identifier}                   { return symbol(AnalyzerSymbols.IDENTIFIER); }
  
   /* literals */
-  {DecIntegerLiteral}            { return symbol(sym.INTEGER_LITERAL); }
-  \"                             { string.setLength(0); yybegin(STRING); }
+//  {DecIntegerLiteral}            { return symbol(AnalyzerSymbols.INTEGER_LITERAL); }
+//  \"                             { string.setLength(0); yybegin(STRING); }
 
   /* operators */
-  "="                            { return symbol(sym.EQ); }
-  "=="                           { return symbol(sym.EQEQ); }
-  "+"                            { return symbol(sym.PLUS); }
+//  "="                            { return symbol(AnalyzerSymbols.EQ); }
+//  "=="                           { return symbol(AnalyzerSymbols.EQEQ); }
+//  "+"                            { return symbol(AnalyzerSymbols.PLUS); }
 
   /* comments */
-  {Comment}                      { /* ignore */ }
+//  {Comment}                      { /* ignore */ }
  
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
 }
 
-<STRING> {
-  \"                             { yybegin(YYINITIAL); 
-                                   return symbol(sym.STRING_LITERAL, 
-                                   string.toString()); }
-  [^\n\r\"\\]+                   { string.append( yytext() ); }
-  \\t                            { string.append('\t'); }
-  \\n                            { string.append('\n'); }
+//<STRING> {
+//  \"                             { yybegin(YYINITIAL); 
+//                                   return symbol(AnalyzerSymbols.STRING_LITERAL, 
+//                                   string.toString()); }
+//  [^\n\r\"\\]+                   { string.append( yytext() ); }
+//  \\t                            { string.append('\t'); }
+//  \\n                            { string.append('\n'); }
 
-  \\r                            { string.append('\r'); }
-  \\\"                           { string.append('\"'); }
-  \\                             { string.append('\\'); }
-}
+//  \\r                            { string.append('\r'); }
+//  \\\"                           { string.append('\"'); }
+//  \\                             { string.append('\\'); }
+//}
 
 /* error fallback */
 [^]                              { throw new Error("Illegal character <"+ yytext()+">"); }

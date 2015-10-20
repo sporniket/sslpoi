@@ -5,21 +5,17 @@
 import java_cup.runtime.*;
 
 /* Preliminaries to set up and use the scanner.  */
-parser code {:
-    // Connect this parser to a scanner!
-    AnalyzerLexical scanner;
-    Parser(AnalyzerLexical s){ this.scanner=scanner; }
-:}
-
-init with {: scanner.init();              :};
-scan with {: return scanner.next_token(); :};
+//not needed for setting the scanner, just provide a AnalyzerLexical to the constructor. 
 
 /* Terminals (tokens returned by the scanner). */
+terminal           DEFINE, AS, NEW;
+terminal           IDENTIFIER, CLASSNAME;
 terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, MOD;
 terminal           UMINUS, LPAREN, RPAREN;
 terminal Integer   NUMBER;
 
 /* Non-terminals */
+non terminal            statm_list, statm_define ;
 non terminal            expr_list, expr_part;
 non terminal Integer    expr;
 
@@ -29,6 +25,16 @@ precedence left TIMES, DIVIDE, MOD;
 precedence left UMINUS;
 
 /* The grammar */
+statm_list ::= statm_define statm_list
+           |
+               statm_define
+           ;
+
+statm_define ::= DEFINE IDENTIFIER:i AS NEW CLASSNAME:c {: /*create "define" node*/ :}
+             |
+                 DEFINE IDENTIFIER:i AS NEW IDENTIFIER:c {: /*create "define" node*/ :}
+             ;
+
 expr_list ::= expr_list expr_part 
 	      | 
               expr_part;
