@@ -9,7 +9,7 @@ package com.sporniket.scripting.ssl.mass;
  * @author dsporn
  *
  */
-public class NodeDefineAs extends Node
+public class StatementDefineAs extends Statement
 {
 	/**
 	 * Specify what is the initial value.
@@ -28,7 +28,7 @@ public class NodeDefineAs extends Node
 	private final InitialisationMode myInitialisationMode ;
 
 
-	public NodeDefineAs(String identifier, InitialisationMode initialisationMode, String className)
+	public StatementDefineAs(String identifier, InitialisationMode initialisationMode, String className)
 	{
 		myIdentifier = identifier;
 		myInitialisationMode = initialisationMode;

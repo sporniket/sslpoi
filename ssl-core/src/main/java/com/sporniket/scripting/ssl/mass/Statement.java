@@ -9,7 +9,7 @@ package com.sporniket.scripting.ssl.mass;
  * @author dsporn
  *
  */
-public abstract class Node
+public abstract class Statement
 {
 
 }
