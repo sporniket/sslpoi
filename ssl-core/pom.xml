@@ -22,7 +22,6 @@
 		<!-- ===INTERNAL DEPENDENCIES -->
 
 		<!-- ===EXTERNAL DEPENDENCIES (non test) -->
-
 		<!-- cup -->
 		<dependency>
 			<groupId>com.github.vbmacher</groupId>
@@ -54,9 +53,6 @@
 			<plugin>
 				<groupId>de.jflex</groupId>
 				<artifactId>jflex-maven-plugin</artifactId>
-				<configuration>
-<!-- 					<outputDirectory>${project.build.directory}/generated-sources/jflex/com/sporniket/scripting/ssl/vess</outputDirectory> -->
-				</configuration>
 			</plugin>
 
 			<!-- Parser -->

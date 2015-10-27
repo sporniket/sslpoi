@@ -3,26 +3,43 @@
 // CUP specification for a simple expression evaluator (w/ actions)
 
 import java_cup.runtime.*;
+import com.sporniket.scripting.ssl.mass.*;
 
-/* Preliminaries to set up and use the scanner.  */
-//not needed for setting the scanner, just provide a AnalyzerLexical to the constructor. 
+//Define a MASS TreeBuilder with accessor. it must be defined before parsing.
+action code {:
+	private TreeBuilder myTreeBuilder;
+	
+	public TreeBuilder getTreeBuilder() {return myTreeBuilder ;}
+	public void setTreeBuilder(TreeBuilder treeBuilder) {myTreeBuilder = treeBuilder;}	
+:}
+
+parser code {:
+	private TreeBuilder myTreeBuilder;
+	
+	public TreeBuilder getTreeBuilder() {return myTreeBuilder ;}
+	public void setTreeBuilder(TreeBuilder treeBuilder) {myTreeBuilder = treeBuilder;}	
+:}
+
+init with {:
+    action_obj.setTreeBuilder(getTreeBuilder());
+:}
 
 /* Terminals (tokens returned by the scanner). */
 terminal           DEFINE, AS, NEW;
-terminal           IDENTIFIER, CLASSNAME;
-terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, MOD;
-terminal           UMINUS, LPAREN, RPAREN;
-terminal Integer   NUMBER;
+terminal           IDENTIFIER, PACKAGEPREFIX;
+//terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, MOD;
+//terminal           UMINUS, LPAREN, RPAREN;
+//terminal Integer   NUMBER;
 
 /* Non-terminals */
 non terminal            statm_list, statm_define ;
-non terminal            expr_list, expr_part;
-non terminal Integer    expr;
+//non terminal            expr_list, expr_part;
+//non terminal Integer    expr;
 
 /* Precedences */
-precedence left PLUS, MINUS;
-precedence left TIMES, DIVIDE, MOD;
-precedence left UMINUS;
+//precedence left PLUS, MINUS;
+//precedence left TIMES, DIVIDE, MOD;
+//precedence left UMINUS;
 
 /* The grammar */
 statm_list ::= statm_define statm_list
@@ -30,11 +47,11 @@ statm_list ::= statm_define statm_list
                statm_define
            ;
 
-statm_define ::= DEFINE IDENTIFIER:i AS NEW CLASSNAME:c {: /*create "define" node*/ :}
+statm_define ::= DEFINE IDENTIFIER:id AS NEW PACKAGEPREFIX:pack IDENTIFIER:cls {: getTreeBuilder().add(new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, ((String)pack)+((String)cls))); :}
              |
-                 DEFINE IDENTIFIER:i AS NEW IDENTIFIER:c {: /*create "define" node*/ :}
+                 DEFINE IDENTIFIER:id AS NEW IDENTIFIER:cls {: getTreeBuilder().add(new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls)); RESULT = id; :}
              ;
-
+/*
 expr_list ::= expr_list expr_part 
 	      | 
               expr_part;
@@ -69,3 +86,4 @@ expr      ::= expr:e1 PLUS expr:e2
               LPAREN expr:e RPAREN     
 	      {: RESULT = e; :} 
 	      ;
+*/

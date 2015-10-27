@@ -3,6 +3,8 @@
 /* JFlex example: partial Java language lexer specification */
 package com.sporniket.scripting.ssl.vess;
 import java_cup.runtime.*;
+import java_cup.runtime.ComplexSymbolFactory;
+import java_cup.runtime.ComplexSymbolFactory.Location;
 
 /**
  * This class is a simple example lexer.
@@ -10,6 +12,8 @@ import java_cup.runtime.*;
 %%
 
 %class AnalyzerLexical
+%public
+%final
 %unicode
 %cupsym AnalyzerSymbols
 %cup
@@ -18,13 +22,21 @@ import java_cup.runtime.*;
 
 %{
   StringBuffer string = new StringBuffer();
+  
+  /**
+   * link to the symbol factory
+   */
+  private ComplexSymbolFactory mySymbolFactory ;
+  public ComplexSymbolFactory getSymbolFactory() {return mySymbolFactory;}
+  public void setSymbolFactory(ComplexSymbolFactory symbolFactory) {mySymbolFactory = symbolFactory ;}
 
-  private Symbol symbol(int type) {
-    return new Symbol(type, yyline, yycolumn);
-  }
-  private Symbol symbol(int type, Object value) {
-    return new Symbol(type, yyline, yycolumn, value);
-  }
+    //private int csline,cscolumn;
+    public Symbol symbol(int code){
+	return getSymbolFactory().newSymbol(AnalyzerSymbols.terminalNames[code], code,new Location(yyline+1,yycolumn+1-yylength()),new Location(yyline+1,yycolumn+1));
+    }
+    public Symbol symbol(int code, Object value){
+	return getSymbolFactory().newSymbol(AnalyzerSymbols.terminalNames[code], code, new Location(yyline+1, yycolumn +1), new Location(yyline+1,yycolumn+yylength()), value);
+    }
 %}
 
 LineTerminator = \r|\n|\r\n
@@ -47,7 +59,7 @@ NumNotZero = [1-9]
 AlphaNum = {Alpha} | {Num}
 
 Identifier = {Alpha} {AlphaNum}*
-ClassName = {Identifier} ( "." {Identifier} )+
+PackagePrefix = ( {Identifier} "." )+
 
 DecIntegerLiteral = 0 | [1-9][0-9]*
 
@@ -62,8 +74,8 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 <YYINITIAL> {
   /* identifiers */ 
-  {ClassName}                   { return symbol(AnalyzerSymbols.CLASSNAME); }
-  {Identifier}                   { return symbol(AnalyzerSymbols.IDENTIFIER); }
+  {PackagePrefix}                   { return symbol(AnalyzerSymbols.PACKAGEPREFIX, yytext()); }
+  {Identifier}                   { return symbol(AnalyzerSymbols.IDENTIFIER, yytext()); }
  
   /* literals */
 //  {DecIntegerLiteral}            { return symbol(AnalyzerSymbols.INTEGER_LITERAL); }
@@ -96,3 +108,6 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 /* error fallback */
 [^]                              { throw new Error("Illegal character <"+ yytext()+">"); }
+
+//EOF Rules, necessary to return a complex symbol.
+<<EOF>>  { return symbol(AnalyzerSymbols.EOF); }
