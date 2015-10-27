@@ -16,10 +16,6 @@ import java.util.List;
  */
 public class TreeBuilder
 {
-	private final static TreeBuilder INSTANCE = new TreeBuilder();
-	public static final TreeBuilder getInstance() {
-		return INSTANCE ;
-	}
 	private final List<Statement> myTree = new ArrayList<Statement>();
 	
 	private Statement myLastStatement = null ;

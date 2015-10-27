@@ -7,10 +7,7 @@ import com.sporniket.scripting.ssl.mass.*;
 
 //Define a MASS TreeBuilder with accessor. it must be defined before parsing.
 action code {:
-	private TreeBuilder myTreeBuilder;
-	
-	public TreeBuilder getTreeBuilder() {return myTreeBuilder ;}
-	public void setTreeBuilder(TreeBuilder treeBuilder) {myTreeBuilder = treeBuilder;}	
+	public TreeBuilder getTreeBuilder() {return parser.getTreeBuilder() ;}
 :}
 
 parser code {:
@@ -18,10 +15,6 @@ parser code {:
 	
 	public TreeBuilder getTreeBuilder() {return myTreeBuilder ;}
 	public void setTreeBuilder(TreeBuilder treeBuilder) {myTreeBuilder = treeBuilder;}	
-:}
-
-init with {:
-    action_obj.setTreeBuilder(getTreeBuilder());
 :}
 
 /* Terminals (tokens returned by the scanner). */

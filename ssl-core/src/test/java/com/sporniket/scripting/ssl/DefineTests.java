@@ -37,7 +37,7 @@ public class DefineTests
 	@Before
 	public void setupParserObjects()
 	{
-		setTreeBuilder(TreeBuilder.getInstance());
+		setTreeBuilder(new TreeBuilder());
 		final ComplexSymbolFactory _symbolFactory = new ComplexSymbolFactory();
 		final AnalyzerLexical _lexer = new AnalyzerLexical(null);
 		_lexer.setSymbolFactory(_symbolFactory);
