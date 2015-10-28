@@ -25,7 +25,8 @@ terminal           IDENTIFIER, PACKAGEPREFIX;
 //terminal Integer   NUMBER;
 
 /* Non-terminals */
-non terminal            statm_list, statm_define ;
+non terminal            statm__list, statm__single ;
+non terminal            statm_define ;
 non terminal            expr_classname;
 //non terminal            expr_list, expr_part;
 //non terminal Integer    expr;
@@ -35,20 +36,27 @@ non terminal            expr_classname;
 //precedence left TIMES, DIVIDE, MOD;
 //precedence left UMINUS;
 
-/* The grammar */
-statm_list 
+//======== GRAMMAR ========
+//==== Statements break down ====
+statm__list 
 	::= 
-		statm_define statm_list
+		statm__single statm__list
 	|
+		statm__single
+	;
+
+statm__single
+	::=
 		statm_define
 	;
 
+//==== Statement types ====
 statm_define 
 	::= 
 		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: getTreeBuilder().add(new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls)); RESULT = id; :}
 	;
 
-//Expressions
+//==== Expressions ====
 expr_classname 
 	::= 
 		PACKAGEPREFIX:pack IDENTIFIER:cls {: RESULT = ((String)pack)+((String)cls) ; :}
