@@ -19,6 +19,7 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner). */
 terminal           DEFINE, AS, NEW;
+terminal           CALL, USING, FROM, COMMA;
 terminal           IDENTIFIER, PACKAGEPREFIX;
 //terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, MOD;
 //terminal           UMINUS, LPAREN, RPAREN;
@@ -26,8 +27,9 @@ terminal           IDENTIFIER, PACKAGEPREFIX;
 
 /* Non-terminals */
 non terminal            statm__list, statm__single ;
-non terminal            statm_define ;
-non terminal            expr_classname;
+non terminal            statm_call, statm_define ;
+non terminal            part_using,part_using__list,part_using__single ;
+non terminal            expr_classname,expr_from,expr_methodname,expr_value;
 //non terminal            expr_list, expr_part;
 //non terminal Integer    expr;
 
@@ -47,13 +49,40 @@ statm__list
 
 statm__single
 	::=
+		statm_call
+	|
 		statm_define
 	;
 
 //==== Statement types ====
+statm_call
+	::=
+		CALL expr_methodname:meth part_using:using /*treebuilder->add call(node meth, node using)*/
+	|
+		CALL expr_methodname:meth /*treebuilder->add call(node meth)*/
+	;
+
 statm_define 
 	::= 
 		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: getTreeBuilder().add(new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls)); RESULT = id; :}
+	;
+
+//== Statement parts ==
+part_using
+	::=
+		USING part_using__list /*treebuilder->commit list 'using'*/
+	;
+
+part_using__list
+	::=
+		part_using__single COMMA part_using__list
+	|
+		part_using__single
+	;
+
+part_using__single
+	::=
+		expr_value:val AS IDENTIFIER:id /*treebuilder->push (id,val) in list 'using'*/
 	;
 
 //==== Expressions ====
@@ -62,6 +91,23 @@ expr_classname
 		PACKAGEPREFIX:pack IDENTIFIER:cls {: RESULT = ((String)pack)+((String)cls) ; :}
 	|
 		IDENTIFIER:cls {: RESULT = cls ; :} 
+	;
+
+expr_from
+	::=
+		FROM IDENTIFIER:id expr_from:from /*treebuilder->expressionBinaryNode('from',from,id)*/
+	|
+		FROM IDENTIFIER:id /*treebuilder->expressionLeafNode('identifier',id)*/
+	;
+	
+expr_methodname
+	::=
+		IDENTIFIER:id expr_from:from /*treebuilder->expressionBinaryNode('from',from,id)*/
+	;
+	
+expr_value
+	::=
+		IDENTIFIER:id /*treebuilder->expressionLeafNode('identifier',id)*/
 	;
 /*
 expr_list ::= expr_list expr_part 
