@@ -26,6 +26,7 @@ terminal           IDENTIFIER, PACKAGEPREFIX;
 
 /* Non-terminals */
 non terminal            statm_list, statm_define ;
+non terminal            expr_classname;
 //non terminal            expr_list, expr_part;
 //non terminal Integer    expr;
 
@@ -40,10 +41,14 @@ statm_list ::= statm_define statm_list
                statm_define
            ;
 
-statm_define ::= DEFINE IDENTIFIER:id AS NEW PACKAGEPREFIX:pack IDENTIFIER:cls {: getTreeBuilder().add(new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, ((String)pack)+((String)cls))); :}
-             |
-                 DEFINE IDENTIFIER:id AS NEW IDENTIFIER:cls {: getTreeBuilder().add(new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls)); RESULT = id; :}
+statm_define ::= DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: getTreeBuilder().add(new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls)); RESULT = id; :}
              ;
+
+//Expressions
+expr_classname ::= PACKAGEPREFIX:pack IDENTIFIER:cls {: RESULT = ((String)pack)+((String)cls) ; :}
+               |
+                   IDENTIFIER:cls {: RESULT = cls ; :}
+               ;
 /*
 expr_list ::= expr_list expr_part 
 	      | 
