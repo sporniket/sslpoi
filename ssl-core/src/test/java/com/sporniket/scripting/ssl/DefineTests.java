@@ -33,17 +33,13 @@ public class DefineTests
 {
 	private AnalyzerSyntaxic myParser;
 
-	private TreeBuilder myTreeBuilder;
-
 	@Before
 	public void setupParserObjects()
 	{
-		setTreeBuilder(new TreeBuilder());
 		final ComplexSymbolFactory _symbolFactory = new ComplexSymbolFactory();
 		final AnalyzerLexical _lexer = new AnalyzerLexical(null);
 		_lexer.setSymbolFactory(_symbolFactory);
 		setParser(new AnalyzerSyntaxic(_lexer, _symbolFactory));
-		getParser().setTreeBuilder(getTreeBuilder());
 	}
 
 	private AnalyzerSyntaxic getParser()
@@ -54,16 +50,6 @@ public class DefineTests
 	private void setParser(AnalyzerSyntaxic parser)
 	{
 		myParser = parser;
-	}
-
-	private TreeBuilder getTreeBuilder()
-	{
-		return myTreeBuilder;
-	}
-
-	private void setTreeBuilder(TreeBuilder treeBuilder)
-	{
-		myTreeBuilder = treeBuilder;
 	}
 
 	@Test

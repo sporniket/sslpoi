@@ -5,18 +5,6 @@
 import java_cup.runtime.*;
 import com.sporniket.scripting.ssl.mass.*;
 
-//Define a MASS TreeBuilder with accessor. it must be defined before parsing.
-action code {:
-	public TreeBuilder getTreeBuilder() {return parser.getTreeBuilder() ;}
-:}
-
-parser code {:
-	private TreeBuilder myTreeBuilder;
-	
-	public TreeBuilder getTreeBuilder() {return myTreeBuilder ;}
-	public void setTreeBuilder(TreeBuilder treeBuilder) {myTreeBuilder = treeBuilder;}	
-:}
-
 /* Terminals (tokens returned by the scanner). */
 terminal           DEFINE, AS, NEW;
 terminal           CALL, USING, FROM, COMMA;
@@ -64,7 +52,7 @@ statm_call
 
 statm_define 
 	::= 
-		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: RESULT = new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls) ; getTreeBuilder().add((Statement) RESULT); :}
+		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: RESULT = new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls) ; :}
 	;
 
 //== Statement parts ==
