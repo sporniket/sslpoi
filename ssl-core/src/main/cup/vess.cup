@@ -42,16 +42,16 @@ non terminal            expr_classname,expr_from,expr_methodname,expr_value;
 //==== Statements break down ====
 statm__list 
 	::= 
-		statm__single statm__list
+		statm__single:statm statm__list {: RESULT = statm ; :} 
 	|
-		statm__single
+		statm__single:statm {: RESULT = statm ; :}
 	;
 
 statm__single
 	::=
-		statm_call
+		statm_call:statm {: RESULT = statm ; :}
 	|
-		statm_define
+		statm_define:statm {: RESULT = statm ; :}
 	;
 
 //==== Statement types ====
@@ -64,7 +64,7 @@ statm_call
 
 statm_define 
 	::= 
-		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: getTreeBuilder().add(new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls)); RESULT = id; :}
+		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: RESULT = new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls) ; getTreeBuilder().add((Statement) RESULT); :}
 	;
 
 //== Statement parts ==

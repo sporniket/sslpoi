@@ -12,6 +12,7 @@ import java.util.List;
 
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
+import java_cup.runtime.Symbol;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -81,14 +82,44 @@ public class DefineTests
 	{
 		Reader statementReader = new StringReader(statement);
 		((AnalyzerLexical) getParser().getScanner()).yyreset(statementReader);
-		getParser().debug_parse();
-		final List<Statement> _resultTree = getTreeBuilder().getResultTree();
-		if (_resultTree.isEmpty())
+		final ComplexSymbol _symbol = (ComplexSymbol) getParser().debug_parse();
+		debugSymbol(statement, _symbol);
+		Object _value = _symbol.value;
+		if (_value instanceof Statement)
 		{
-			throw new IllegalStateException("No statement found for '" + statement + "'");
+			Statement _statement = (Statement) _value;
+			return _statement ;
 		}
-		return _resultTree.get(_resultTree.size() - 1);
-
+		throw new IllegalStateException("No statement found for '" + statement + "'");
+	}
+	
+	private void debugSymbol(String source, ComplexSymbol root)
+	{
+		System.out.println("//=== ABSTRACT SYNTAX TREE SOURCE ===//");
+		System.out.println(source);
+		System.out.println("//=== ABSTRACT SYNTAX TREE RESULT ===//");
+		debugSymbol(root, "");
+		System.out.println("//=== END OF SYNTAX TREE RESULT   ===//");
+	}
+	
+	private void debugSymbol(ComplexSymbol node, String prefix)
+	{
+		System.out.println(prefix+"+["+node.getName()+"]");
+		final Object _value = node.value;
+		if (null != _value)
+		{
+			final String _childPrefix = prefix+"    ";
+			if (_value instanceof ComplexSymbol)
+			{
+				ComplexSymbol _child = (ComplexSymbol) _value;
+				debugSymbol(_child, _childPrefix);
+			}
+			else if (_value instanceof Statement)
+			{
+				Statement _statement = (Statement) _value;
+				System.out.println(_childPrefix+"+<"+_statement.getClass().getSimpleName()+">");
+			}
+		}
 	}
 
 }
