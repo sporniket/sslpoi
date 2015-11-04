@@ -3,6 +3,7 @@
 // CUP specification for a simple expression evaluator (w/ actions)
 
 import java_cup.runtime.*;
+import com.sporniket.scripting.ssl.core.*;
 import com.sporniket.scripting.ssl.mass.*;
 
 /* Terminals (tokens returned by the scanner). */
@@ -30,7 +31,7 @@ non terminal            expr_classname,expr_from,expr_methodname,expr_value;
 //==== Statements break down ====
 statm__list 
 	::= 
-		statm__single:statm statm__list {: RESULT = statm ; :} 
+		statm__single:statm statm__list:other {: ((VessNode) statm).setNext((VessNode) other) ; RESULT = statm ; :} 
 	|
 		statm__single:statm {: RESULT = statm ; :}
 	;
@@ -52,7 +53,7 @@ statm_call
 
 statm_define 
 	::= 
-		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: RESULT = new StatementDefineAs((String)id, StatementDefineAs.InitialisationMode.NEW, (String)cls) ; :}
+		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: RESULT = new VessNodeDefineAs((String)id, InitialisationMode.NEW, (String)cls) ; :}
 	;
 
 //== Statement parts ==

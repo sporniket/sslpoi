@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.mass;
+package com.sporniket.scripting.ssl.vess;
 
 import com.sporniket.scripting.ssl.core.InitialisationMode;
 
@@ -11,14 +11,14 @@ import com.sporniket.scripting.ssl.core.InitialisationMode;
  * @author dsporn
  *
  */
-public class StatementDefineAs extends Statement
+public class VessNodeDefineAs extends VessNode
 {
 	private final String myClassName ;
 	private final String myIdentifier ;
 	private final InitialisationMode myInitialisationMode ;
 
 
-	public StatementDefineAs(String identifier, InitialisationMode initialisationMode, String className)
+	public VessNodeDefineAs(String identifier, InitialisationMode initialisationMode, String className)
 	{
 		myIdentifier = identifier;
 		myInitialisationMode = initialisationMode;

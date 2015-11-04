@@ -27,13 +27,15 @@ import com.sporniket.scripting.ssl.vess.VessNode;
 import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
 
 /**
- * Test for "define ..." statements.
+ * Test the parsing.
  * 
  * @author dsporn
  *
  */
-public class DefineTests
+public class ParsingTests
 {
+	
+	private static final String[] SOURCE__MULTIPLE_STATEMENTS = {"define toto as new bar", "define titi as new foo.bar"} ;
 	private AnalyzerSyntaxic myParser;
 
 	@Before
@@ -56,15 +58,19 @@ public class DefineTests
 	}
 
 	@Test
-	public void testCorrectDefineAsNew() throws Exception
+	public void testMultipleStatements() throws Exception
 	{
-		VessNodeDefineAs _define = (VessNodeDefineAs) TestUtils.parseVessSource("define toto as new bar", getParser());
+		VessNodeDefineAs _define = (VessNodeDefineAs) TestUtils.parseVessSource(TestUtils.makeSource(SOURCE__MULTIPLE_STATEMENTS), getParser());
 		assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
 		assertThat(_define.getIdentifier(), is("toto"));
 		assertThat(_define.getClassName(), is("bar"));
+		assertThat(_define.isLastNode(), is(false));
 
-		_define = (VessNodeDefineAs) TestUtils.parseVessSource("define toto as new foo.bar", getParser());
+		_define = (VessNodeDefineAs) _define.getNext();
+		assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
+		assertThat(_define.getIdentifier(), is("titi"));
 		assertThat(_define.getClassName(), is("foo.bar"));
+		assertThat(_define.isLastNode(), is(true));
 	}
 
 }
