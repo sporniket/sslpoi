@@ -3,7 +3,7 @@
  */
 package com.sporniket.scripting.ssl;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 import java.io.Reader;
@@ -34,8 +34,22 @@ import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
  */
 public class ParsingTests
 {
-	
-	private static final String[] SOURCE__MULTIPLE_STATEMENTS = {"define toto as new bar", "define titi as new foo.bar"} ;
+
+	private static final String[] SOURCE__MULTIPLE_STATEMENTS =
+	{
+			"define toto as new bar", "define titi as new foo.bar", ""
+	};
+
+	private static final String[] SOURCE__MULTIPLE_STATEMENTS__NO_FINAL_END_LINE =
+	{
+			"define toto as new bar", "define titi as new foo.bar"
+	};
+
+	private static final String[] SOURCE__MULTIPLE_STATEMENTS__WITH_EMPTY_LINE =
+	{
+			"  ", "define toto as new bar", "\t", "define titi as new foo.bar", ""
+	};
+
 	private AnalyzerSyntaxic myParser;
 
 	@Before
@@ -60,13 +74,50 @@ public class ParsingTests
 	@Test
 	public void testMultipleStatements() throws Exception
 	{
-		VessNodeDefineAs _define = (VessNodeDefineAs) TestUtils.parseVessSource(TestUtils.makeSource(SOURCE__MULTIPLE_STATEMENTS), getParser());
+		testMultipleDefineAs(SOURCE__MULTIPLE_STATEMENTS);
+	}
+
+	@Test
+	public void testMultipleStatementsNoFinalEndLine() throws Exception
+	{
+		testMultipleDefineAs(SOURCE__MULTIPLE_STATEMENTS__NO_FINAL_END_LINE);
+	}
+
+	@Test
+	public void testMultipleStatementsWithEmptyLines() throws Exception
+	{
+		testMultipleDefineAs(SOURCE__MULTIPLE_STATEMENTS__WITH_EMPTY_LINE);
+	}
+
+	/**
+	 * @param source
+	 * @throws Exception
+	 */
+	private void testMultipleDefineAs(final String[] source) throws Exception
+	{
+		VessNodeDefineAs _define;
+
+		VessNode _node = (VessNode) TestUtils.parseVessSource(TestUtils.makeSource(source), getParser());
+		while (_node != null && !(_node instanceof VessNodeDefineAs))
+		{
+			_node = _node.getNext();
+		}
+		assertThat(_node, not(nullValue()));
+
+		_define = (VessNodeDefineAs) _node;
 		assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
 		assertThat(_define.getIdentifier(), is("toto"));
 		assertThat(_define.getClassName(), is("bar"));
 		assertThat(_define.isLastNode(), is(false));
 
-		_define = (VessNodeDefineAs) _define.getNext();
+		do
+		{
+			_node = _node.getNext();
+		}
+		while (_node != null && !(_node instanceof VessNodeDefineAs));
+		assertThat(_node, not(nullValue()));
+
+		_define = (VessNodeDefineAs) _node;
 		assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
 		assertThat(_define.getIdentifier(), is("titi"));
 		assertThat(_define.getClassName(), is("foo.bar"));

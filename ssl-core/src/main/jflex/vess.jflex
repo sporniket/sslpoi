@@ -5,6 +5,7 @@ package com.sporniket.scripting.ssl.vess;
 import java_cup.runtime.*;
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ComplexSymbolFactory.Location;
+import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 
 /**
  * This class is a simple example lexer.
@@ -15,10 +16,15 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %public
 %final
 %unicode
-%cupsym AnalyzerSymbols
-%cup
 %line
 %column
+
+//CUP specific directives.
+%cupsym AnalyzerSymbols
+%cup
+%eofval{
+  return symbol(AnalyzerSymbols.EOF);
+%eofval}
 
 %{
   StringBuffer string = new StringBuffer();
@@ -110,4 +116,4 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 [^]                              { throw new Error("Illegal character <"+ yytext()+">"); }
 
 //EOF Rules, necessary to return a complex symbol.
-<<EOF>>  { return symbol(AnalyzerSymbols.EOF); }
+//<<EOF>>  { return symbol(AnalyzerSymbols.EOF); }

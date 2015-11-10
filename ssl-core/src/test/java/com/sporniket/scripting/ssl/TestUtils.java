@@ -75,11 +75,11 @@ public class TestUtils
 		StringBuilder _result = new StringBuilder();
 		for (String _statement : statements)
 		{
-			// if (0 == _result.length())
-			// {
-			// _result.append("\n");
-			// }
-			_result.append(_statement).append("\n");
+			 if (0 != _result.length())
+			 {
+			 _result.append("\n");
+			 }
+			_result.append(_statement);
 		}
 		return _result.toString();
 	}
