@@ -44,4 +44,17 @@ public abstract class VessNode
 		myNext = next;
 	}
 
+	/**
+	 * Fluent version of {@link #setNext(VessNode)}.
+	 * 
+	 * @param next
+	 *            the next node.
+	 * @return this node.
+	 */
+	public VessNode withNext(VessNode next)
+	{
+		setNext(next);
+		return this;
+	}
+
 }
