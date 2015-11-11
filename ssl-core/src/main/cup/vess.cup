@@ -17,7 +17,8 @@ terminal           IDENTIFIER, PACKAGEPREFIX;
 /* Non-terminals */
 non terminal            statm__list, statm__single ;
 non terminal            statm_call, statm_define ;
-non terminal            part_using,part_using__list,part_using__single ;
+non terminal            part_using__list,part_using__single ;
+non terminal            expr_access_stack;
 non terminal            expr_classname,expr_from,expr_methodname,expr_value;
 //non terminal            expr_list, expr_part;
 //non terminal Integer    expr;
@@ -46,9 +47,15 @@ statm__single
 //==== Statement types ====
 statm_call
 	::=
-		CALL expr_methodname:meth part_using:using /*treebuilder->add call(node meth, node using)*/
+		CALL expr_methodname:meth USING part_using__list:using
+		{:
+			RESULT = new VessNodeCall().withCall((VessNodeAccessor)meth).withMapping((VessNodeArgumentMapping) using) ;
+		:}
 	|
-		CALL expr_methodname:meth /*treebuilder->add call(node meth)*/
+		CALL expr_methodname:meth
+		{:
+			RESULT = new VessNodeCall().withCall((VessNodeAccessor)meth) ;
+		:}
 	;
 
 statm_define 
@@ -57,21 +64,25 @@ statm_define
 	;
 
 //== Statement parts ==
-part_using
-	::=
-		USING part_using__list /*treebuilder->commit list 'using'*/
-	;
-
 part_using__list
 	::=
-		part_using__single COMMA part_using__list
+		part_using__single:single COMMA part_using__list:list
+		{:
+			RESULT = ((VessNode)single).withNext((VessNode)list);
+		:}
 	|
-		part_using__single
+		part_using__single:single
+		{:
+			RESULT = single ;
+		:}
 	;
 
 part_using__single
 	::=
-		expr_value:val AS IDENTIFIER:id /*treebuilder->push (id,val) in list 'using'*/
+		expr_value:val AS IDENTIFIER:id
+		{:
+			RESULT = new VessNodeArgumentMapping().withName((String)id).withValue((VessNode)val);
+		:}
 	;
 
 //==== Expressions ====
@@ -84,19 +95,56 @@ expr_classname
 
 expr_from
 	::=
-		FROM IDENTIFIER:id expr_from:from /*treebuilder->expressionBinaryNode('from',from,id)*/
+		FROM IDENTIFIER:id expr_from:from 
+		{: 
+			VessNodeAccessor _node = new VessNodeAccessor().withValue((String)id);
+			if (null!=from)
+			{
+				RESULT = ((VessNode)from).withNext(_node);
+			}
+			else
+			{
+				RESULT = _node ;
+			}
+		:}
 	|
-		FROM IDENTIFIER:id /*treebuilder->expressionLeafNode('identifier',id)*/
+		FROM IDENTIFIER:id 
+		{:
+			RESULT = new VessNodeAccessor().withValue((String)id);
+		:}
 	;
 	
+expr_access_stack
+	::=
+		IDENTIFIER:id expr_from:from 
+		{: 
+			VessNodeAccessor _node = new VessNodeAccessor().withValue((String)id);
+			if (null!=from)
+			{
+				RESULT = ((VessNode)from).withNext(_node);
+			}
+			else
+			{
+				RESULT = _node ;
+			}
+		:}
+	;
+
 expr_methodname
 	::=
-		IDENTIFIER:id expr_from:from /*treebuilder->expressionBinaryNode('from',from,id)*/
+		expr_access_stack:stack
+		{:
+			RESULT = stack ;
+		:}
 	;
+		
 	
 expr_value
 	::=
-		IDENTIFIER:id /*treebuilder->expressionLeafNode('identifier',id)*/
+		expr_access_stack:stack
+		{:
+			RESULT = stack ;
+		:}
 	;
 /*
 expr_list ::= expr_list expr_part 

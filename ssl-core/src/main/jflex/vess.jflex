@@ -77,6 +77,10 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "define"           { return symbol(AnalyzerSymbols.DEFINE); }
 <YYINITIAL> "as"            { return symbol(AnalyzerSymbols.AS); }
 <YYINITIAL> "new"              { return symbol(AnalyzerSymbols.NEW); }
+<YYINITIAL> "call"              { return symbol(AnalyzerSymbols.CALL); }
+<YYINITIAL> "using"              { return symbol(AnalyzerSymbols.USING); }
+<YYINITIAL> "from"              { return symbol(AnalyzerSymbols.FROM); }
+<YYINITIAL> ","              { return symbol(AnalyzerSymbols.COMMA); }
 
 <YYINITIAL> {
   /* identifiers */ 
