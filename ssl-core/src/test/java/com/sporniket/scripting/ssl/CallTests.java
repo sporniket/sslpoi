@@ -48,6 +48,15 @@ public class CallTests
 		setParser(new AnalyzerSyntaxic(_lexer, _symbolFactory));
 	}
 
+	@Test
+	public void testCorrectDefineAsNew() throws Exception
+	{
+		VessNodeCall _define = (VessNodeCall) TestUtils.parseVessSource("call foo", getParser());
+		assertThat(_define.getCall().getValue(), is("foo"));
+		assertThat(_define.getCall().isLastNode(), is(true));
+		assertThat(_define.getMapping(), nullValue());
+	}
+
 	private AnalyzerSyntaxic getParser()
 	{
 		return myParser;
@@ -56,15 +65,6 @@ public class CallTests
 	private void setParser(AnalyzerSyntaxic parser)
 	{
 		myParser = parser;
-	}
-
-	@Test
-	public void testCorrectDefineAsNew() throws Exception
-	{
-		VessNodeCall _define = (VessNodeCall) TestUtils.parseVessSource("call foo", getParser());
-		assertThat(_define.getCall().getValue(), is("foo"));
-		assertThat(_define.getCall().isLastNode(), is(true));
-		assertThat(_define.getMapping(), nullValue());
 	}
 
 }
