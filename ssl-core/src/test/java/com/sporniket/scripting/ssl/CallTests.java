@@ -129,6 +129,40 @@ public class CallTests
 	}
 
 	@Test
+	public void testCorrectCallWithArgs__threeArguments__directValue() throws Exception
+	{
+		VessNodeCall _define = (VessNodeCall) TestUtils.parseVessSource("call foo using bar as blurg, bear as blarg, boar as blorg", getParser());
+		VessNodeAccessor _call = _define.getCall();
+		assertThat(_call.getValue(), is("foo"));
+		assertThat(_call.isLastNode(), is(true));
+		assertThat(_define.getMapping(), not(nullValue()));
+		
+		VessNodeArgumentMapping _mapping = _define.getMapping();
+		assertThat(_mapping.getName(), is("blurg"));
+		assertThat(_mapping.isLastNode(), is(false));
+		assertThat(_mapping.getValue().getClass().getSimpleName(), is("VessNodeAccessor"));
+		VessNodeAccessor _mappingValueAccess = (VessNodeAccessor) _mapping.getValue();
+		assertThat(_mappingValueAccess.getValue(), is("bar"));
+		assertThat(_mappingValueAccess.isLastNode(), is(true));
+		
+		_mapping = (VessNodeArgumentMapping) _mapping.getNext();
+		assertThat(_mapping.getName(), is("blarg"));
+		assertThat(_mapping.isLastNode(), is(false));
+		assertThat(_mapping.getValue().getClass().getSimpleName(), is("VessNodeAccessor"));
+		_mappingValueAccess = (VessNodeAccessor) _mapping.getValue();
+		assertThat(_mappingValueAccess.getValue(), is("bear"));
+		assertThat(_mappingValueAccess.isLastNode(), is(true));
+		
+		_mapping = (VessNodeArgumentMapping) _mapping.getNext();
+		assertThat(_mapping.getName(), is("blorg"));
+		assertThat(_mapping.isLastNode(), is(true));
+		assertThat(_mapping.getValue().getClass().getSimpleName(), is("VessNodeAccessor"));
+		_mappingValueAccess = (VessNodeAccessor) _mapping.getValue();
+		assertThat(_mappingValueAccess.getValue(), is("boar"));
+		assertThat(_mappingValueAccess.isLastNode(), is(true));
+	}
+
+	@Test
 	public void testCorrectCallWithArgs__twoArguments__directValue() throws Exception
 	{
 		VessNodeCall _define = (VessNodeCall) TestUtils.parseVessSource("call foo using bar as blurg, bear as blarg", getParser());
