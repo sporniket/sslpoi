@@ -119,14 +119,12 @@ expr_access_stack
 		IDENTIFIER:id expr_from:from 
 		{: 
 			VessNodeAccessor _node = new VessNodeAccessor().withValue((String)id);
-			if (null!=from)
-			{
-				RESULT = ((VessNode)from).withNext(_node);
-			}
-			else
-			{
-				RESULT = _node ;
-			}
+			RESULT = ((VessNode)from).withNext(_node);
+		:}
+	|
+		IDENTIFIER:id
+		{: 
+			RESULT = new VessNodeAccessor().withValue((String)id);
 		:}
 	;
 
