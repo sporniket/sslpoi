@@ -11,6 +11,9 @@ import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 import com.sporniket.scripting.ssl.vess.AnalyzerLexical;
 import com.sporniket.scripting.ssl.vess.AnalyzerSyntaxic;
 import com.sporniket.scripting.ssl.vess.VessNode;
+import com.sporniket.scripting.ssl.vess.VessNodeAccessor;
+import com.sporniket.scripting.ssl.vess.VessNodeCall;
+import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
 
 /**
  * Utilities for tests.
@@ -23,16 +26,53 @@ public class TestUtils
 
 	/**
 	 * @param node
+	 *            node to lump.
 	 * @param prefix
+	 *            prefix to use.
 	 */
 	public static void debugNode(VessNode node, final String prefix)
 	{
-		System.out.println(prefix + "+<" + node.getClass().getSimpleName() + ">");
+		// main line
+		System.out.print(prefix + "+<" + node.getClass().getSimpleName() + "> ");
+		if (node instanceof VessNodeDefineAs)
+		{
+			VessNodeDefineAs _defineAs = (VessNodeDefineAs) node;
+			System.out.print("(" + _defineAs.getIdentifier() + ", " + _defineAs.getInitialisationMode() + ", "
+					+ _defineAs.getClassName() + ")");
+		}
+		else if (node instanceof VessNodeCall)
+		{
+			VessNodeCall _call = (VessNodeCall) node;
+			debugNode__partial__accessor(_call.getCall());
+		}
+		System.out.println();
 		// children nodes (to do)
 		// next node
 		if (!node.isLastNode())
 		{
 			debugNode(node.getNext(), prefix);
+		}
+	}
+
+	/**
+	 * @param node
+	 *            node to dump.
+	 */
+	private static void debugNode__partial__accessor(VessNodeAccessor root)
+	{
+		boolean _first = true;
+		for (VessNodeAccessor _node = root; _node != null;)
+		{
+			if (_first)
+			{
+				System.out.print(_node.getValue());
+				_first = false;
+			}
+			else
+			{
+				System.out.print("->" + _node.getValue());
+			}
+			_node = (VessNodeAccessor) _node.getNext();
 		}
 	}
 
@@ -75,10 +115,10 @@ public class TestUtils
 		StringBuilder _result = new StringBuilder();
 		for (String _statement : statements)
 		{
-			 if (0 != _result.length())
-			 {
-			 _result.append("\n");
-			 }
+			if (0 != _result.length())
+			{
+				_result.append("\n");
+			}
 			_result.append(_statement);
 		}
 		return _result.toString();
