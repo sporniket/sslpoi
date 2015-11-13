@@ -26,6 +26,24 @@ public abstract class VessNode
 	 */
 	private VessNode myNext = null;
 
+	/**
+	 * Put the given node to the end of the chaining.
+	 * 
+	 * @param lastNode
+	 *            the node to put at the end of the chain.
+	 */
+	public void enqueue(VessNode lastNode)
+	{
+		if (isLastNode())
+		{
+			setNext(lastNode);
+		}
+		else
+		{
+			getNext().enqueue(lastNode);
+		}
+	}
+
 	public VessNode getNext()
 	{
 		return myNext;
@@ -42,6 +60,19 @@ public abstract class VessNode
 	public void setNext(VessNode next)
 	{
 		myNext = next;
+	}
+
+	/**
+	 * Fluent version of {@link #enqueue(VessNode)}.
+	 * 
+	 * @param lastNode
+	 *            the node to put at the end of the chain.
+	 * @return this node.
+	 */
+	public VessNode withLastNode(VessNode lastNode)
+	{
+		enqueue(lastNode);
+		return this;
 	}
 
 	/**

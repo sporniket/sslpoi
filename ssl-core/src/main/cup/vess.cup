@@ -68,7 +68,7 @@ part_using__list
 	::=
 		part_using__single:single COMMA part_using__list:list
 		{:
-			RESULT = ((VessNode)single).withNext((VessNode)list);
+			RESULT = ((VessNode)single).withLastNode((VessNode)list);
 		:}
 	|
 		part_using__single:single
@@ -98,14 +98,7 @@ expr_from
 		FROM IDENTIFIER:id expr_from:from 
 		{: 
 			VessNodeAccessor _node = new VessNodeAccessor().withValue((String)id);
-			if (null!=from)
-			{
-				RESULT = ((VessNode)from).withNext(_node);
-			}
-			else
-			{
-				RESULT = _node ;
-			}
+			RESULT = ((VessNode)from).withLastNode(_node);
 		:}
 	|
 		FROM IDENTIFIER:id 
@@ -119,7 +112,7 @@ expr_access_stack
 		IDENTIFIER:id expr_from:from 
 		{: 
 			VessNodeAccessor _node = new VessNodeAccessor().withValue((String)id);
-			RESULT = ((VessNode)from).withNext(_node);
+			RESULT = ((VessNode)from).withLastNode(_node);
 		:}
 	|
 		IDENTIFIER:id
