@@ -74,18 +74,18 @@ public abstract class VessNode
 		enqueue(lastNode);
 		return this;
 	}
-
-	/**
-	 * Fluent version of {@link #setNext(VessNode)}.
-	 * 
-	 * @param next
-	 *            the next node.
-	 * @return this node.
-	 */
-	public VessNode withNext(VessNode next)
-	{
-		setNext(next);
-		return this;
-	}
-
+//
+//	/**
+//	 * Fluent version of {@link #setNext(VessNode)}.
+//	 * 
+//	 * @param next
+//	 *            the next node.
+//	 * @return this node.
+//	 */
+//	public VessNode withNext(VessNode next)
+//	{
+//		setNext(next);
+//		return this;
+//	}
+//
 }
