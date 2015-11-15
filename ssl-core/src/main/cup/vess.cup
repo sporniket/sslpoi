@@ -7,21 +7,35 @@ import com.sporniket.scripting.ssl.core.*;
 import com.sporniket.scripting.ssl.mass.*;
 
 /* Terminals (tokens returned by the scanner). */
-terminal           DEFINE, AS, NEW;
-terminal           CALL, USING, FROM, COMMA;
-terminal           IDENTIFIER, PACKAGEPREFIX;
-//terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, MOD;
-//terminal           UMINUS, LPAREN, RPAREN;
-//terminal Integer   NUMBER;
+terminal AS;
+terminal CALL;
+terminal COMMA;
+terminal DEFINE;
+terminal ELSE;
+terminal FROM;
+terminal IDENTIFIER;
+terminal IF;
+terminal IS;
+terminal LIKE;
+terminal NEW;
+terminal PACKAGEPREFIX;
+terminal USING;
 
 /* Non-terminals */
-non terminal            statm__list, statm__single ;
-non terminal            statm_call, statm_define ;
-non terminal            part_using__list,part_using__single ;
-non terminal            expr_access_stack;
-non terminal            expr_classname,expr_from,expr_methodname,expr_value;
-//non terminal            expr_list, expr_part;
-//non terminal Integer    expr;
+non terminal expr_access_stack;
+non terminal expr_classname;
+non terminal expr_from;
+non terminal expr_logic;
+non terminal expr_methodname;
+non terminal expr_value;
+non terminal part_if_alternatives;
+non terminal part_using__list;
+non terminal part_using__single;
+non terminal statm__list;
+non terminal statm__single;
+non terminal statm_call;
+non terminal statm_define;
+non terminal statm_if;
 
 /* Precedences */
 //precedence left PLUS, MINUS;
@@ -54,6 +68,11 @@ statm__single
 		{: 
 			RESULT = statm ; 
 		:}
+	|
+		statm_if:statm 
+		{: 
+			RESULT = statm ; 
+		:}
 	;
 
 //==== Statement types ====
@@ -78,7 +97,29 @@ statm_define
 		:}
 	;
 
+statm_if
+	::=
+		IF expr_logic:logic statm_list:list ENDIF
+		{:
+		:}
+	|
+		IF expr_logic:logic statm_list:list part_if_alternatives:alternatives
+		{:
+		:}
+	;
+
 //== Statement parts ==
+part_if_alternatives
+	::=
+		ELSE statm_if:alternative
+		{:
+			RESULT = alternative ;
+		:}
+	|
+		ELSE statm:list ENDIF
+		{:
+		:}
+	;
 part_using__list
 	::=
 		part_using__single:single COMMA part_using__list:list
@@ -139,6 +180,17 @@ expr_access_stack
 		IDENTIFIER:id
 		{: 
 			RESULT = new VessNodeAccessor().withValue((String)id);
+		:}
+	;
+	
+expr_logic
+	::=
+		expr_value:value IS expr_value:expected
+		{:
+		:}
+	|
+		expr_value:value IS LIKE expr_value:expected
+		{:
 		:}
 	;
 
