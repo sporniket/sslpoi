@@ -32,16 +32,28 @@ non terminal            expr_classname,expr_from,expr_methodname,expr_value;
 //==== Statements break down ====
 statm__list 
 	::= 
-		statm__single:statm statm__list:other {: ((VessNode) statm).setNext((VessNode) other) ; RESULT = statm ; :} 
+		statm__single:statm statm__list:other 
+		{: 
+			((VessNode) statm).setNext((VessNode) other) ; RESULT = statm ; 
+		:} 
 	|
-		statm__single:statm {: RESULT = statm ; :}
+		statm__single:statm 
+		{: 
+			RESULT = statm ; 
+		:}
 	;
 
 statm__single
 	::=
-		statm_call:statm {: RESULT = statm ; :}
+		statm_call:statm 
+		{: 
+			RESULT = statm ; 
+		:}
 	|
-		statm_define:statm {: RESULT = statm ; :}
+		statm_define:statm 
+		{: 
+			RESULT = statm ; 
+		:}
 	;
 
 //==== Statement types ====
@@ -60,7 +72,10 @@ statm_call
 
 statm_define 
 	::= 
-		DEFINE IDENTIFIER:id AS NEW expr_classname:cls {: RESULT = new VessNodeDefineAs((String)id, InitialisationMode.NEW, (String)cls) ; :}
+		DEFINE IDENTIFIER:id AS NEW expr_classname:cls 
+		{: 
+			RESULT = new VessNodeDefineAs((String)id, InitialisationMode.NEW, (String)cls) ; 
+		:}
 	;
 
 //== Statement parts ==
@@ -88,9 +103,15 @@ part_using__single
 //==== Expressions ====
 expr_classname 
 	::= 
-		PACKAGEPREFIX:pack IDENTIFIER:cls {: RESULT = ((String)pack)+((String)cls) ; :}
+		PACKAGEPREFIX:pack IDENTIFIER:cls 
+		{: 
+			RESULT = ((String)pack)+((String)cls) ; 
+		:}
 	|
-		IDENTIFIER:cls {: RESULT = cls ; :} 
+		IDENTIFIER:cls 
+		{: 
+			RESULT = cls ; 
+		:} 
 	;
 
 expr_from
@@ -137,39 +158,3 @@ expr_value
 			RESULT = stack ;
 		:}
 	;
-/*
-expr_list ::= expr_list expr_part 
-	      | 
-              expr_part;
-
-expr_part ::= expr:e 
-	      {: System.out.println("= " + e); :} 
-              SEMI              
-	      ;
-
-expr      ::= expr:e1 PLUS expr:e2    
-	      {: RESULT = new Integer(e1.intValue() + e2.intValue()); :} 
-	      | 
-              expr:e1 MINUS expr:e2    
-              {: RESULT = new Integer(e1.intValue() - e2.intValue()); :} 
-	      | 
-              expr:e1 TIMES expr:e2 
-	      {: RESULT = new Integer(e1.intValue() * e2.intValue()); :} 
-	      | 
-              expr:e1 DIVIDE expr:e2 
-	      {: RESULT = new Integer(e1.intValue() / e2.intValue()); :} 
-	      | 
-              expr:e1 MOD expr:e2 
-	      {: RESULT = new Integer(e1.intValue() % e2.intValue()); :} 
-	      | 
-              NUMBER:n                 
-	      {: RESULT = n; :} 
-	      | 
-              MINUS expr:e             
-	      {: RESULT = new Integer(0 - e.intValue()); :} 
-	      %prec UMINUS
-	      | 
-              LPAREN expr:e RPAREN     
-	      {: RESULT = e; :} 
-	      ;
-*/
