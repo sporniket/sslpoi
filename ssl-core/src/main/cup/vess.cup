@@ -12,12 +12,15 @@ terminal CALL;
 terminal COMMA;
 terminal DEFINE;
 terminal ELSE;
+terminal ELSEIF;
+terminal ENDIF;
 terminal FROM;
 terminal IDENTIFIER;
 terminal IF;
 terminal IS;
 terminal LIKE;
 terminal NEW;
+terminal NOT;
 terminal PACKAGEPREFIX;
 terminal USING;
 
@@ -26,6 +29,8 @@ non terminal expr_access_stack;
 non terminal expr_classname;
 non terminal expr_from;
 non terminal expr_logic;
+non terminal expr_logic__operator;
+non terminal expr_logic__operator_base;
 non terminal expr_methodname;
 non terminal expr_value;
 non terminal part_if_alternatives;
@@ -99,11 +104,11 @@ statm_define
 
 statm_if
 	::=
-		IF expr_logic:logic statm_list:list ENDIF
+		IF expr_logic:logic statm__list:list ENDIF
 		{:
 		:}
 	|
-		IF expr_logic:logic statm_list:list part_if_alternatives:alternatives
+		IF expr_logic:logic statm__list:list part_if_alternatives:alternatives
 		{:
 		:}
 	;
@@ -111,12 +116,11 @@ statm_if
 //== Statement parts ==
 part_if_alternatives
 	::=
-		ELSE statm_if:alternative
+		ELSEIF expr_logic:logic statm__list:list part_if_alternatives:alternatives
 		{:
-			RESULT = alternative ;
 		:}
 	|
-		ELSE statm:list ENDIF
+		ELSE statm__list:list ENDIF
 		{:
 		:}
 	;
@@ -185,15 +189,42 @@ expr_access_stack
 	
 expr_logic
 	::=
-		expr_value:value IS expr_value:expected
+		expr_value:value expr_logic__operator:op expr_value:expected
 		{:
-		:}
-	|
-		expr_value:value IS LIKE expr_value:expected
-		{:
+			RESULT = new VessNodeExpressionLogical().withValue((VessNodeValue) value).withOperator((VessNodeOperatorLogical) op).withExpected((VessNodeValue) expected);
 		:}
 	;
 
+expr_logic__operator
+	::=
+		IS
+		{:
+			RESULT = new VessNodeOperatorLogical().withOperator(LogicalOperator.IS) ;
+		:}
+	|
+		IS NOT
+		{:
+			RESULT = new VessNodeOperatorLogical().withOperator(LogicalOperator.IS).withNot(true) ;
+		:}
+	|
+		IS expr_logic__operator_base:op
+		{:
+			RESULT = new VessNodeOperatorLogical().withOperator((LogicalOperator) op) ;
+		:}
+	|
+		IS NOT expr_logic__operator_base:op
+		{:
+			RESULT = new VessNodeOperatorLogical().withOperator((LogicalOperator) op).withNot(true) ;
+		:}
+	;
+
+expr_logic__operator_base
+	::=
+		LIKE
+		{:
+			RESULT = LogicalOperator.IS_LIKE ;
+		:}
+	;
 expr_methodname
 	::=
 		expr_access_stack:stack

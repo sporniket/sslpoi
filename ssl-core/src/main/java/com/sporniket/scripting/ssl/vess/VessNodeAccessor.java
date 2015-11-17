@@ -8,7 +8,7 @@ package com.sporniket.scripting.ssl.vess;
  * @author dsporn
  *
  */
-public class VessNodeAccessor extends VessNodeStringHolder
+public class VessNodeAccessor extends VessNodeStringHolder implements VessNodeValue
 {
 	public VessNodeAccessor withValue(String value)
 	{
