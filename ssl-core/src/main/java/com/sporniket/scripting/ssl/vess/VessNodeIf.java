@@ -12,11 +12,6 @@ package com.sporniket.scripting.ssl.vess;
 public class VessNodeIf extends VessNode
 {
 	/**
-	 * <code>null</code> for the <code>else</code> section.
-	 */
-	private VessNodeExpressionLogical myTest;
-
-	/**
 	 * sibling <code>else if</code> and <code>else</code> are linked to the first <code>if</code>.
 	 */
 	private VessNodeIf myAlternative;
@@ -26,24 +21,14 @@ public class VessNodeIf extends VessNode
 	 */
 	private VessNode myStatements;
 
-	public VessNodeExpressionLogical getTest()
-	{
-		return myTest;
-	}
-
-	public void setTest(VessNodeExpressionLogical test)
-	{
-		myTest = test;
-	}
+	/**
+	 * <code>null</code> for the <code>else</code> section.
+	 */
+	private VessNodeExpressionLogical myTest;
 
 	public VessNodeIf getAlternative()
 	{
 		return myAlternative;
-	}
-
-	public void setAlternative(VessNodeIf alternative)
-	{
-		myAlternative = alternative;
 	}
 
 	public VessNode getStatements()
@@ -51,14 +36,29 @@ public class VessNodeIf extends VessNode
 		return myStatements;
 	}
 
-	public void setStatements(VessNode statements)
+	public VessNodeExpressionLogical getTest()
 	{
-		myStatements = statements;
+		return myTest;
 	}
 
 	public boolean isLastAlternative()
 	{
 		return (null == getAlternative());
+	}
+
+	public void setAlternative(VessNodeIf alternative)
+	{
+		myAlternative = alternative;
+	}
+
+	public void setStatements(VessNode statements)
+	{
+		myStatements = statements;
+	}
+
+	public void setTest(VessNodeExpressionLogical test)
+	{
+		myTest = test;
 	}
 
 	/**
@@ -98,6 +98,12 @@ public class VessNodeIf extends VessNode
 		{
 			getStatements().withLastNode(statement);
 		}
+		return this;
+	}
+
+	public VessNodeIf withTest(VessNodeExpressionLogical test)
+	{
+		setTest(test);
 		return this;
 	}
 }

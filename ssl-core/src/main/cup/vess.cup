@@ -104,24 +104,28 @@ statm_define
 
 statm_if
 	::=
-		IF expr_logic:logic statm__list:list ENDIF
+		IF expr_logic:test statm__list:list ENDIF
 		{:
+			RESULT = new VessNodeIf().withTest((VessNodeExpressionLogical) test).withStatement((VessNode) list);
 		:}
 	|
-		IF expr_logic:logic statm__list:list part_if_alternatives:alternatives
+		IF expr_logic:test statm__list:list part_if_alternatives:alternatives
 		{:
+			RESULT = new VessNodeIf().withTest((VessNodeExpressionLogical) test).withStatement((VessNode) list).withAlternative((VessNodeIf) alternatives);
 		:}
 	;
 
 //== Statement parts ==
 part_if_alternatives
 	::=
-		ELSEIF expr_logic:logic statm__list:list part_if_alternatives:alternatives
+		ELSEIF expr_logic:test statm__list:list part_if_alternatives:alternatives
 		{:
+			RESULT = new VessNodeIf().withTest((VessNodeExpressionLogical) test).withStatement((VessNode) list).withAlternative((VessNodeIf) alternatives);
 		:}
 	|
 		ELSE statm__list:list ENDIF
 		{:
+			RESULT = new VessNodeIf().withStatement((VessNode) list);
 		:}
 	;
 part_using__list
