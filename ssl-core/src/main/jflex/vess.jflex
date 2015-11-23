@@ -81,6 +81,12 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "using"              { return symbol(AnalyzerSymbols.USING); }
 <YYINITIAL> "from"              { return symbol(AnalyzerSymbols.FROM); }
 <YYINITIAL> ","              { return symbol(AnalyzerSymbols.COMMA); }
+<YYINITIAL> "if"           { return symbol(AnalyzerSymbols.IF); }
+<YYINITIAL> "else" {WhiteSpace} "if"            { return symbol(AnalyzerSymbols.ELSEIF); }
+<YYINITIAL> "else"              { return symbol(AnalyzerSymbols.ELSE); }
+<YYINITIAL> "endif"              { return symbol(AnalyzerSymbols.ENDIF); }
+<YYINITIAL> "is"              { return symbol(AnalyzerSymbols.IS); }
+<YYINITIAL> "like"              { return symbol(AnalyzerSymbols.LIKE); }
 
 <YYINITIAL> {
   /* identifiers */ 
