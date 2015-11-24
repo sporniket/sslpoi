@@ -36,12 +36,12 @@ import com.sporniket.scripting.ssl.vess.VessNodeIf;
 import com.sporniket.scripting.ssl.vess.VessNodeOperatorLogical;
 
 /**
- * Test for "if ..." statements.
+ * Test logical expressions in statements.
  * 
  * @author dsporn
  *
  */
-public class IfTests
+public class LogicalExpressionTests
 {
 	private AnalyzerSyntaxic myParser;
 
@@ -55,18 +55,21 @@ public class IfTests
 	}
 
 	@Test
-	public void testCorrectIf__simple() throws Exception
+	public void testCorrectLogic__is() throws Exception
 	{
-		String[] _sourceRaw = {"if foo is bar", "    call action1", "    call action2","endif"} ;
+		String[] _sourceRaw = {"if foo is bar", "    call action","endif"} ;
 		String _source = TestUtils.makeSource(_sourceRaw);
 		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
-		VessNode _action = _if.getStatements() ;
-		assertThat(_action.getClass().getSimpleName(), is(VessNodeCall.class.getSimpleName()));
-		assertThat(_action.isLastNode(), is(false));
-		_action = _action.getNext() ;
-		assertThat(_action.getClass().getSimpleName(), is(VessNodeCall.class.getSimpleName()));
-		assertThat(_action.isLastNode(), is(false));
-		assertThat(_if.getAlternative(), nullValue());
+		VessNodeExpressionLogical _logic = _if.getTest() ;
+		assertThat(_logic.getValue().getClass().getSimpleName(),is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(),is(VessNodeAccessor.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeAccessor _expected = (VessNodeAccessor) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(),is(false));
+		assertThat(_op.getOperator(),is(LogicalOperator.IS));
+		assertThat(_value.getValue(),is("foo"));
+		assertThat(_expected.getValue(),is("bar"));
 	}
 
 	private AnalyzerSyntaxic getParser()
