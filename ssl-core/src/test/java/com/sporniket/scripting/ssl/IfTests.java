@@ -55,7 +55,7 @@ public class IfTests
 	}
 
 	@Test
-	public void testCorrectIf__simple() throws Exception
+	public void testCorrectIf__noAlternative() throws Exception
 	{
 		String[] _sourceRaw = {"if foo is bar", "    call action1", "    call action2","endif"} ;
 		String _source = TestUtils.makeSource(_sourceRaw);
@@ -67,7 +67,7 @@ public class IfTests
 		assertThat(_action.getClass().getSimpleName(), is(VessNodeCall.class.getSimpleName()));
 		assertThat(_action.isLastNode(), is(false));
 		assertThat(_if.getAlternative(), nullValue());
-	}
+	}	
 
 	private AnalyzerSyntaxic getParser()
 	{
