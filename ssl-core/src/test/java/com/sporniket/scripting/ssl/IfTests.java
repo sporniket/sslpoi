@@ -62,13 +62,42 @@ public class IfTests
 				"if foo is bar", "    call action1", "    call action2", "endif"
 		};
 		String _source = TestUtils.makeSource(_sourceRaw);
+		
+		//if
 		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
-		VessNode _action = _if.getStatements();
-		assertThat(_action.getClass().getSimpleName(), is(VessNodeCall.class.getSimpleName()));
-		assertThat(_action.isLastNode(), is(false));
-		_action = _action.getNext();
-		assertThat(_action.getClass().getSimpleName(), is(VessNodeCall.class.getSimpleName()));
-		assertThat(_action.isLastNode(), is(false));
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action1", "action2"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), nullValue());
+	}
+
+	@Test
+	public void testCorrectIf__withAlternatives_1() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is bar", "    call action1", "    call action2", "else", "    call action3", "    call action4", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		
+		//if
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action1", "action2"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+		
+		// else
+		_if = _if.getAlternative() ;
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action3", "action4"
+		});
+		assertThat(_if.getTest(), nullValue());
 		assertThat(_if.getAlternative(), nullValue());
 	}
 
@@ -82,4 +111,23 @@ public class IfTests
 		myParser = parser;
 	}
 
+	private void testActionListAsListOfCalls(VessNodeIf nodeIf, String[] actionCallNames)
+	{
+		VessNode _child = nodeIf.getStatements();
+		for (int _i = 0; _i < actionCallNames.length; _i++)
+		{
+			String _callName = actionCallNames[_i];
+			assertThat(_child.getClass().getSimpleName(), is(VessNodeCall.class.getSimpleName()));
+
+			VessNodeCall _call = (VessNodeCall) _child;
+			assertThat(_call.getCall().getValue(), is(_callName));
+			
+			boolean _shouldBeLastNode = (actionCallNames.length - 1) == _i;
+			assertThat(_child.isLastNode(), is(_shouldBeLastNode));
+			if(!_shouldBeLastNode)
+			{
+				_child = _child.getNext();
+			}
+		}
+	}
 }
