@@ -62,8 +62,8 @@ public class IfTests
 				"if foo is bar", "    call action1", "    call action2", "endif"
 		};
 		String _source = TestUtils.makeSource(_sourceRaw);
-		
-		//if
+
+		// if
 		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
 		testActionListAsListOfCalls(_if, new String[]
 		{
@@ -81,8 +81,8 @@ public class IfTests
 				"if foo is bar", "    call action1", "    call action2", "else", "    call action3", "    call action4", "endif"
 		};
 		String _source = TestUtils.makeSource(_sourceRaw);
-		
-		//if
+
+		// if
 		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
 		testActionListAsListOfCalls(_if, new String[]
 		{
@@ -90,12 +90,116 @@ public class IfTests
 		});
 		assertThat(_if.getTest(), not(nullValue()));
 		assertThat(_if.getAlternative(), not(nullValue()));
-		
+
 		// else
-		_if = _if.getAlternative() ;
+		_if = _if.getAlternative();
 		testActionListAsListOfCalls(_if, new String[]
 		{
 				"action3", "action4"
+		});
+		assertThat(_if.getTest(), nullValue());
+		assertThat(_if.getAlternative(), nullValue());
+	}
+
+	@Test
+	public void testCorrectIf__withAlternatives_2() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is bar",
+				"    call action1",
+				"    call action2",
+				"else if foo is blup",
+				"    call action3",
+				"    call action4",
+				"else",
+				"    call action5",
+				"    call action6",
+				"endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+
+		// if
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action1", "action2"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else if
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action3", "action4"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action5", "action6"
+		});
+		assertThat(_if.getTest(), nullValue());
+		assertThat(_if.getAlternative(), nullValue());
+	}
+
+	@Test
+	public void testCorrectIf__withAlternatives_3() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is bar",
+				"    call action1",
+				"    call action2",
+				"else if foo is blup",
+				"    call action3",
+				"    call action4",
+				"else if foo is blop",
+				"    call action5",
+				"    call action6",
+				"else",
+				"    call action7",
+				"    call action8",
+				"endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+
+		// if
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action1", "action2"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else if
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action3", "action4"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else if
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action5", "action6"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action7", "action8"
 		});
 		assertThat(_if.getTest(), nullValue());
 		assertThat(_if.getAlternative(), nullValue());
@@ -121,10 +225,10 @@ public class IfTests
 
 			VessNodeCall _call = (VessNodeCall) _child;
 			assertThat(_call.getCall().getValue(), is(_callName));
-			
+
 			boolean _shouldBeLastNode = (actionCallNames.length - 1) == _i;
 			assertThat(_child.isLastNode(), is(_shouldBeLastNode));
-			if(!_shouldBeLastNode)
+			if (!_shouldBeLastNode)
 			{
 				_child = _child.getNext();
 			}
