@@ -57,17 +57,20 @@ public class IfTests
 	@Test
 	public void testCorrectIf__noAlternative() throws Exception
 	{
-		String[] _sourceRaw = {"if foo is bar", "    call action1", "    call action2","endif"} ;
+		String[] _sourceRaw =
+		{
+				"if foo is bar", "    call action1", "    call action2", "endif"
+		};
 		String _source = TestUtils.makeSource(_sourceRaw);
 		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
-		VessNode _action = _if.getStatements() ;
+		VessNode _action = _if.getStatements();
 		assertThat(_action.getClass().getSimpleName(), is(VessNodeCall.class.getSimpleName()));
 		assertThat(_action.isLastNode(), is(false));
-		_action = _action.getNext() ;
+		_action = _action.getNext();
 		assertThat(_action.getClass().getSimpleName(), is(VessNodeCall.class.getSimpleName()));
 		assertThat(_action.isLastNode(), is(false));
 		assertThat(_if.getAlternative(), nullValue());
-	}	
+	}
 
 	private AnalyzerSyntaxic getParser()
 	{
