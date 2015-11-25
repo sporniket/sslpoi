@@ -57,19 +57,85 @@ public class LogicalExpressionTests
 	@Test
 	public void testCorrectLogic__is() throws Exception
 	{
-		String[] _sourceRaw = {"if foo is bar", "    call action","endif"} ;
+		String[] _sourceRaw =
+		{
+				"if foo is bar", "    call action", "endif"
+		};
 		String _source = TestUtils.makeSource(_sourceRaw);
 		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
-		VessNodeExpressionLogical _logic = _if.getTest() ;
-		assertThat(_logic.getValue().getClass().getSimpleName(),is(VessNodeAccessor.class.getSimpleName()));
-		assertThat(_logic.getExpected().getClass().getSimpleName(),is(VessNodeAccessor.class.getSimpleName()));
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
 		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
 		VessNodeAccessor _expected = (VessNodeAccessor) _logic.getExpected();
 		VessNodeOperatorLogical _op = _logic.getOperator();
-		assertThat(_op.isNot(),is(false));
-		assertThat(_op.getOperator(),is(LogicalOperator.IS));
-		assertThat(_value.getValue(),is("foo"));
-		assertThat(_expected.getValue(),is("bar"));
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar"));
+	}
+
+	@Test
+	public void testCorrectLogic__isLike() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is like bar", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeAccessor _expected = (VessNodeAccessor) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS_LIKE));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar"));
+	}
+
+	@Test
+	public void testCorrectLogic__isNot() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is not bar", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeAccessor _expected = (VessNodeAccessor) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(true));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar"));
+	}
+
+	@Test
+	public void testCorrectLogic__isNotLike() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is not like bar", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeAccessor _expected = (VessNodeAccessor) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(true));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS_LIKE));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar"));
 	}
 
 	private AnalyzerSyntaxic getParser()

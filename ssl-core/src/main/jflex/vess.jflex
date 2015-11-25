@@ -87,6 +87,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 <YYINITIAL> "endif"              { return symbol(AnalyzerSymbols.ENDIF); }
 <YYINITIAL> "is"              { return symbol(AnalyzerSymbols.IS); }
 <YYINITIAL> "like"              { return symbol(AnalyzerSymbols.LIKE); }
+<YYINITIAL> "not"              { return symbol(AnalyzerSymbols.NOT); }
 
 <YYINITIAL> {
   /* identifiers */ 
