@@ -41,7 +41,7 @@ import com.sporniket.scripting.ssl.vess.VessNodeOperatorLogical;
  * @author dsporn
  *
  */
-public class IfTests
+public class IfTest
 {
 	private AnalyzerSyntaxic myParser;
 

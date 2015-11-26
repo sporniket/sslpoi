@@ -37,7 +37,7 @@ import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
  * @author dsporn
  *
  */
-public class CallTests
+public class CallTest
 {
 	private AnalyzerSyntaxic myParser;
 
