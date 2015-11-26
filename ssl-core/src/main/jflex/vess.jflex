@@ -73,24 +73,38 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 %%
 
-/* keywords */
-<YYINITIAL> "define"           { return symbol(AnalyzerSymbols.DEFINE); }
-<YYINITIAL> "as"            { return symbol(AnalyzerSymbols.AS); }
-<YYINITIAL> "new"              { return symbol(AnalyzerSymbols.NEW); }
-<YYINITIAL> "call"              { return symbol(AnalyzerSymbols.CALL); }
-<YYINITIAL> "using"              { return symbol(AnalyzerSymbols.USING); }
-<YYINITIAL> "from"              { return symbol(AnalyzerSymbols.FROM); }
-<YYINITIAL> ","              { return symbol(AnalyzerSymbols.COMMA); }
-<YYINITIAL> "if"           { return symbol(AnalyzerSymbols.IF); }
-<YYINITIAL> "else" {WhiteSpace} "if"            { return symbol(AnalyzerSymbols.ELSEIF); }
-<YYINITIAL> "else"              { return symbol(AnalyzerSymbols.ELSE); }
-<YYINITIAL> "endif"              { return symbol(AnalyzerSymbols.ENDIF); }
-<YYINITIAL> "is"              { return symbol(AnalyzerSymbols.IS); }
-<YYINITIAL> "like"              { return symbol(AnalyzerSymbols.LIKE); }
-<YYINITIAL> "not"              { return symbol(AnalyzerSymbols.NOT); }
-
 <YYINITIAL> {
-  /* identifiers */ 
+    //Keywords and symbols
+	"," 
+		{ return symbol(AnalyzerSymbols.COMMA); }
+	"as" 
+		{ return symbol(AnalyzerSymbols.AS); }
+	"call" 
+		{ return symbol(AnalyzerSymbols.CALL); }
+	"define" 
+		{ return symbol(AnalyzerSymbols.DEFINE); }
+	"else" {WhiteSpace} "if" 
+		{ return symbol(AnalyzerSymbols.ELSEIF); }
+	"else" 
+		{ return symbol(AnalyzerSymbols.ELSE); }
+	"endif" 
+		{ return symbol(AnalyzerSymbols.ENDIF); }
+	"from" 
+		{ return symbol(AnalyzerSymbols.FROM); }
+	"if" 
+		{ return symbol(AnalyzerSymbols.IF); }
+	"is" 
+		{ return symbol(AnalyzerSymbols.IS); }
+	"like" 
+		{ return symbol(AnalyzerSymbols.LIKE); }
+	"new" 
+		{ return symbol(AnalyzerSymbols.NEW); }
+	"not" 
+		{ return symbol(AnalyzerSymbols.NOT); }
+	"using" 
+		{ return symbol(AnalyzerSymbols.USING); }
+
+  /* identifiers */
   {PackagePrefix}                   { return symbol(AnalyzerSymbols.PACKAGEPREFIX, yytext()); }
   {Identifier}                   { return symbol(AnalyzerSymbols.IDENTIFIER, yytext()); }
  
@@ -110,18 +124,22 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
   {WhiteSpace}                   { /* ignore */ }
 }
 
-//<STRING> {
-//  \"                             { yybegin(YYINITIAL); 
-//                                   return symbol(AnalyzerSymbols.STRING_LITERAL, 
-//                                   string.toString()); }
-//  [^\n\r\"\\]+                   { string.append( yytext() ); }
-//  \\t                            { string.append('\t'); }
-//  \\n                            { string.append('\n'); }
-
-//  \\r                            { string.append('\r'); }
-//  \\\"                           { string.append('\"'); }
-//  \\                             { string.append('\\'); }
-//}
+//Litteral String
+<STRING> {
+	\"
+		{ 
+			yybegin(YYINITIAL); 
+			return symbol(AnalyzerSymbols.LITERAL_STRING, string.toString()); 
+		}
+	
+	[^\n\r\"\\]+                   { string.append( yytext() ); }
+	\\t                            { string.append('\t'); }
+	\\n                            { string.append('\n'); }
+	
+	\\r                            { string.append('\r'); }
+	\\\"                           { string.append('\"'); }
+	\\                             { string.append('\\'); }
+}
 
 /* error fallback */
 [^]                              { throw new Error("Illegal character <"+ yytext()+">"); }

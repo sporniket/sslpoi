@@ -19,6 +19,7 @@ terminal IDENTIFIER;
 terminal IF;
 terminal IS;
 terminal LIKE;
+terminal LITERAL_STRING;
 terminal NEW;
 terminal NOT;
 terminal PACKAGEPREFIX;
