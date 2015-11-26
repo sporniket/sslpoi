@@ -55,6 +55,165 @@ public class IfTest
 	}
 
 	@Test
+	public void testCorrectIf__embeddedIf_0() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is bar",
+				"    if plop is plup",
+				"        call action1",
+				"        call action2",
+				"    endif",
+				"else if foo is blup",
+				"    call action3",
+				"    call action4",
+				"else",
+				"    call action5",
+				"    call action6",
+				"endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+
+		// if
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNode _action = _if.getStatements() ;
+		assertThat(_action.getClass().getSimpleName(), is(VessNodeIf.class.getSimpleName()));
+		VessNodeIf _ifEmbedded = (VessNodeIf) _action ;
+		testActionListAsListOfCalls(_ifEmbedded, new String[]
+		{
+				"action1", "action2"
+		});
+		assertThat(_ifEmbedded.getTest(), not(nullValue()));
+		assertThat(_ifEmbedded.getAlternative(), nullValue());
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else if
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action3", "action4"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action5", "action6"
+		});
+		assertThat(_if.getTest(), nullValue());
+		assertThat(_if.getAlternative(), nullValue());
+	}
+
+	@Test
+	public void testCorrectIf__embeddedIf_1() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is bar",
+				"    call action1",
+				"    call action2",
+				"else if foo is blup",
+				"    if plop is plup",
+				"        call action3",
+				"        call action4",
+				"    endif",
+				"else",
+				"    call action5",
+				"    call action6",
+				"endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+
+		// if
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action1", "action2"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else if
+		_if = _if.getAlternative();
+		VessNode _action = _if.getStatements() ;
+		assertThat(_action.getClass().getSimpleName(), is(VessNodeIf.class.getSimpleName()));
+		VessNodeIf _ifEmbedded = (VessNodeIf) _action ;
+		testActionListAsListOfCalls(_ifEmbedded, new String[]
+		{
+				"action3", "action4"
+		});
+		assertThat(_ifEmbedded.getTest(), not(nullValue()));
+		assertThat(_ifEmbedded.getAlternative(), nullValue());
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action5", "action6"
+		});
+		assertThat(_if.getTest(), nullValue());
+		assertThat(_if.getAlternative(), nullValue());
+	}
+
+	@Test
+	public void testCorrectIf__embeddedIf_2() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is bar",
+				"    call action1",
+				"    call action2",
+				"else if foo is blup",
+				"    call action3",
+				"    call action4",
+				"else",
+				"    if plop is plup",
+				"        call action5",
+				"        call action6",
+				"    endif",
+				"endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+
+		// if
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action1", "action2"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else if
+		_if = _if.getAlternative();
+		testActionListAsListOfCalls(_if, new String[]
+		{
+				"action3", "action4"
+		});
+		assertThat(_if.getTest(), not(nullValue()));
+		assertThat(_if.getAlternative(), not(nullValue()));
+
+		// else
+		_if = _if.getAlternative();
+		VessNode _action = _if.getStatements() ;
+		assertThat(_action.getClass().getSimpleName(), is(VessNodeIf.class.getSimpleName()));
+		VessNodeIf _ifEmbedded = (VessNodeIf) _action ;
+		testActionListAsListOfCalls(_ifEmbedded, new String[]
+		{
+				"action5", "action6"
+		});
+		assertThat(_ifEmbedded.getTest(), not(nullValue()));
+		assertThat(_ifEmbedded.getAlternative(), nullValue());
+		assertThat(_if.getTest(), nullValue());
+		assertThat(_if.getAlternative(), nullValue());
+	}
+
+	@Test
 	public void testCorrectIf__noAlternative() throws Exception
 	{
 		String[] _sourceRaw =
