@@ -29,6 +29,7 @@ terminal USING;
 non terminal expr_access_stack;
 non terminal expr_classname;
 non terminal expr_from;
+non terminal expr_literal_string;
 non terminal expr_logic;
 non terminal expr_logic__operator;
 non terminal expr_logic__operator_base;
@@ -192,6 +193,14 @@ expr_access_stack
 		:}
 	;
 	
+expr_literal_string
+	::=
+		LITERAL_STRING:value
+		{:
+			RESULT = new VessNodeLiteralString().withValue((String) value);
+		:}
+	;
+
 expr_logic
 	::=
 		expr_value:value expr_logic__operator:op expr_value:expected
@@ -241,8 +250,13 @@ expr_methodname
 	
 expr_value
 	::=
-		expr_access_stack:stack
+		expr_access_stack:value
 		{:
-			RESULT = stack ;
+			RESULT = value ;
+		:}
+	|
+		expr_literal_string:value
+		{:
+			RESULT = value ;
 		:}
 	;
