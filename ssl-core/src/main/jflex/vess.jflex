@@ -108,9 +108,10 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
   {PackagePrefix}                   { return symbol(AnalyzerSymbols.PACKAGEPREFIX, yytext()); }
   {Identifier}                   { return symbol(AnalyzerSymbols.IDENTIFIER, yytext()); }
  
-  /* literals */
+    // Literals
 //  {DecIntegerLiteral}            { return symbol(AnalyzerSymbols.INTEGER_LITERAL); }
-  \"                             { string.setLength(0); yybegin(STRING); }
+	\"
+		{ string.setLength(0); yybegin(STRING); }
 
   /* operators */
 //  "="                            { return symbol(AnalyzerSymbols.EQ); }
