@@ -110,7 +110,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
  
   /* literals */
 //  {DecIntegerLiteral}            { return symbol(AnalyzerSymbols.INTEGER_LITERAL); }
-//  \"                             { string.setLength(0); yybegin(STRING); }
+  \"                             { string.setLength(0); yybegin(STRING); }
 
   /* operators */
 //  "="                            { return symbol(AnalyzerSymbols.EQ); }

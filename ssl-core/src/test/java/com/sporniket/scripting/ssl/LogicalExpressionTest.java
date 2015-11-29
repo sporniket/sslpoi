@@ -33,6 +33,7 @@ import com.sporniket.scripting.ssl.vess.VessNodeCall;
 import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
 import com.sporniket.scripting.ssl.vess.VessNodeExpressionLogical;
 import com.sporniket.scripting.ssl.vess.VessNodeIf;
+import com.sporniket.scripting.ssl.vess.VessNodeLiteralString;
 import com.sporniket.scripting.ssl.vess.VessNodeOperatorLogical;
 
 /**
@@ -134,6 +135,27 @@ public class LogicalExpressionTest
 		VessNodeOperatorLogical _op = _logic.getOperator();
 		assertThat(_op.isNot(), is(true));
 		assertThat(_op.getOperator(), is(LogicalOperator.IS_LIKE));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar"));
+	}
+
+	@Test
+	public void testCorrectLogic__literalString__simple() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is \"bar\"", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeLiteralString _expected = (VessNodeLiteralString) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
 		assertThat(_value.getValue(), is("foo"));
 		assertThat(_expected.getValue(), is("bar"));
 	}
