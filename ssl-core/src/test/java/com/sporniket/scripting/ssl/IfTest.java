@@ -76,9 +76,9 @@ public class IfTest
 
 		// if
 		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
-		VessNode _action = _if.getStatements() ;
+		VessNode _action = _if.getStatements();
 		assertThat(_action.getClass().getSimpleName(), is(VessNodeIf.class.getSimpleName()));
-		VessNodeIf _ifEmbedded = (VessNodeIf) _action ;
+		VessNodeIf _ifEmbedded = (VessNodeIf) _action;
 		testActionListAsListOfCalls(_ifEmbedded, new String[]
 		{
 				"action1", "action2"
@@ -138,9 +138,9 @@ public class IfTest
 
 		// else if
 		_if = _if.getAlternative();
-		VessNode _action = _if.getStatements() ;
+		VessNode _action = _if.getStatements();
 		assertThat(_action.getClass().getSimpleName(), is(VessNodeIf.class.getSimpleName()));
-		VessNodeIf _ifEmbedded = (VessNodeIf) _action ;
+		VessNodeIf _ifEmbedded = (VessNodeIf) _action;
 		testActionListAsListOfCalls(_ifEmbedded, new String[]
 		{
 				"action3", "action4"
@@ -200,9 +200,9 @@ public class IfTest
 
 		// else
 		_if = _if.getAlternative();
-		VessNode _action = _if.getStatements() ;
+		VessNode _action = _if.getStatements();
 		assertThat(_action.getClass().getSimpleName(), is(VessNodeIf.class.getSimpleName()));
-		VessNodeIf _ifEmbedded = (VessNodeIf) _action ;
+		VessNodeIf _ifEmbedded = (VessNodeIf) _action;
 		testActionListAsListOfCalls(_ifEmbedded, new String[]
 		{
 				"action5", "action6"

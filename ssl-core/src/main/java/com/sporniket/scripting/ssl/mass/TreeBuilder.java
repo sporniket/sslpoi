@@ -16,10 +16,10 @@ import java.util.List;
  */
 public class TreeBuilder
 {
-	private Statement myLastStatement = null ;
-	
+	private Statement myLastStatement = null;
+
 	private final List<Statement> myTree = new ArrayList<Statement>();
-	
+
 	public void add(Statement statement)
 	{
 		setLastStatement(statement);
@@ -41,16 +41,15 @@ public class TreeBuilder
 	{
 		return myLastStatement;
 	}
-	
+
 	private List<Statement> getTree()
 	{
 		return myTree;
 	}
-	
+
 	private void setLastStatement(Statement lastStatement)
 	{
 		myLastStatement = lastStatement;
 	}
-	
-	
+
 }

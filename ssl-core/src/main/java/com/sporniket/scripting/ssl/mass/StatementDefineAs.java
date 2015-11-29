@@ -13,10 +13,11 @@ import com.sporniket.scripting.ssl.core.InitialisationMode;
  */
 public class StatementDefineAs extends Statement
 {
-	private final String myClassName ;
-	private final String myIdentifier ;
-	private final InitialisationMode myInitialisationMode ;
+	private final String myClassName;
 
+	private final String myIdentifier;
+
+	private final InitialisationMode myInitialisationMode;
 
 	public StatementDefineAs(String identifier, InitialisationMode initialisationMode, String className)
 	{

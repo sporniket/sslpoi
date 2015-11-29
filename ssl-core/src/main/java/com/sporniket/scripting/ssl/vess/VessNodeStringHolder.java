@@ -25,5 +25,5 @@ public abstract class VessNodeStringHolder extends VessNode
 	{
 		myValue = value;
 	}
-	
+
 }

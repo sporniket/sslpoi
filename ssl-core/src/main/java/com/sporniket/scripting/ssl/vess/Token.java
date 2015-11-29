@@ -5,6 +5,7 @@ package com.sporniket.scripting.ssl.vess;
 
 /**
  * Base model of a Token.
+ * 
  * @author dsporn
  *
  */

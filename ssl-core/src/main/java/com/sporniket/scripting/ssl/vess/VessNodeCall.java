@@ -43,7 +43,7 @@ public class VessNodeCall extends VessNode
 
 	public VessNodeCall withMapping(VessNodeArgumentMapping mapping)
 	{
-		setMapping(mapping) ;
-		return this ;
+		setMapping(mapping);
+		return this;
 	}
 }

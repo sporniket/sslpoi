@@ -61,19 +61,19 @@ public class VessNodeExpressionLogical extends VessNode
 	public VessNodeExpressionLogical withExpected(VessNodeValue expected)
 	{
 		setExpected(expected);
-		return this ;
+		return this;
 	}
 
 	public VessNodeExpressionLogical withOperator(VessNodeOperatorLogical operator)
 	{
 		setOperator(operator);
-		return this ;
+		return this;
 	}
 
 	public VessNodeExpressionLogical withValue(VessNodeValue value)
 	{
 		setValue(value);
-		return this ;
+		return this;
 	}
-	
+
 }

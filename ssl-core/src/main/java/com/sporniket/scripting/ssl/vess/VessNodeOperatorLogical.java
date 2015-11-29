@@ -42,16 +42,16 @@ public class VessNodeOperatorLogical extends VessNode
 	{
 		myOperator = operator;
 	}
-	
+
 	public VessNodeOperatorLogical withNot(boolean not)
 	{
 		setNot(not);
-		return this ;
+		return this;
 	}
 
 	public VessNodeOperatorLogical withOperator(LogicalOperator operator)
 	{
 		setOperator(operator);
-		return this ;
+		return this;
 	}
 }
