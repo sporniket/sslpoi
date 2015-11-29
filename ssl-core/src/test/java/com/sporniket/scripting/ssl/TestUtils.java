@@ -54,28 +54,6 @@ public class TestUtils
 		}
 	}
 
-	/**
-	 * @param node
-	 *            node to dump.
-	 */
-	private static void debugNode__partial__accessor(VessNodeAccessor root)
-	{
-		boolean _first = true;
-		for (VessNodeAccessor _node = root; _node != null;)
-		{
-			if (_first)
-			{
-				System.out.print(_node.getValue());
-				_first = false;
-			}
-			else
-			{
-				System.out.print("->" + _node.getValue());
-			}
-			_node = (VessNodeAccessor) _node.getNext();
-		}
-	}
-
 	public static void debugSymbol(ComplexSymbol node, String prefix)
 	{
 		System.out.println(prefix + "+[" + node.getName() + "]");
@@ -137,6 +115,28 @@ public class TestUtils
 			return _node;
 		}
 		throw new IllegalStateException("No node found for '" + source + "'");
+	}
+
+	/**
+	 * @param node
+	 *            node to dump.
+	 */
+	private static void debugNode__partial__accessor(VessNodeAccessor root)
+	{
+		boolean _first = true;
+		for (VessNodeAccessor _node = root; _node != null;)
+		{
+			if (_first)
+			{
+				System.out.print(_node.getValue());
+				_first = false;
+			}
+			else
+			{
+				System.out.print("->" + _node.getValue());
+			}
+			_node = (VessNodeAccessor) _node.getNext();
+		}
 	}
 
 }

@@ -16,9 +16,9 @@ import java.util.List;
  */
 public class TreeBuilder
 {
-	private final List<Statement> myTree = new ArrayList<Statement>();
-	
 	private Statement myLastStatement = null ;
+	
+	private final List<Statement> myTree = new ArrayList<Statement>();
 	
 	public void add(Statement statement)
 	{
@@ -26,30 +26,30 @@ public class TreeBuilder
 		getTree().add(statement);
 	}
 
-	private Statement getLastStatement()
-	{
-		return myLastStatement;
-	}
-
-	private void setLastStatement(Statement lastStatement)
-	{
-		myLastStatement = lastStatement;
-	}
-
-	private List<Statement> getTree()
-	{
-		return myTree;
-	}
-	
 	public void clean()
 	{
 		setLastStatement(null);
 		getTree().clear();
 	}
-	
+
 	public List<Statement> getResultTree()
 	{
 		return new ArrayList<Statement>(getTree());
+	}
+
+	private Statement getLastStatement()
+	{
+		return myLastStatement;
+	}
+	
+	private List<Statement> getTree()
+	{
+		return myTree;
+	}
+	
+	private void setLastStatement(Statement lastStatement)
+	{
+		myLastStatement = lastStatement;
 	}
 	
 	

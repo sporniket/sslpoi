@@ -61,16 +61,6 @@ public class ParsingTest
 		setParser(new AnalyzerSyntaxic(_lexer, _symbolFactory));
 	}
 
-	private AnalyzerSyntaxic getParser()
-	{
-		return myParser;
-	}
-
-	private void setParser(AnalyzerSyntaxic parser)
-	{
-		myParser = parser;
-	}
-
 	@Test
 	public void testMultipleStatements() throws Exception
 	{
@@ -87,6 +77,16 @@ public class ParsingTest
 	public void testMultipleStatementsWithEmptyLines() throws Exception
 	{
 		testMultipleDefineAs(SOURCE__MULTIPLE_STATEMENTS__WITH_EMPTY_LINE);
+	}
+
+	private AnalyzerSyntaxic getParser()
+	{
+		return myParser;
+	}
+
+	private void setParser(AnalyzerSyntaxic parser)
+	{
+		myParser = parser;
 	}
 
 	/**

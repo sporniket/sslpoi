@@ -45,16 +45,6 @@ public class DefineTest
 		setParser(new AnalyzerSyntaxic(_lexer, _symbolFactory));
 	}
 
-	private AnalyzerSyntaxic getParser()
-	{
-		return myParser;
-	}
-
-	private void setParser(AnalyzerSyntaxic parser)
-	{
-		myParser = parser;
-	}
-
 	@Test
 	public void testCorrectDefineAsNew() throws Exception
 	{
@@ -65,6 +55,16 @@ public class DefineTest
 
 		_define = (VessNodeDefineAs) TestUtils.parseVessSource("define toto as new foo.bar", getParser());
 		assertThat(_define.getClassName(), is("foo.bar"));
+	}
+
+	private AnalyzerSyntaxic getParser()
+	{
+		return myParser;
+	}
+
+	private void setParser(AnalyzerSyntaxic parser)
+	{
+		myParser = parser;
 	}
 
 }
