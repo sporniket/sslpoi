@@ -160,6 +160,132 @@ public class LogicalExpressionTest
 		assertThat(_expected.getValue(), is("bar"));
 	}
 
+	@Test
+	public void testCorrectLogic__literalString__simple__bothSides() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if \"foo\" is \"bar\"", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		VessNodeLiteralString _value = (VessNodeLiteralString) _logic.getValue();
+		VessNodeLiteralString _expected = (VessNodeLiteralString) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar"));
+	}
+
+	@Test
+	public void testCorrectLogic__literalString__specialChar__backSlash() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is \"bar\\\\\"", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeLiteralString _expected = (VessNodeLiteralString) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar\\"));
+	}
+
+	@Test
+	public void testCorrectLogic__literalString__specialChar__doubleQuote() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is \"bar\\\"\"", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeLiteralString _expected = (VessNodeLiteralString) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar\""));
+	}
+
+	@Test
+	public void testCorrectLogic__literalString__specialChar__lineFeed() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is \"bar\\r\"", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeLiteralString _expected = (VessNodeLiteralString) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar\r"));
+	}
+
+	@Test
+	public void testCorrectLogic__literalString__specialChar__newLine() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is \"bar\\n\"", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeLiteralString _expected = (VessNodeLiteralString) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar\n"));
+	}
+
+	@Test
+	public void testCorrectLogic__literalString__specialChar__tab() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is \"bar\\t\"", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeLiteralString _expected = (VessNodeLiteralString) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar\t"));
+	}
+
 	private AnalyzerSyntaxic getParser()
 	{
 		return myParser;
