@@ -139,7 +139,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 	
 	\\r                            { string.append('\r'); }
 	\\\"                           { string.append('\"'); }
-	\\                             { string.append('\\'); }
+	\\\\                           { string.append('\\'); }
 }
 
 /* error fallback */
