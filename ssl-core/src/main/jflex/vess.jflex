@@ -75,12 +75,18 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 
 <YYINITIAL> {
     //Keywords and symbols
-	"," 
-		{ return symbol(AnalyzerSymbols.COMMA); }
+	"a" 
+		{ return symbol(AnalyzerSymbols.A); }
 	"as" 
 		{ return symbol(AnalyzerSymbols.AS); }
+	"[" 
+		{ return symbol(AnalyzerSymbols.BRACKET_SQR_L); }
+	"]" 
+		{ return symbol(AnalyzerSymbols.BRACKET_SQR_R); }
 	"call" 
 		{ return symbol(AnalyzerSymbols.CALL); }
+	"," 
+		{ return symbol(AnalyzerSymbols.COMMA); }
 	"define" 
 		{ return symbol(AnalyzerSymbols.DEFINE); }
 	"else" {WhiteSpace} "if" 
@@ -97,12 +103,18 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 		{ return symbol(AnalyzerSymbols.IS); }
 	"like" 
 		{ return symbol(AnalyzerSymbols.LIKE); }
+	"named" 
+		{ return symbol(AnalyzerSymbols.NAMED); }
 	"new" 
 		{ return symbol(AnalyzerSymbols.NEW); }
 	"not" 
 		{ return symbol(AnalyzerSymbols.NOT); }
+	"on" 
+		{ return symbol(AnalyzerSymbols.ON); }
 	"using" 
 		{ return symbol(AnalyzerSymbols.USING); }
+	"with" 
+		{ return symbol(AnalyzerSymbols.WITH); }
 
   /* identifiers */
   {PackagePrefix}                   { return symbol(AnalyzerSymbols.PACKAGEPREFIX, yytext()); }
