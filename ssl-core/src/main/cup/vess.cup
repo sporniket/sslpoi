@@ -7,9 +7,12 @@ import com.sporniket.scripting.ssl.core.*;
 import com.sporniket.scripting.ssl.mass.*;
 
 /* Terminals (tokens returned by the scanner). */
+terminal A;
 terminal AS;
+terminal BRACKET_SQR_L; // '['
+terminal BRACKET_SQR_R; // '['
 terminal CALL;
-terminal COMMA;
+terminal COMMA; // ','
 terminal DEFINE;
 terminal ELSE;
 terminal ELSEIF;
@@ -20,10 +23,13 @@ terminal IF;
 terminal IS;
 terminal LIKE;
 terminal LITERAL_STRING;
+terminal NAMED;
 terminal NEW;
 terminal NOT;
+terminal ON;
 terminal PACKAGEPREFIX;
 terminal USING;
+terminal WITH;
 
 /* Non-terminals */
 non terminal expr_access_stack;
