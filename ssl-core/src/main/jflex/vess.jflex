@@ -95,6 +95,8 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 		{ return symbol(AnalyzerSymbols.ELSE); }
 	"endif" 
 		{ return symbol(AnalyzerSymbols.ENDIF); }
+	"endon" 
+		{ return symbol(AnalyzerSymbols.ENDON); }
 	"from" 
 		{ return symbol(AnalyzerSymbols.FROM); }
 	"if" 

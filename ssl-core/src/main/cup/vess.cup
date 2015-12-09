@@ -17,6 +17,7 @@ terminal DEFINE;
 terminal ELSE;
 terminal ELSEIF;
 terminal ENDIF;
+terminal ENDON;
 terminal FROM;
 terminal IDENTIFIER;
 terminal IF;
