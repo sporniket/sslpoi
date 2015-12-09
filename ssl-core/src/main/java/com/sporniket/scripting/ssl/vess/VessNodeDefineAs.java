@@ -13,6 +13,11 @@ import com.sporniket.scripting.ssl.core.InitialisationMode;
  */
 public class VessNodeDefineAs extends VessNode
 {
+	/**
+	 * <code>true</code> if this is an array.
+	 */
+	private boolean myArray;
+
 	private final String myClassName;
 
 	private final String myIdentifier;
@@ -39,6 +44,22 @@ public class VessNodeDefineAs extends VessNode
 	public InitialisationMode getInitialisationMode()
 	{
 		return myInitialisationMode;
+	}
+
+	public boolean isArray()
+	{
+		return myArray;
+	}
+
+	public void setArray(boolean array)
+	{
+		myArray = array;
+	}
+
+	public VessNodeDefineAs withArray(boolean array)
+	{
+		setArray(array);
+		return this;
 	}
 
 }
