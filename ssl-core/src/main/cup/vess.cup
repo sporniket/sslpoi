@@ -43,6 +43,8 @@ non terminal expr_logic__operator_base;
 non terminal expr_methodname;
 non terminal expr_value;
 non terminal part_if_alternatives;
+non terminal part_mapping__list;
+non terminal part_mapping__single;
 non terminal part_using__list;
 non terminal part_using__single;
 non terminal statm__list;
@@ -50,6 +52,7 @@ non terminal statm__single;
 non terminal statm_call;
 non terminal statm_define;
 non terminal statm_if;
+non terminal statm_on;
 
 /* Precedences */
 //precedence left PLUS, MINUS;
@@ -84,6 +87,11 @@ statm__single
 		:}
 	|
 		statm_if:statm 
+		{: 
+			RESULT = statm ; 
+		:}
+	|
+		statm_on:statm 
 		{: 
 			RESULT = statm ; 
 		:}
@@ -129,6 +137,20 @@ statm_if
 		:}
 	;
 
+
+statm_on
+	::=
+		ON IDENTIFIER:id statm__list:list ENDON
+		{:
+			RESULT = new VessNodeOn().withEventName((String) id).withStatements((VessNode) list);
+		:}
+	|
+		ON IDENTIFIER:id WITH part_mapping__list:mapping statm__list:list ENDON
+		{:
+			RESULT = new VessNodeOn().withEventName((String) id).withStatements((VessNode) list).withMapping((VessNodeIdentifierMapping) mapping) ;
+		:}
+	;
+
 //== Statement parts ==
 part_if_alternatives
 	::=
@@ -142,6 +164,33 @@ part_if_alternatives
 			RESULT = new VessNodeIf().withStatement((VessNode) list);
 		:}
 	;
+
+part_mapping__list
+	::=
+		part_mapping__single:single COMMA part_mapping__single:list
+		{:
+			RESULT = ((VessNode)single).withLastNode((VessNode)list);
+		:}
+	|
+		part_mapping__single:single
+		{:
+			RESULT = single ;
+		:}
+	;
+
+part_mapping__single
+	::=
+		A expr_classname:cls NAMED IDENTIFIER:id
+		{:
+			RESULT = new VessNodeIdentifierMapping().withIdentifier((String)id).withClassName((String)cls) ;
+		:}
+	|
+		A expr_classname:cls BRACKET_SQR_L BRACKET_SQR_R NAMED IDENTIFIER:id
+		{:
+			RESULT = new VessNodeIdentifierMapping().withIdentifier((String)id).withClassName((String)cls).withArray(true) ;
+		:}
+	;
+
 part_using__list
 	::=
 		part_using__single:single COMMA part_using__list:list
