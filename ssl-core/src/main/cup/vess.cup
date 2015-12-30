@@ -10,7 +10,7 @@ import com.sporniket.scripting.ssl.mass.*;
 terminal A;
 terminal AS;
 terminal BRACKET_SQR_L; // '['
-terminal BRACKET_SQR_R; // '['
+terminal BRACKET_SQR_R; // ']'
 terminal CALL;
 terminal COMMA; // ','
 terminal DEFINE;
