@@ -52,9 +52,20 @@ public class DefineTest
 		assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
 		assertThat(_define.getIdentifier(), is("toto"));
 		assertThat(_define.getClassName(), is("bar"));
+		assertThat(_define.isArray(), is(false));
 
 		_define = (VessNodeDefineAs) TestUtils.parseVessSource("define toto as new foo.bar", getParser());
 		assertThat(_define.getClassName(), is("foo.bar"));
+	}
+
+	@Test
+	public void testCorrectDefineAsNew_array() throws Exception
+	{
+		VessNodeDefineAs _define = (VessNodeDefineAs) TestUtils.parseVessSource("define toto as new bar[]", getParser());
+		assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
+		assertThat(_define.getIdentifier(), is("toto"));
+		assertThat(_define.getClassName(), is("bar"));
+		assertThat(_define.isArray(), is(true));
 	}
 
 	private AnalyzerSyntaxic getParser()

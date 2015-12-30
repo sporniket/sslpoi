@@ -109,6 +109,11 @@ statm_define
 		{: 
 			RESULT = new VessNodeDefineAs((String)id, InitialisationMode.NEW, (String)cls) ; 
 		:}
+	|
+		DEFINE IDENTIFIER:id AS NEW expr_classname:cls BRACKET_SQR_L BRACKET_SQR_R
+		{: 
+			RESULT = new VessNodeDefineAs((String)id, InitialisationMode.NEW, (String)cls).withArray(true) ; 
+		:}
 	;
 
 statm_if
