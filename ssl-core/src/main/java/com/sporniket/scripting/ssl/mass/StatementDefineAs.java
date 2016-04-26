@@ -13,17 +13,23 @@ import com.sporniket.scripting.ssl.core.InitialisationMode;
  */
 public class StatementDefineAs extends Statement
 {
+	/**
+	 * <code>true</code> if this is an array.
+	 */
+	private boolean myArray;
+
 	private final String myClassName;
 
 	private final String myIdentifier;
 
 	private final InitialisationMode myInitialisationMode;
 
-	public StatementDefineAs(String identifier, InitialisationMode initialisationMode, String className)
+	public StatementDefineAs(String identifier, InitialisationMode initialisationMode, String className, boolean isArray)
 	{
 		myIdentifier = identifier;
 		myInitialisationMode = initialisationMode;
 		myClassName = className;
+		myArray = isArray;
 	}
 
 	public String getClassName()
@@ -41,4 +47,8 @@ public class StatementDefineAs extends Statement
 		return myInitialisationMode;
 	}
 
+	public boolean isArray()
+	{
+		return myArray;
+	}
 }
