@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.vess;
+package com.sporniket.scripting.sslpoi.vess;
 
 /**
  * VessNode containing a simple String, the kind of the string will be identified by subclasses.

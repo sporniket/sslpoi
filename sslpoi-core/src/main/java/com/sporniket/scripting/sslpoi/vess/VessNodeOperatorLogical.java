@@ -1,9 +1,9 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.vess;
+package com.sporniket.scripting.sslpoi.vess;
 
-import com.sporniket.scripting.ssl.core.LogicalOperator;
+import com.sporniket.scripting.sslpoi.core.LogicalOperator;
 
 /**
  * Node for a logical operator : a {@link LogicalOperator} that can be reversed ("not").

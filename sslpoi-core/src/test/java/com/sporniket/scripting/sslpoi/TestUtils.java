@@ -1,19 +1,19 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl;
+package com.sporniket.scripting.sslpoi;
 
 import java.io.Reader;
 import java.io.StringReader;
 
 import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 
-import com.sporniket.scripting.ssl.vess.AnalyzerLexical;
-import com.sporniket.scripting.ssl.vess.AnalyzerSyntaxic;
-import com.sporniket.scripting.ssl.vess.VessNode;
-import com.sporniket.scripting.ssl.vess.VessNodeAccessor;
-import com.sporniket.scripting.ssl.vess.VessNodeCall;
-import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
+import com.sporniket.scripting.sslpoi.vess.AnalyzerLexical;
+import com.sporniket.scripting.sslpoi.vess.AnalyzerSyntaxic;
+import com.sporniket.scripting.sslpoi.vess.VessNode;
+import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
+import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
+import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
 
 /**
  * Utilities for tests.

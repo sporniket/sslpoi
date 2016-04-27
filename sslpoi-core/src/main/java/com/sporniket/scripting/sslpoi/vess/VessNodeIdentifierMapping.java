@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.vess;
+package com.sporniket.scripting.sslpoi.vess;
 
 /**
  * Store the identifiers mapping ('on ...', functions definition, ...)

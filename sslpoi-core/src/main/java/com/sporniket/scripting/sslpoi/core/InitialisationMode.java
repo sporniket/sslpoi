@@ -1,4 +1,4 @@
-package com.sporniket.scripting.ssl.core;
+package com.sporniket.scripting.sslpoi.core;
 
 /**
  * Specify what is the initial value.

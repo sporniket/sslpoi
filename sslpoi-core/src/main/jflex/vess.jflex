@@ -1,7 +1,7 @@
 //JFlex specification for VErbose SpornyScript (vess)
 // [FIXME] for now use a sample spec to get the build up and running.
 /* JFlex example: partial Java language lexer specification */
-package com.sporniket.scripting.ssl.vess;
+package com.sporniket.scripting.sslpoi.vess;
 import java_cup.runtime.*;
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ComplexSymbolFactory.Location;

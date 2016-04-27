@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.vess;
+package com.sporniket.scripting.sslpoi.vess;
 
 /**
  * Node build by the parsing of a Vess source.

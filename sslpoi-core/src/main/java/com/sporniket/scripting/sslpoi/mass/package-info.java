@@ -4,4 +4,4 @@
  * @author dsporn
  *
  */
-package com.sporniket.scripting.ssl.mass;
+package com.sporniket.scripting.sslpoi.mass;

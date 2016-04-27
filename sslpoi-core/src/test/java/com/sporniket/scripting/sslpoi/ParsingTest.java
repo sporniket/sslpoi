@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl;
+package com.sporniket.scripting.sslpoi;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
@@ -17,14 +17,14 @@ import java_cup.runtime.Symbol;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sporniket.scripting.ssl.core.InitialisationMode;
-import com.sporniket.scripting.ssl.mass.Statement;
-import com.sporniket.scripting.ssl.mass.StatementDefineAs;
-import com.sporniket.scripting.ssl.mass.TreeBuilder;
-import com.sporniket.scripting.ssl.vess.AnalyzerLexical;
-import com.sporniket.scripting.ssl.vess.AnalyzerSyntaxic;
-import com.sporniket.scripting.ssl.vess.VessNode;
-import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
+import com.sporniket.scripting.sslpoi.core.InitialisationMode;
+import com.sporniket.scripting.sslpoi.mass.Statement;
+import com.sporniket.scripting.sslpoi.mass.StatementDefineAs;
+import com.sporniket.scripting.sslpoi.mass.TreeBuilder;
+import com.sporniket.scripting.sslpoi.vess.AnalyzerLexical;
+import com.sporniket.scripting.sslpoi.vess.AnalyzerSyntaxic;
+import com.sporniket.scripting.sslpoi.vess.VessNode;
+import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
 
 /**
  * Test the parsing.

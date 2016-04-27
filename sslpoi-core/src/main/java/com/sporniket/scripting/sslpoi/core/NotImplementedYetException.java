@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.core;
+package com.sporniket.scripting.sslpoi.core;
 
 /**
  * Exception thrown when calling a feature that is not implemented yet.

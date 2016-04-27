@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.core;
+package com.sporniket.scripting.sslpoi.core;
 
 /**Exception for features that are not supported yet.
  * @author david

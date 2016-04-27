@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.mass;
+package com.sporniket.scripting.sslpoi.mass;
 
 import java.util.ArrayList;
 import java.util.List;

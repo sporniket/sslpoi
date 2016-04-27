@@ -1,15 +1,15 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.mass;
+package com.sporniket.scripting.sslpoi.mass;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.sporniket.scripting.ssl.core.InitialisationMode;
-import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
+import com.sporniket.scripting.sslpoi.core.InitialisationMode;
+import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
 
 /**
  * Test the conversion from {@link VessNodeDefineAs} to {@link StatementDefineAs}.

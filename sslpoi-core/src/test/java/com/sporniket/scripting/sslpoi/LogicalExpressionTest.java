@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl;
+package com.sporniket.scripting.sslpoi;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
@@ -19,22 +19,22 @@ import org.hamcrest.core.IsNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sporniket.scripting.ssl.core.InitialisationMode;
-import com.sporniket.scripting.ssl.core.LogicalOperator;
-import com.sporniket.scripting.ssl.mass.Statement;
-import com.sporniket.scripting.ssl.mass.StatementDefineAs;
-import com.sporniket.scripting.ssl.mass.TreeBuilder;
-import com.sporniket.scripting.ssl.vess.AnalyzerLexical;
-import com.sporniket.scripting.ssl.vess.AnalyzerSyntaxic;
-import com.sporniket.scripting.ssl.vess.VessNode;
-import com.sporniket.scripting.ssl.vess.VessNodeAccessor;
-import com.sporniket.scripting.ssl.vess.VessNodeArgumentMapping;
-import com.sporniket.scripting.ssl.vess.VessNodeCall;
-import com.sporniket.scripting.ssl.vess.VessNodeDefineAs;
-import com.sporniket.scripting.ssl.vess.VessNodeExpressionLogical;
-import com.sporniket.scripting.ssl.vess.VessNodeIf;
-import com.sporniket.scripting.ssl.vess.VessNodeLiteralString;
-import com.sporniket.scripting.ssl.vess.VessNodeOperatorLogical;
+import com.sporniket.scripting.sslpoi.core.InitialisationMode;
+import com.sporniket.scripting.sslpoi.core.LogicalOperator;
+import com.sporniket.scripting.sslpoi.mass.Statement;
+import com.sporniket.scripting.sslpoi.mass.StatementDefineAs;
+import com.sporniket.scripting.sslpoi.mass.TreeBuilder;
+import com.sporniket.scripting.sslpoi.vess.AnalyzerLexical;
+import com.sporniket.scripting.sslpoi.vess.AnalyzerSyntaxic;
+import com.sporniket.scripting.sslpoi.vess.VessNode;
+import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
+import com.sporniket.scripting.sslpoi.vess.VessNodeArgumentMapping;
+import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
+import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
+import com.sporniket.scripting.sslpoi.vess.VessNodeExpressionLogical;
+import com.sporniket.scripting.sslpoi.vess.VessNodeIf;
+import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
+import com.sporniket.scripting.sslpoi.vess.VessNodeOperatorLogical;
 
 /**
  * Test logical expressions in statements.

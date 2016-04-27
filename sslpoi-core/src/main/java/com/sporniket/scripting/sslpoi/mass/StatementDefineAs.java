@@ -1,9 +1,9 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.mass;
+package com.sporniket.scripting.sslpoi.mass;
 
-import com.sporniket.scripting.ssl.core.InitialisationMode;
+import com.sporniket.scripting.sslpoi.core.InitialisationMode;
 
 /**
  * Node for <code>define (identifier) as (new|null|undefined) (classname) </code> statements.

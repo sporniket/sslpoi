@@ -3,8 +3,8 @@
 // CUP specification for a simple expression evaluator (w/ actions)
 
 import java_cup.runtime.*;
-import com.sporniket.scripting.ssl.core.*;
-import com.sporniket.scripting.ssl.mass.*;
+import com.sporniket.scripting.sslpoi.core.*;
+import com.sporniket.scripting.sslpoi.mass.*;
 
 /* Terminals (tokens returned by the scanner). */
 terminal A;

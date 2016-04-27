@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sporniket.scripting.ssl.vess;
+package com.sporniket.scripting.sslpoi.vess;
 
 /**
  * Node for storing an item of an access stack (object->sub-object->...->method/attribute)
