@@ -4,7 +4,7 @@
 package com.sporniket.scripting.sslpoi.mass;
 
 /**
- * Base class for a node of the abstract model.
+ * A Statement is a whole instruction, or a group of instruction (e.g. <code>if ... then (statements ...) else (statements ...)</code>).
  * 
  * @author dsporn
  *
