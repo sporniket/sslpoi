@@ -6,7 +6,7 @@ package com.sporniket.scripting.sslpoi.mass;
 import com.sporniket.scripting.sslpoi.core.InitialisationMode;
 
 /**
- * Node for <code>define (identifier) as (new|null|undefined) (classname) </code> statements.
+ * Statement <code>define (identifier) as (new|null|undefined) (classname) </code> statements.
  * 
  * @author dsporn
  *
@@ -16,7 +16,7 @@ public class StatementDefineAs extends Statement
 	/**
 	 * <code>true</code> if this is an array.
 	 */
-	private boolean myArray;
+	private final boolean myArray;
 
 	private final String myClassName;
 
