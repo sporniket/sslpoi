@@ -5,6 +5,8 @@ package com.sporniket.scripting.sslpoi.mass;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,6 +14,7 @@ import com.sporniket.scripting.sslpoi.core.NotImplementedYetException;
 import com.sporniket.scripting.sslpoi.core.NotSupportedException;
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNode;
+import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
 import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
 import com.sporniket.scripting.sslpoi.vess.VessNodeIf;
@@ -25,6 +28,31 @@ import com.sporniket.scripting.sslpoi.vess.VessNodeOn;
  */
 public class StatementFromNode
 {
+	/**
+	 * Stores the converter methods.
+	 * 
+	 * Methods are public to simplify the reflection code to find and invoke those converters.
+	 * 
+	 * @author david
+	 *
+	 */
+	private static final class Converter
+	{
+
+		@SuppressWarnings("unused")
+		public static StatementDefineAs doConvert(VessNodeDefineAs node)
+		{
+			return new StatementDefineAs(node.getIdentifier(), node.getInitialisationMode(), node.getClassName(), node.isArray());
+		}
+
+		@SuppressWarnings("unused")
+		public static StatementCall doConvert(VessNodeCall node)
+		{
+			return new StatementCall(Utils.accessorFromVessNodeAccessor(node.getCall()),
+					Utils.argumentMappingFromVessNodeArgumentMapping(node.getMapping()));
+		}
+	}
+
 	/**
 	 * Name of the polymorphic method to use.
 	 */
@@ -58,11 +86,6 @@ public class StatementFromNode
 		return THE_INSTANCE.findAndInvokeConverterForNode(node);
 	}
 
-	public static StatementDefineAs doConvert(VessNodeDefineAs node)
-	{
-		return new StatementDefineAs(node.getIdentifier(), node.getInitialisationMode(), node.getClassName(), node.isArray());
-	}
-
 	/**
 	 * Supported nodes.
 	 */
@@ -90,7 +113,7 @@ public class StatementFromNode
 		Statement _result = null;
 		try
 		{
-			Method _converter = getClass().getMethod(METHOD_NAME__CONVERT, node.getClass());
+			Method _converter = Converter.class.getMethod(METHOD_NAME__CONVERT, node.getClass());
 			_result = (Statement) _converter.invoke(null, node);
 		}
 		catch (InvocationTargetException _exception)
@@ -113,7 +136,7 @@ public class StatementFromNode
 		return _result;
 	}
 
-	public Set<String> getSupportedNodes()
+	private Set<String> getSupportedNodes()
 	{
 		return mySupportedNodes;
 	}
