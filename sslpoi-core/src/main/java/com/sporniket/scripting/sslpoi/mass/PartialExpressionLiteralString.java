@@ -4,7 +4,7 @@
 package com.sporniket.scripting.sslpoi.mass;
 
 /**
- * Store a literal String.
+ * Store an expression that is a literal String.
  * 
  * @author david
  *
