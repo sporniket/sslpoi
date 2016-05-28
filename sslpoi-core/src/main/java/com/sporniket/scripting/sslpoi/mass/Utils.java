@@ -48,7 +48,7 @@ final class Utils
 			}
 			else if (_value instanceof VessNodeAccessor)
 			{
-				final ArrayList<String> _accessor = accessorFromVessNodeAccessor((VessNodeAccessor) source.getValue());
+				final ArrayList<String> _accessor = accessorFromVessNodeAccessor((VessNodeAccessor) _value);
 				final PartialExpressionAccessor _expression = new PartialExpressionAccessor(_accessor);
 				_buffer.put(_current.getName(), _expression);
 			}
