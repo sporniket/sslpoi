@@ -12,10 +12,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.sporniket.scripting.sslpoi.core.InitialisationMode;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeArgumentMapping;
-import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
 import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
 
 /**
