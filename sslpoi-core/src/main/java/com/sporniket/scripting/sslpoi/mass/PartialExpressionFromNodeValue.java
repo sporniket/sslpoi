@@ -6,27 +6,23 @@ package com.sporniket.scripting.sslpoi.mass;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 
 import com.sporniket.scripting.sslpoi.core.NotImplementedYetException;
 import com.sporniket.scripting.sslpoi.core.NotSupportedException;
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
-import com.sporniket.scripting.sslpoi.vess.VessNode;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
-import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
-import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
-import com.sporniket.scripting.sslpoi.vess.VessNodeIf;
-import com.sporniket.scripting.sslpoi.vess.VessNodeOn;
+import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
+import com.sporniket.scripting.sslpoi.vess.VessNodeValue;
 
 /**
- * Convert {@link VessNode} into {@link Statement}.
+ * Convert a supported {@link VessNodeValue} into a {@link PartialExpression}.
  * 
- * @author david
+ * @author dsporn
  *
  */
-public class StatementFromNode
+public class PartialExpressionFromNodeValue
 {
 	/**
 	 * Stores the converter methods.
@@ -39,17 +35,30 @@ public class StatementFromNode
 	private static final class Converter
 	{
 
+		/**
+		 * @param value
+		 *            value to convert.
+		 * @return a {@link PartialExpressionAccessor}
+		 */
 		@SuppressWarnings("unused")
-		public static StatementDefineAs doConvert(VessNodeDefineAs node)
+		public static PartialExpression doConvert(VessNodeAccessor value)
 		{
-			return new StatementDefineAs(node.getIdentifier(), node.getInitialisationMode(), node.getClassName(), node.isArray());
+			final ArrayList<String> _accessor = Utils.accessorFromVessNodeAccessor(value);
+			final PartialExpressionAccessor _expression = new PartialExpressionAccessor(_accessor);
+			return _expression;
 		}
 
+		/**
+		 * @param value
+		 *            value to convert.
+		 * @return a {@link PartialExpressionLiteralString}
+		 */
 		@SuppressWarnings("unused")
-		public static StatementCall doConvert(VessNodeCall node) throws SslpoiException
+		public static PartialExpression doConvert(VessNodeLiteralString value)
 		{
-			return new StatementCall(Utils.accessorFromVessNodeAccessor(node.getCall()),
-					Utils.argumentMappingFromVessNodeArgumentMapping(node.getMapping()));
+			final String _literalValue = value.getValue();
+			final PartialExpressionLiteralString _expression = new PartialExpressionLiteralString(_literalValue);
+			return _expression;
 		}
 	}
 
@@ -59,18 +68,15 @@ public class StatementFromNode
 	private static final String METHOD_NAME__CONVERT = "doConvert";
 
 	/**
-	 * List of supported {@link VessNode} subclasses, to distinguish between {@link NotImplementedYetException} and
+	 * List of supported {@link VessNodeValue} implementations, to distinguish between {@link NotImplementedYetException} and
 	 * {@link NotSupportedException}.
 	 */
 	private static final String[] SET__SUPPORTED_NODE_CLASSES =
 	{
-			VessNodeCall.class.getName(),
-			VessNodeDefineAs.class.getName(),
-			VessNodeIf.class.getName(),
-			VessNodeOn.class.getName()
+			VessNodeLiteralString.class.getName(), VessNodeAccessor.class.getName()
 	};
 
-	private static final StatementFromNode THE_INSTANCE = new StatementFromNode();
+	private static final PartialExpressionFromNodeValue THE_INSTANCE = new PartialExpressionFromNodeValue();
 
 	/**
 	 * Convert the given node into a statement.
@@ -81,21 +87,21 @@ public class StatementFromNode
 	 * @throws SslpoiException
 	 *             when there is a problem.
 	 */
-	public static final Statement convert(VessNode node) throws SslpoiException
+	public static final PartialExpression convert(VessNodeValue node) throws SslpoiException
 	{
-		return THE_INSTANCE.findAndInvokeConverterForNode(node);
+		return THE_INSTANCE.findAndInvokeConverterForNodeValue(node);
 	}
 
 	/**
 	 * Supported nodes.
 	 */
-	private Set<String> mySupportedNodes = new TreeSet<String>();
+	private Set<String> mySupportedNodeValues = new TreeSet<String>();
 
-	private StatementFromNode()
+	private PartialExpressionFromNodeValue()
 	{
 		for (String _supported : SET__SUPPORTED_NODE_CLASSES)
 		{
-			getSupportedNodes().add(_supported);
+			getSupportedNodeValues().add(_supported);
 		}
 	}
 
@@ -108,13 +114,13 @@ public class StatementFromNode
 	 * @throws SslpoiException
 	 *             when there is a problem.
 	 */
-	private Statement findAndInvokeConverterForNode(VessNode node) throws SslpoiException
+	private PartialExpression findAndInvokeConverterForNodeValue(VessNodeValue node) throws SslpoiException
 	{
-		Statement _result = null;
+		PartialExpression _result = null;
 		try
 		{
 			Method _converter = Converter.class.getMethod(METHOD_NAME__CONVERT, node.getClass());
-			_result = (Statement) _converter.invoke(null, node);
+			_result = (PartialExpression) _converter.invoke(null, node);
 		}
 		catch (InvocationTargetException _exception)
 		{
@@ -123,7 +129,7 @@ public class StatementFromNode
 		catch (NoSuchMethodException _exception)
 		{
 			final String _nodeType = node.getClass().getName();
-			if (getSupportedNodes().contains(_nodeType))
+			if (getSupportedNodeValues().contains(_nodeType))
 			{
 				throw new NotImplementedYetException(_nodeType);
 			}
@@ -136,8 +142,8 @@ public class StatementFromNode
 		return _result;
 	}
 
-	private Set<String> getSupportedNodes()
+	private Set<String> getSupportedNodeValues()
 	{
-		return mySupportedNodes;
+		return mySupportedNodeValues;
 	}
 }

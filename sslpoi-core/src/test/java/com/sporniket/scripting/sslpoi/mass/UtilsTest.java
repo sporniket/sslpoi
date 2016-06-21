@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeArgumentMapping;
 import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
@@ -77,9 +78,10 @@ public class UtilsTest
 
 	/**
 	 * Test the basic conversion of an argument mapping.
+	 * @throws SslpoiException should not happen in this test.
 	 */
 	@Test
-	public void testArgumentMappingConvertion()
+	public void testArgumentMappingConvertion() throws SslpoiException
 	{
 		// mapping to litteral strings
 		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withName("foo1")

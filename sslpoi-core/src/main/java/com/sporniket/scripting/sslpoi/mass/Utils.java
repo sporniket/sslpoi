@@ -8,10 +8,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNode;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeArgumentMapping;
 import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
+import com.sporniket.scripting.sslpoi.vess.VessNodeValue;
 
 /**
  * Utilities.
@@ -21,7 +23,6 @@ import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
  */
 final class Utils
 {
-
 	static ArrayList<String> accessorFromVessNodeAccessor(VessNodeAccessor source)
 	{
 		LinkedList<String> _buffer = new LinkedList<String>();
@@ -34,27 +35,18 @@ final class Utils
 		return _accessStack;
 	}
 
-	static Map<String, PartialExpression> argumentMappingFromVessNodeArgumentMapping(VessNodeArgumentMapping source)
+	static Map<String, PartialExpression> argumentMappingFromVessNodeArgumentMapping(VessNodeArgumentMapping source) throws SslpoiException
 	{
 		Map<String, PartialExpression> _buffer = new HashMap<String, PartialExpression>();
 		for (VessNodeArgumentMapping _current = source; _current != null;)
 		{
-			final VessNode _value = _current.getValue();
-			if (_value instanceof VessNodeLiteralString)
-			{
-				final String _literalValue = ((VessNodeLiteralString) _current.getValue()).getValue();
-				final PartialExpressionLiteralString _expression = new PartialExpressionLiteralString(_literalValue);
-				_buffer.put(_current.getName(), _expression);
-			}
-			else if (_value instanceof VessNodeAccessor)
-			{
-				final ArrayList<String> _accessor = accessorFromVessNodeAccessor((VessNodeAccessor) _value);
-				final PartialExpressionAccessor _expression = new PartialExpressionAccessor(_accessor);
-				_buffer.put(_current.getName(), _expression);
-			}
+			final VessNodeValue _value = (VessNodeValue) _current.getValue();
+			PartialExpression _expression = PartialExpressionFromNodeValue.convert(_value);
+			_buffer.put(_current.getName(), _expression);
 			_current = (VessNodeArgumentMapping) _current.getNext();
 		}
 		return new HashMap<String, PartialExpression>(_buffer);
 	}
+	
 
 }
