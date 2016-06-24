@@ -13,6 +13,7 @@ import com.sporniket.scripting.sslpoi.core.NotImplementedYetException;
 import com.sporniket.scripting.sslpoi.core.NotSupportedException;
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
+import com.sporniket.scripting.sslpoi.vess.VessNodeExpressionLogical;
 import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
 import com.sporniket.scripting.sslpoi.vess.VessNodeValue;
 
@@ -38,7 +39,7 @@ public class PartialExpressionFromNodeValue
 		/**
 		 * @param value
 		 *            value to convert.
-		 * @return a {@link PartialExpressionAccessor}
+		 * @return a {@link PartialExpressionAccessor}.
 		 */
 		@SuppressWarnings("unused")
 		public static PartialExpression doConvert(VessNodeAccessor value)
@@ -51,7 +52,7 @@ public class PartialExpressionFromNodeValue
 		/**
 		 * @param value
 		 *            value to convert.
-		 * @return a {@link PartialExpressionLiteralString}
+		 * @return a {@link PartialExpressionLiteralString}.
 		 */
 		@SuppressWarnings("unused")
 		public static PartialExpression doConvert(VessNodeLiteralString value)
@@ -59,6 +60,21 @@ public class PartialExpressionFromNodeValue
 			final String _literalValue = value.getValue();
 			final PartialExpressionLiteralString _expression = new PartialExpressionLiteralString(_literalValue);
 			return _expression;
+		}
+
+		/**
+		 * @param value
+		 *            value to convert.
+		 * @return a {@link PartialExpressionLogical}.
+		 * @throws SslpoiException
+		 *             when there is a problem.
+		 */
+		@SuppressWarnings("unused")
+		public static PartialExpression doConvert(VessNodeExpressionLogical value) throws SslpoiException
+		{
+			PartialExpression _left = PartialExpressionFromNodeValue.convert(value.getValue());
+			PartialExpression _right = PartialExpressionFromNodeValue.convert(value.getExpected());
+			return new PartialExpressionLogical(value.getOperator().isNot(), value.getOperator().getOperator(), _left, _right);
 		}
 	}
 

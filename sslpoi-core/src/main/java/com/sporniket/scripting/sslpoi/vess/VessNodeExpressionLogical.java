@@ -11,7 +11,7 @@ import com.sporniket.scripting.sslpoi.core.LogicalOperator;
  * @author dsporn
  *
  */
-public class VessNodeExpressionLogical extends VessNode
+public class VessNodeExpressionLogical extends VessNode implements VessNodeValue
 {
 	/**
 	 * Right hand expression.
