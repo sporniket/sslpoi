@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.sporniket.scripting.sslpoi.core.LogicalOperator;
+import com.sporniket.scripting.sslpoi.core.NotSupportedException;
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeExpressionLogical;
@@ -27,19 +28,30 @@ import com.sporniket.scripting.sslpoi.vess.VessNodeValue;
  */
 public class PartialExpressionFromNodeValueTest
 {
+	/**
+	 * Dummy class for testing conversion of a not supported class.
+	 * 
+	 * @author dsporn
+	 *
+	 */
+	private static class Foo implements VessNodeValue
+	{
+
+	}
+
 	@Test
 	public void testFromVessNodeAccessor() throws SslpoiException
 	{
 		VessNodeAccessor _tested = new VessNodeAccessor().withValue("bar");
 		_tested.enqueue(new VessNodeAccessor().withValue("foo"));
-		
+
 		PartialExpression _result = PartialExpressionFromNodeValue.convert(_tested);
-		
-		//General tests
+
+		// General tests
 		assertThat(_result, notNullValue());
 		assertThat(_result.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
-		
-		//Specifics
+
+		// Specifics
 		PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _result;
 		List<String> _accessStack = _accessor.getAccessStack();
 		assertThat(_accessStack.isEmpty(), is(false));
@@ -57,30 +69,30 @@ public class PartialExpressionFromNodeValueTest
 		VessNodeOperatorLogical _operator = new VessNodeOperatorLogical().withOperator(LogicalOperator.IS);
 		VessNodeExpressionLogical _tested = new VessNodeExpressionLogical().withValue(_left).withExpected(_right)
 				.withOperator(_operator);
-		
+
 		PartialExpression _result = PartialExpressionFromNodeValue.convert(_tested);
-		
-		//General tests
+
+		// General tests
 		assertThat(_result, notNullValue());
 		assertThat(_result.getClass().getName(), is(PartialExpressionLogical.class.getName()));
-		
-		//Specifics
+
+		// Specifics
 		PartialExpressionLogical _logical = (PartialExpressionLogical) _result;
 		assertThat(_logical.getLeftExpression().getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 		assertThat(_logical.getRightExpression().getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 		assertThat(_logical.getOperator(), is(LogicalOperator.IS));
 		assertThat(_logical.isNot(), is(false));
-		
-		//Same test with a reversed operator
+
+		// Same test with a reversed operator
 		_operator.withNot(true);
 
 		_result = PartialExpressionFromNodeValue.convert(_tested);
-		
-		//General tests
+
+		// General tests
 		assertThat(_result, notNullValue());
 		assertThat(_result.getClass().getName(), is(PartialExpressionLogical.class.getName()));
-		
-		//Specifics
+
+		// Specifics
 		_logical = (PartialExpressionLogical) _result;
 		assertThat(_logical.getLeftExpression().getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 		assertThat(_logical.getRightExpression().getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
@@ -92,15 +104,26 @@ public class PartialExpressionFromNodeValueTest
 	public void testFromVessNodeLiteralString() throws SslpoiException
 	{
 		VessNodeValue _tested = new VessNodeLiteralString().withValue("foo");
-		
+
 		PartialExpression _result = PartialExpressionFromNodeValue.convert(_tested);
-		
-		//General tests
+
+		// General tests
 		assertThat(_result, notNullValue());
 		assertThat(_result.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
-		
-		//Specifics
+
+		// Specifics
 		PartialExpressionLiteralString _literalString = (PartialExpressionLiteralString) _result;
 		assertThat(_literalString.getValue(), is("foo"));
+	}
+
+	/**
+	 * Test converting a not supported class.
+	 * 
+	 * @throws SslpoiException
+	 */
+	@Test(expected = NotSupportedException.class)
+	public void testNotSupported() throws SslpoiException
+	{
+		PartialExpression _result = PartialExpressionFromNodeValue.convert(new Foo());
 	}
 }
