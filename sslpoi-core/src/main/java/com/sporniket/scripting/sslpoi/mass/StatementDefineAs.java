@@ -13,31 +13,17 @@ import com.sporniket.scripting.sslpoi.core.InitialisationMode;
  */
 public class StatementDefineAs extends Statement
 {
-	/**
-	 * <code>true</code> if this is an array.
-	 */
-	private final boolean myArray;
-
-	private final String myClassName;
-
-	private final String myIdentifier;
+	private final PartialIdentifier myIdentifier;
 
 	private final InitialisationMode myInitialisationMode;
 
 	public StatementDefineAs(String identifier, InitialisationMode initialisationMode, String className, boolean isArray)
 	{
-		myIdentifier = identifier;
+		myIdentifier = new PartialIdentifier(identifier, className, isArray);
 		myInitialisationMode = initialisationMode;
-		myClassName = className;
-		myArray = isArray;
 	}
 
-	public String getClassName()
-	{
-		return myClassName;
-	}
-
-	public String getIdentifier()
+	public PartialIdentifier getIdentifier()
 	{
 		return myIdentifier;
 	}
@@ -45,10 +31,5 @@ public class StatementDefineAs extends Statement
 	public InitialisationMode getInitialisationMode()
 	{
 		return myInitialisationMode;
-	}
-
-	public boolean isArray()
-	{
-		return myArray;
 	}
 }

@@ -42,10 +42,10 @@ public class StatementFromNodeDefineTest
 			{
 				VessNodeDefineAs _node = new VessNodeDefineAs(IDENTIFIER, _mode, CLASS_NAME).withArray(_isArray);
 				StatementDefineAs _result = (StatementDefineAs) StatementFromNode.convert(_node);
-				assertThat(_result.getIdentifier(), is(IDENTIFIER));
-				assertThat(_result.getClassName(), is(CLASS_NAME));
+				assertThat(_result.getIdentifier().getIdentifier(), is(IDENTIFIER));
+				assertThat(_result.getIdentifier().getClassName(), is(CLASS_NAME));
 				assertThat(_result.getInitialisationMode(), is(_mode));
-				assertThat(_result.isArray(), is(_isArray));
+				assertThat(_result.getIdentifier().isArray(), is(_isArray));
 			}
 		}
 	}
