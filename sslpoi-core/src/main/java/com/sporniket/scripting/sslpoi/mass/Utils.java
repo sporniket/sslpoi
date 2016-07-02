@@ -12,6 +12,7 @@ import java.util.Map;
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeArgumentMapping;
+import com.sporniket.scripting.sslpoi.vess.VessNodeIdentifierMapping;
 import com.sporniket.scripting.sslpoi.vess.VessNodeValue;
 
 /**
@@ -34,7 +35,8 @@ final class Utils
 		return _accessStack;
 	}
 
-	static Map<String, PartialExpression> argumentMappingFromVessNodeArgumentMapping(VessNodeArgumentMapping source) throws SslpoiException
+	static Map<String, PartialExpression> argumentMappingFromVessNodeArgumentMapping(VessNodeArgumentMapping source)
+			throws SslpoiException
 	{
 		Map<String, PartialExpression> _buffer = new HashMap<String, PartialExpression>();
 		for (VessNodeArgumentMapping _current = source; _current != null;)
@@ -46,4 +48,18 @@ final class Utils
 		}
 		return new HashMap<String, PartialExpression>(_buffer);
 	}
+
+	static List<PartialIdentifier> identifierFromVessNodeIdentifierMapping(VessNodeIdentifierMapping mapping)
+	{
+		LinkedList<PartialIdentifier> _buffer = new LinkedList<PartialIdentifier>();
+		for (VessNodeIdentifierMapping _current = mapping; _current != null;)
+		{
+			final PartialIdentifier _identifier = new PartialIdentifier(_current.getIdentifier(), _current.getClassName(),
+					_current.isArray());
+			_buffer.add(_identifier);
+			_current = (VessNodeIdentifierMapping) _current.getNext();
+		}
+		return new ArrayList<PartialIdentifier>(_buffer);
+	}
+
 }
