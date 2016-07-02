@@ -10,11 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
-import com.sporniket.scripting.sslpoi.vess.VessNode;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeArgumentMapping;
-import com.sporniket.scripting.sslpoi.vess.VessNodeIdentifierMapping;
-import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
 import com.sporniket.scripting.sslpoi.vess.VessNodeValue;
 
 /**
