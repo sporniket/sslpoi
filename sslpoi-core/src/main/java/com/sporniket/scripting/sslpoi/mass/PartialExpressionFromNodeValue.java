@@ -6,6 +6,7 @@ package com.sporniket.scripting.sslpoi.mass;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -44,7 +45,7 @@ public class PartialExpressionFromNodeValue
 		@SuppressWarnings("unused")
 		public static PartialExpression doConvert(VessNodeAccessor value)
 		{
-			final ArrayList<String> _accessor = Utils.accessorFromVessNodeAccessor(value);
+			final List<String> _accessor = Utils.accessorFromVessNodeAccessor(value);
 			final PartialExpressionAccessor _expression = new PartialExpressionAccessor(_accessor);
 			return _expression;
 		}

@@ -6,12 +6,14 @@ package com.sporniket.scripting.sslpoi.mass;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNode;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeArgumentMapping;
+import com.sporniket.scripting.sslpoi.vess.VessNodeIdentifierMapping;
 import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
 import com.sporniket.scripting.sslpoi.vess.VessNodeValue;
 
@@ -23,7 +25,7 @@ import com.sporniket.scripting.sslpoi.vess.VessNodeValue;
  */
 final class Utils
 {
-	static ArrayList<String> accessorFromVessNodeAccessor(VessNodeAccessor source)
+	static List<String> accessorFromVessNodeAccessor(VessNodeAccessor source)
 	{
 		LinkedList<String> _buffer = new LinkedList<String>();
 		for (VessNodeAccessor _current = source; _current != null;)
@@ -47,6 +49,4 @@ final class Utils
 		}
 		return new HashMap<String, PartialExpression>(_buffer);
 	}
-	
-
 }
