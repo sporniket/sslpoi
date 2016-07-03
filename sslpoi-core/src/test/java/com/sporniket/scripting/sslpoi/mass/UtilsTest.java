@@ -15,6 +15,7 @@ import org.junit.Test;
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeArgumentMapping;
+import com.sporniket.scripting.sslpoi.vess.VessNodeIdentifierMapping;
 import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
 
 /**
@@ -78,16 +79,18 @@ public class UtilsTest
 
 	/**
 	 * Test the basic conversion of an argument mapping.
-	 * @throws SslpoiException should not happen in this test.
+	 * 
+	 * @throws SslpoiException
+	 *             should not happen in this test.
 	 */
 	@Test
 	public void testArgumentMappingConvertion() throws SslpoiException
 	{
 		// mapping to litteral strings
-		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withName("foo1")
-				.withValue(new VessNodeLiteralString().withValue("bar1"));
-		VessNodeArgumentMapping _source2 = new VessNodeArgumentMapping().withName("foo2")
-				.withValue(new VessNodeLiteralString().withValue("bar2"));
+		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withName("foo1").withValue(
+				new VessNodeLiteralString().withValue("bar1"));
+		VessNodeArgumentMapping _source2 = new VessNodeArgumentMapping().withName("foo2").withValue(
+				new VessNodeLiteralString().withValue("bar2"));
 
 		// mapping to accessor
 		VessNodeAccessor _value = new VessNodeAccessor().withValue("foo");
@@ -131,5 +134,58 @@ public class UtilsTest
 		assertThat(_accessStack.get(0), is("bar"));
 		assertThat(_accessStack.get(1), is("foo"));
 
+	}
+
+	@Test
+	public void testIdentifierMappingConversion()
+	{
+		// Create reference Identifier Mapping _mapping3 -> _mapping2 -> _mapping1
+		VessNodeIdentifierMapping _mapping3 = new VessNodeIdentifierMapping().withIdentifier("foo").withClassName("bar");
+		VessNodeIdentifierMapping _mapping2 = new VessNodeIdentifierMapping().withIdentifier("foo1").withClassName("baro")
+				.withArray(true);
+		VessNodeIdentifierMapping _mapping1 = new VessNodeIdentifierMapping().withIdentifier("foo2").withClassName("bar.on");
+		_mapping2.enqueue(_mapping1);
+		_mapping3.enqueue(_mapping2);
+
+		List<PartialIdentifier> _result;
+
+		_result = Utils.identifierFromVessNodeIdentifierMapping(_mapping1);
+		assertThat(_result, notNullValue());
+		assertThat(_result.size(), is(1));
+		testIdentifierMappingConversion__assertIdentifier(_result.get(0), "foo2", "bar.on", false);
+
+		_result = Utils.identifierFromVessNodeIdentifierMapping(_mapping2);
+		assertThat(_result, notNullValue());
+		assertThat(_result.size(), is(2));
+		testIdentifierMappingConversion__assertIdentifier(_result.get(0), "foo1", "baro", true);
+		testIdentifierMappingConversion__assertIdentifier(_result.get(1), "foo2", "bar.on", false);
+
+		_result = Utils.identifierFromVessNodeIdentifierMapping(_mapping3);
+		assertThat(_result, notNullValue());
+		assertThat(_result.size(), is(3));
+		testIdentifierMappingConversion__assertIdentifier(_result.get(0), "foo", "bar", false);
+		testIdentifierMappingConversion__assertIdentifier(_result.get(1), "foo1", "baro", true);
+		testIdentifierMappingConversion__assertIdentifier(_result.get(2), "foo2", "bar.on", false);
+
+	}
+
+	/**
+	 * Verify several assertion on a {@link PartialIdentifier}.
+	 * 
+	 * @param identifier
+	 *            the identifier to verify.
+	 * @param expectedIdentifier
+	 *            expected name.
+	 * @param expectedClassName
+	 *            expected type.
+	 * @param expectedIsArray
+	 *            expected array flag.
+	 */
+	private void testIdentifierMappingConversion__assertIdentifier(PartialIdentifier identifier, String expectedIdentifier, String expectedClassName,
+			boolean expectedIsArray)
+	{
+		assertThat(identifier.getIdentifier(), is(expectedIdentifier));
+		assertThat(identifier.getClassName(), is(expectedClassName));
+		assertThat(identifier.isArray(), is(expectedIsArray));
 	}
 }
