@@ -13,19 +13,19 @@ import java.util.List;
  */
 public class StatementOn extends StatementContainer
 {
-	private final List<PartialIdentifier> myArgumentMapping;
+	private final List<PartialIdentifier> myIdentifierMapping;
 
 	private final String myEventName;
 
 	public StatementOn(String eventName, List<PartialIdentifier> argumentMapping)
 	{
 		myEventName = eventName;
-		myArgumentMapping = argumentMapping;
+		myIdentifierMapping = argumentMapping;
 	}
 
-	public List<PartialIdentifier> getArgumentMapping()
+	public List<PartialIdentifier> getIdentifierMapping()
 	{
-		return myArgumentMapping;
+		return myIdentifierMapping;
 	}
 
 	public String getEventName()
