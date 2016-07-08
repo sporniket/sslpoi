@@ -15,6 +15,7 @@ import com.sporniket.scripting.sslpoi.vess.VessNodeOn;
 
 /**
  * Test the convertion from {@link VessNodeOn} to {@link StatementOn}.
+ * 
  * @author dsporn
  *
  */
@@ -23,14 +24,15 @@ public class StatementFromNodeOnTest
 	@Test
 	public void testConversion() throws SslpoiException
 	{
-		VessNodeOn _source = new VessNodeOn().withEventName("fooEvent");
-		_source.enqueue(new VessNodeCall().withCall(new VessNodeAccessor().withValue("doSomething")));
-		
+		VessNodeOn _source = new VessNodeOn().withEventName("fooEvent").withStatements(
+				new VessNodeCall().withCall(new VessNodeAccessor().withValue("doSomething")).withLastNode(
+						new VessNodeCall().withCall(new VessNodeAccessor().withValue("doSomethingElse"))));
+
 		StatementOn _result = (StatementOn) StatementFromNode.convert(_source);
 		assertThat(_result.getEventName(), is("fooEvent"));
-		assertThat(_result.getArgumentMapping().isEmpty(), is(true));
+		assertThat(_result.getIdentifierMapping().isEmpty(), is(true));
 		assertThat(_result.getStatements().isEmpty(), is(false));
-		assertThat(_result.getStatements().size(), is(1));
+		assertThat(_result.getStatements().size(), is(2));
 
 	}
 }

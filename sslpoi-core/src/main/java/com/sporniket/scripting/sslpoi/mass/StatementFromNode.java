@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -51,6 +52,22 @@ public class StatementFromNode
 			return new StatementCall(Utils.accessorFromVessNodeAccessor(node.getCall()),
 					Utils.argumentMappingFromVessNodeArgumentMapping(node.getMapping()));
 		}
+
+		@SuppressWarnings("unused")
+		public static StatementOn doConvert(VessNodeOn node) throws SslpoiException
+		{
+			List<PartialIdentifier> _identifierMapping = Utils.identifierFromVessNodeIdentifierMapping(node.getMapping());
+			List<Statement> _body = new LinkedList<Statement>();
+			for (VessNode _child = node.getStatements(); _child != null;)
+			{
+				_body.add(StatementFromNode.convert(_child));
+				_child = _child.getNext();
+			}
+			
+			StatementOn _result = new StatementOn(node.getEventName(), _identifierMapping);
+			_result.setStatements(_body);
+			return _result;
+		}
 	}
 
 	/**
@@ -64,10 +81,7 @@ public class StatementFromNode
 	 */
 	private static final String[] SET__SUPPORTED_NODE_CLASSES =
 	{
-			VessNodeCall.class.getName(),
-			VessNodeDefineAs.class.getName(),
-			VessNodeIf.class.getName(),
-			VessNodeOn.class.getName()
+			VessNodeCall.class.getName(), VessNodeDefineAs.class.getName(), VessNodeIf.class.getName(), VessNodeOn.class.getName()
 	};
 
 	private static final StatementFromNode THE_INSTANCE = new StatementFromNode();
