@@ -3,6 +3,9 @@
  */
 package com.sporniket.scripting.sslpoi.mass;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
@@ -11,7 +14,7 @@ import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
 import com.sporniket.scripting.sslpoi.vess.VessNodeOn;
 
 /**
- * Test the convertion from {@link VessNodeOn}.
+ * Test the convertion from {@link VessNodeOn} to {@link StatementOn}.
  * @author dsporn
  *
  */
@@ -23,7 +26,11 @@ public class StatementFromNodeOnTest
 		VessNodeOn _source = new VessNodeOn().withEventName("fooEvent");
 		_source.enqueue(new VessNodeCall().withCall(new VessNodeAccessor().withValue("doSomething")));
 		
-		Statement _result = StatementFromNode.convert(_source);
-		
+		StatementOn _result = (StatementOn) StatementFromNode.convert(_source);
+		assertThat(_result.getEventName(), is("fooEvent"));
+		assertThat(_result.getArgumentMapping().isEmpty(), is(true));
+		assertThat(_result.getStatements().isEmpty(), is(false));
+		assertThat(_result.getStatements().size(), is(1));
+
 	}
 }
