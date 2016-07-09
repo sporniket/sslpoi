@@ -68,6 +68,43 @@ public class StatementFromNode
 			_result.setStatements(_body);
 			return _result;
 		}
+		
+		@SuppressWarnings("unused")
+		public static StatementIf doConvert(VessNodeIf node) throws SslpoiException
+		{
+			List<StatementAlternative> _alternatives = new LinkedList<StatementAlternative>();
+			for(VessNodeIf _alternativeNode = node ; _alternativeNode != null;)
+			{
+				StatementAlternative _alternative ;
+				if (null == _alternativeNode.getTest())
+				{
+					//the 'else' part is the last node and have no test.
+					if (_alternatives.isEmpty()) { throw new SslpoiException("There must be at least one alternative before 'else'");}
+					if (!_alternativeNode.isLastAlternative()) { throw new SslpoiException("The 'else' part must be the last alternative");}
+					
+					_alternative = new StatementAlternative(null);
+				}
+				else
+				{
+					PartialExpressionLogical _test = (PartialExpressionLogical) PartialExpressionFromNodeValue.convert(_alternativeNode.getTest());					
+					_alternative = new StatementAlternative(_test);
+				}
+				
+				List<Statement> _body = new LinkedList<Statement>();
+				for (VessNode _child = _alternativeNode.getStatements(); _child != null;)
+				{
+					_body.add(StatementFromNode.convert(_child));
+					_child = _child.getNext();
+				}
+				_alternative.setStatements(_body);
+				
+				_alternatives.add(_alternative);
+				
+				_alternativeNode = _alternativeNode.getAlternative() ;
+			}
+			
+			return new StatementIf(_alternatives);
+		}
 	}
 
 	/**
