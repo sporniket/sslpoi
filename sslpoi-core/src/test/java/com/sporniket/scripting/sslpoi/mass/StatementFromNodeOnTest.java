@@ -9,8 +9,10 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
+import com.sporniket.scripting.sslpoi.vess.VessNode;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
+import com.sporniket.scripting.sslpoi.vess.VessNodeIdentifierMapping;
 import com.sporniket.scripting.sslpoi.vess.VessNodeOn;
 
 /**
@@ -34,5 +36,15 @@ public class StatementFromNodeOnTest
 		assertThat(_result.getStatements().isEmpty(), is(false));
 		assertThat(_result.getStatements().size(), is(2));
 
+		VessNodeIdentifierMapping _mapping = new VessNodeIdentifierMapping().withIdentifier("foo").withClassName("bar");
+		_mapping.withLastNode(new VessNodeIdentifierMapping().withIdentifier("foo2").withClassName("bar.bar").withArray(true));
+		_source.withMapping(_mapping);
+
+		_result = (StatementOn) StatementFromNode.convert(_source);
+		assertThat(_result.getEventName(), is("fooEvent"));
+		assertThat(_result.getIdentifierMapping().isEmpty(), is(false));
+		assertThat(_result.getIdentifierMapping().size(), is(2));
+		assertThat(_result.getStatements().isEmpty(), is(false));
+		assertThat(_result.getStatements().size(), is(2));
 	}
 }
