@@ -12,7 +12,7 @@ import java.util.List;
  * @author dsporn
  *
  */
-public class StatementIf extends StatementContainer
+public class StatementIf extends Statement
 {
 	private final List<StatementAlternative> myAlternatives;
 
