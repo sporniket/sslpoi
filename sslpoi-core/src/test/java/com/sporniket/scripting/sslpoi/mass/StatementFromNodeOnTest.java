@@ -30,7 +30,7 @@ public class StatementFromNodeOnTest
 				new VessNodeCall().withCall(new VessNodeAccessor().withValue("doSomething")).withLastNode(
 						new VessNodeCall().withCall(new VessNodeAccessor().withValue("doSomethingElse"))));
 
-		StatementOn _result = (StatementOn) StatementFromNode.convert(_source);
+		StatementOn _result = (StatementOn) StatementFromNode.convertSingleNode(_source);
 		assertThat(_result.getEventName(), is("fooEvent"));
 		assertThat(_result.getIdentifierMapping().isEmpty(), is(true));
 		assertThat(_result.getStatements().isEmpty(), is(false));
@@ -40,7 +40,7 @@ public class StatementFromNodeOnTest
 		_mapping.withLastNode(new VessNodeIdentifierMapping().withIdentifier("foo2").withClassName("bar.bar").withArray(true));
 		_source.withMapping(_mapping);
 
-		_result = (StatementOn) StatementFromNode.convert(_source);
+		_result = (StatementOn) StatementFromNode.convertSingleNode(_source);
 		assertThat(_result.getEventName(), is("fooEvent"));
 		assertThat(_result.getIdentifierMapping().isEmpty(), is(false));
 		assertThat(_result.getIdentifierMapping().size(), is(2));

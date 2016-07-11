@@ -41,7 +41,7 @@ public class StatementFromNodeDefineTest
 			for (boolean _isArray : ARRAY_FLAGS)
 			{
 				VessNodeDefineAs _node = new VessNodeDefineAs(IDENTIFIER, _mode, CLASS_NAME).withArray(_isArray);
-				StatementDefineAs _result = (StatementDefineAs) StatementFromNode.convert(_node);
+				StatementDefineAs _result = (StatementDefineAs) StatementFromNode.convertSingleNode(_node);
 				assertThat(_result.getIdentifier().getIdentifier(), is(IDENTIFIER));
 				assertThat(_result.getIdentifier().getClassName(), is(CLASS_NAME));
 				assertThat(_result.getInitialisationMode(), is(_mode));

@@ -5,7 +5,6 @@ package com.sporniket.scripting.sslpoi.mass;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -15,7 +14,6 @@ import com.sporniket.scripting.sslpoi.core.NotImplementedYetException;
 import com.sporniket.scripting.sslpoi.core.NotSupportedException;
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
 import com.sporniket.scripting.sslpoi.vess.VessNode;
-import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
 import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
 import com.sporniket.scripting.sslpoi.vess.VessNodeIf;
@@ -41,70 +39,140 @@ public class StatementFromNode
 	{
 
 		@SuppressWarnings("unused")
-		public static StatementDefineAs doConvert(VessNodeDefineAs node)
-		{
-			return new StatementDefineAs(node.getIdentifier(), node.getInitialisationMode(), node.getClassName(), node.isArray());
-		}
-
-		@SuppressWarnings("unused")
-		public static StatementCall doConvert(VessNodeCall node) throws SslpoiException
+		public static StatementCall doConvert(VessNodeCall node, ConvertionContext context) throws SslpoiException
 		{
 			return new StatementCall(Utils.accessorFromVessNodeAccessor(node.getCall()),
 					Utils.argumentMappingFromVessNodeArgumentMapping(node.getMapping()));
 		}
 
 		@SuppressWarnings("unused")
-		public static StatementOn doConvert(VessNodeOn node) throws SslpoiException
+		public static StatementDefineAs doConvert(VessNodeDefineAs node, ConvertionContext context)
 		{
-			List<PartialIdentifier> _identifierMapping = Utils.identifierFromVessNodeIdentifierMapping(node.getMapping());
-			List<Statement> _body = new LinkedList<Statement>();
-			for (VessNode _child = node.getStatements(); _child != null;)
-			{
-				_body.add(StatementFromNode.convert(_child));
-				_child = _child.getNext();
-			}
-			
-			StatementOn _result = new StatementOn(node.getEventName(), _identifierMapping);
-			_result.setStatements(_body);
-			return _result;
+			return new StatementDefineAs(node.getIdentifier(), node.getInitialisationMode(), node.getClassName(), node.isArray());
 		}
-		
+
 		@SuppressWarnings("unused")
-		public static StatementIf doConvert(VessNodeIf node) throws SslpoiException
+		public static StatementIf doConvert(VessNodeIf node, ConvertionContext context) throws SslpoiException
 		{
 			List<StatementAlternative> _alternatives = new LinkedList<StatementAlternative>();
-			for(VessNodeIf _alternativeNode = node ; _alternativeNode != null;)
+			for (VessNodeIf _alternativeNode = node; _alternativeNode != null;)
 			{
-				StatementAlternative _alternative ;
+				StatementAlternative _alternative;
 				if (null == _alternativeNode.getTest())
 				{
-					//the 'else' part is the last node and have no test.
-					if (_alternatives.isEmpty()) { throw new SslpoiException("There must be at least one alternative before 'else'");}
-					if (!_alternativeNode.isLastAlternative()) { throw new SslpoiException("The 'else' part must be the last alternative");}
-					
+					// the 'else' part is the last node and have no test.
+					if (_alternatives.isEmpty())
+					{
+						throw new SslpoiException("There must be at least one alternative before 'else'");
+					}
+					if (!_alternativeNode.isLastAlternative())
+					{
+						throw new SslpoiException("The 'else' part must be the last alternative");
+					}
+
 					_alternative = new StatementAlternative(null);
 				}
 				else
 				{
-					PartialExpressionLogical _test = (PartialExpressionLogical) PartialExpressionFromNodeValue.convert(_alternativeNode.getTest());					
+					PartialExpressionLogical _test = (PartialExpressionLogical) PartialExpressionFromNodeValue
+							.convert(_alternativeNode.getTest());
 					_alternative = new StatementAlternative(_test);
 				}
-				
-				List<Statement> _body = new LinkedList<Statement>();
-				for (VessNode _child = _alternativeNode.getStatements(); _child != null;)
-				{
-					_body.add(StatementFromNode.convert(_child));
-					_child = _child.getNext();
-				}
-				_alternative.setStatements(_body);
-				
+
+				_alternative.setStatements(StatementFromNode.convertNodeList(_alternativeNode.getStatements(), context));
+
 				_alternatives.add(_alternative);
-				
-				_alternativeNode = _alternativeNode.getAlternative() ;
+
+				_alternativeNode = _alternativeNode.getAlternative();
 			}
-			
+
 			return new StatementIf(_alternatives);
 		}
+
+		@SuppressWarnings("unused")
+		public static StatementOn doConvert(VessNodeOn node, ConvertionContext context) throws SslpoiException
+		{
+			List<PartialIdentifier> _identifierMapping = Utils.identifierFromVessNodeIdentifierMapping(node.getMapping());
+
+			StatementOn _result = new StatementOn(node.getEventName(), _identifierMapping);
+			_result.setStatements(StatementFromNode.convertNodeList(node.getStatements(), context));
+			return _result;
+		}
+	}
+
+	/**
+	 * Context during convertion to give information about a failure.
+	 * 
+	 * @author dsporn
+	 *
+	 */
+	private static final class ConvertionContext
+	{
+		/**
+		 * Node being converted.
+		 */
+		private VessNode myCurrentNode;
+
+		/**
+		 * Index of the node being converted.
+		 */
+		private int myNodeIndex;
+
+		/**
+		 * Parent context, either null, or the parent context in a sub group, e.g. inside an 'if' action list.
+		 */
+		private final ConvertionContext myParent;
+
+		public ConvertionContext(ConvertionContext parent)
+		{
+			myParent = parent;
+		}
+
+		/**
+		 * @param buffer
+		 */
+		public void appendToString(StringBuilder buffer)
+		{
+			if (null != getParent())
+			{
+				buffer.append("->");
+			}
+			buffer.append("[").append(getNodeIndex()).append("]").append(getCurrentNode().getClass().getName());
+		}
+
+		public VessNode getCurrentNode()
+		{
+			return myCurrentNode;
+		}
+
+		public int getNodeIndex()
+		{
+			return myNodeIndex;
+		}
+
+		public ConvertionContext getParent()
+		{
+			return myParent;
+		}
+
+		public void setCurrentNode(VessNode currentNode)
+		{
+			myCurrentNode = currentNode;
+		}
+
+		public void setNodeIndex(int nodeIndex)
+		{
+			myNodeIndex = nodeIndex;
+		}
+
+		@Override
+		public String toString()
+		{
+			StringBuilder _buffer = new StringBuilder();
+			appendToString(_buffer);
+			return super.toString();
+		}
+
 	}
 
 	/**
@@ -123,6 +191,30 @@ public class StatementFromNode
 
 	private static final StatementFromNode THE_INSTANCE = new StatementFromNode();
 
+	public static final List<Statement> convertNodeList(VessNode firstNode) throws SslpoiException
+	{
+		return convertNodeList(firstNode, null);
+	}
+
+	public static final List<Statement> convertNodeList(VessNode firstNode, ConvertionContext parentContext) throws SslpoiException
+	{
+		LinkedList<Statement> _result = new LinkedList<Statement>();
+		ConvertionContext _context = new ConvertionContext(parentContext);
+		for (VessNode _current = firstNode; _current != null;)
+		{
+			// setup context
+			_context.setCurrentNode(_current);
+
+			_result.add(THE_INSTANCE.findAndInvokeConverterForNode(_current, _context));
+
+			// next
+			_current = _current.getNext();
+			_context.setNodeIndex(_context.getNodeIndex() + 1);
+		}
+
+		return _result;
+	}
+
 	/**
 	 * Convert the given node into a statement.
 	 * 
@@ -132,9 +224,9 @@ public class StatementFromNode
 	 * @throws SslpoiException
 	 *             when there is a problem.
 	 */
-	public static final Statement convert(VessNode node) throws SslpoiException
+	public static final Statement convertSingleNode(VessNode node) throws SslpoiException
 	{
-		return THE_INSTANCE.findAndInvokeConverterForNode(node);
+		return THE_INSTANCE.findAndInvokeConverterForNode(node, null);
 	}
 
 	/**
@@ -159,13 +251,18 @@ public class StatementFromNode
 	 * @throws SslpoiException
 	 *             when there is a problem.
 	 */
-	private Statement findAndInvokeConverterForNode(VessNode node) throws SslpoiException
+	private Statement findAndInvokeConverterForNode(VessNode node, ConvertionContext context) throws SslpoiException
 	{
 		Statement _result = null;
 		try
 		{
-			Method _converter = Converter.class.getMethod(METHOD_NAME__CONVERT, node.getClass());
-			_result = (Statement) _converter.invoke(null, node);
+			Class<? extends ConvertionContext> _contextClass = (null != context) ? context.getClass() : ConvertionContext.class;
+			Class<?>[] _parameters =
+			{
+					node.getClass(), _contextClass
+			};
+			Method _converter = Converter.class.getMethod(METHOD_NAME__CONVERT, _parameters);
+			_result = (Statement) _converter.invoke(null, node, context);
 		}
 		catch (InvocationTargetException _exception)
 		{

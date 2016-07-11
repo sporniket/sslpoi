@@ -44,7 +44,7 @@ public class StatementFromNodeIfTest
 		_if.withAlternative(_else);
 		_else.withAlternative(_elseif);
 
-		StatementFromNode.convert(_if);
+		StatementFromNode.convertSingleNode(_if);
 		fail("Conversion of malformed VessNodeIf chain MUST fail");
 	}
 
@@ -66,7 +66,7 @@ public class StatementFromNodeIfTest
 		_if.withAlternative(_elseif);
 		_elseif.withAlternative(_else);
 
-		StatementIf _result = (StatementIf) StatementFromNode.convert(_if);
+		StatementIf _result = (StatementIf) StatementFromNode.convertSingleNode(_if);
 		assertThat(_result.getAlternatives().isEmpty(), is(false));
 		assertThat(_result.getAlternatives().size(), is(3));
 
@@ -112,7 +112,7 @@ public class StatementFromNodeIfTest
 	{
 		VessNodeIf _if = new VessNodeIf().withTest(createTest()).withStatement(createCall("doSomething"));
 
-		StatementIf _result = (StatementIf) StatementFromNode.convert(_if);
+		StatementIf _result = (StatementIf) StatementFromNode.convertSingleNode(_if);
 		assertThat(_result.getAlternatives().isEmpty(), is(false));
 		assertThat(_result.getAlternatives().size(), is(1));
 

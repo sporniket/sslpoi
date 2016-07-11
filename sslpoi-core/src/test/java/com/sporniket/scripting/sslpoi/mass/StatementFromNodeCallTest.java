@@ -44,7 +44,7 @@ public class StatementFromNodeCallTest
 		VessNodeAccessor _accessor = new VessNodeAccessor().withValue(IDENTIFIER);
 		VessNodeCall _node = new VessNodeCall().withCall(_accessor).withMapping(_source1);
 
-		StatementCall _result = (StatementCall) StatementFromNode.convert(_node);
+		StatementCall _result = (StatementCall) StatementFromNode.convertSingleNode(_node);
 		List<String> _methodAccessor = _result.getMethodAccessor();
 		assertThat(_methodAccessor, not(nullValue()));
 		assertThat(_methodAccessor.isEmpty(), is(false));
@@ -76,7 +76,7 @@ public class StatementFromNodeCallTest
 		_accessor.enqueue(new VessNodeAccessor().withValue(METHOD_NAME));
 		VessNodeCall _node = new VessNodeCall().withCall(_accessor).withMapping(_source1);
 
-		StatementCall _result = (StatementCall) StatementFromNode.convert(_node);
+		StatementCall _result = (StatementCall) StatementFromNode.convertSingleNode(_node);
 		List<String> _methodAccessor = _result.getMethodAccessor();
 		assertThat(_methodAccessor, not(nullValue()));
 		assertThat(_methodAccessor.isEmpty(), is(false));
