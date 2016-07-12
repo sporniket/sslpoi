@@ -161,6 +161,27 @@ public class LogicalExpressionTest
 	}
 
 	@Test
+	public void testCorrectLogic__literalString__simpleLike() throws Exception
+	{
+		String[] _sourceRaw =
+		{
+				"if foo is like \"bar\"", "    call action", "endif"
+		};
+		String _source = TestUtils.makeSource(_sourceRaw);
+		VessNodeIf _if = (VessNodeIf) TestUtils.parseVessSource(_source, getParser());
+		VessNodeExpressionLogical _logic = _if.getTest();
+		assertThat(_logic.getValue().getClass().getSimpleName(), is(VessNodeAccessor.class.getSimpleName()));
+		assertThat(_logic.getExpected().getClass().getSimpleName(), is(VessNodeLiteralString.class.getSimpleName()));
+		VessNodeAccessor _value = (VessNodeAccessor) _logic.getValue();
+		VessNodeLiteralString _expected = (VessNodeLiteralString) _logic.getExpected();
+		VessNodeOperatorLogical _op = _logic.getOperator();
+		assertThat(_op.isNot(), is(false));
+		assertThat(_op.getOperator(), is(LogicalOperator.IS_LIKE));
+		assertThat(_value.getValue(), is("foo"));
+		assertThat(_expected.getValue(), is("bar"));
+	}
+
+	@Test
 	public void testCorrectLogic__literalString__simple__bothSides() throws Exception
 	{
 		String[] _sourceRaw =
