@@ -14,6 +14,11 @@ import com.sporniket.scripting.sslpoi.vess.VessNode;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
 import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
+import com.sporniket.scripting.sslpoi.vess.VessNodeExpressionLogical;
+import com.sporniket.scripting.sslpoi.vess.VessNodeIdentifierMapping;
+import com.sporniket.scripting.sslpoi.vess.VessNodeIf;
+import com.sporniket.scripting.sslpoi.vess.VessNodeLiteralString;
+import com.sporniket.scripting.sslpoi.vess.VessNodeOn;
 
 /**
  * Utilities for tests.
@@ -23,6 +28,8 @@ import com.sporniket.scripting.sslpoi.vess.VessNodeDefineAs;
  */
 public class TestUtils
 {
+
+	private static final String INDENTATION = "    ";
 
 	/**
 	 * @param node
@@ -37,13 +44,50 @@ public class TestUtils
 		if (node instanceof VessNodeDefineAs)
 		{
 			VessNodeDefineAs _defineAs = (VessNodeDefineAs) node;
-			System.out.print("(" + _defineAs.getIdentifier() + ", " + _defineAs.getInitialisationMode() + ", "
+			System.out.print("(" + _defineAs.getIdentifier() + " " + _defineAs.getInitialisationMode() + " "
 					+ _defineAs.getClassName() + ")");
 		}
 		else if (node instanceof VessNodeCall)
 		{
 			VessNodeCall _call = (VessNodeCall) node;
 			debugNode__partial__accessor(_call.getCall());
+		}
+		else if (node instanceof VessNodeOn)
+		{
+			VessNodeOn _on = (VessNodeOn) node;
+			System.out.print("«" + _on.getEventName() + "» (");
+			for (VessNodeIdentifierMapping _mapping = ((VessNodeOn) node).getMapping(); _mapping != null;)
+			{
+				System.out.print(_mapping.getIdentifier() + " as " + _mapping.getClassName());
+				VessNode _next = _mapping.getNext();
+				if (null != _next)
+				{
+					System.out.print(", ");
+					_mapping = (VessNodeIdentifierMapping) _next;
+				}
+				else
+				{
+					_mapping = null;
+				}
+
+			}
+			System.out.print(")");
+			if (_on.getStatements() != null)
+			{
+				System.out.println();
+				String _childPrefix = prefix + INDENTATION;
+				for (VessNode _child = _on.getStatements(); _child != null;)
+				{
+					debugNode(_child, _childPrefix);
+					_child = _child.getNext();
+				}
+			}
+		}
+		else if (node instanceof VessNodeIf)
+		{
+			System.out.println();
+			String _childPrefix = prefix + INDENTATION;
+			debugNodeIf((VessNodeIf) node, _childPrefix);
 		}
 		System.out.println();
 		// children nodes (to do)
@@ -60,7 +104,7 @@ public class TestUtils
 		final Object _value = node.value;
 		if (null != _value)
 		{
-			final String _childPrefix = prefix + "    ";
+			final String _childPrefix = prefix + INDENTATION;
 			if (_value instanceof ComplexSymbol)
 			{
 				ComplexSymbol _child = (ComplexSymbol) _value;
@@ -117,6 +161,18 @@ public class TestUtils
 		throw new IllegalStateException("No node found for '" + source + "'");
 	}
 
+	private static void debugNode__partial(VessNode node)
+	{
+		if (node instanceof VessNodeAccessor)
+		{
+			debugNode__partial__accessor((VessNodeAccessor) node);
+		}
+		else if (node instanceof VessNodeLiteralString)
+		{
+			debugNode__partial__literalString((VessNodeLiteralString) node);
+		}
+	}
+
 	/**
 	 * @param node
 	 *            node to dump.
@@ -136,6 +192,48 @@ public class TestUtils
 				System.out.print("->" + _node.getValue());
 			}
 			_node = (VessNodeAccessor) _node.getNext();
+		}
+	}
+
+	/**
+	 * @param node
+	 *            node to dump.
+	 */
+	private static void debugNode__partial__literalString(VessNodeLiteralString literal)
+	{
+		System.out.print("\"" + literal.getValue() + "\"");
+	}
+
+	private static void debugNodeIf(VessNodeIf node, String prefix)
+	{
+		String _childPrefix = prefix + INDENTATION;
+		VessNodeExpressionLogical _test = node.getTest();
+		if (null != _test)
+		{
+			System.out.print(prefix + "(");
+			debugNode__partial((VessNode) _test.getValue());
+			System.out.print(" ");
+			if (_test.getOperator().isNot())
+			{
+				System.out.print("!");
+			}
+			System.out.print(_test.getOperator().getOperator() + " ");
+			debugNode__partial((VessNode) _test.getExpected());
+			System.out.print(")");
+		}
+		else
+		{
+			System.out.print(prefix + "else");
+		}
+		if (null != node.getStatements())
+		{
+			System.out.println();
+			debugNode(node.getStatements(), _childPrefix);
+		}
+		if (null != node.getAlternative())
+		{
+			System.out.println();
+			debugNodeIf(node.getAlternative(), prefix);
 		}
 	}
 
