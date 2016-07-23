@@ -3,24 +3,16 @@
  */
 package com.sporniket.scripting.sslpoi;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.List;
-
 import java_cup.runtime.ComplexSymbolFactory;
-import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
-import java_cup.runtime.Symbol;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.sporniket.scripting.sslpoi.core.InitialisationMode;
-import com.sporniket.scripting.sslpoi.mass.Statement;
-import com.sporniket.scripting.sslpoi.mass.StatementDefineAs;
-import com.sporniket.scripting.sslpoi.mass.TreeBuilder;
 import com.sporniket.scripting.sslpoi.vess.AnalyzerLexical;
 import com.sporniket.scripting.sslpoi.vess.AnalyzerSyntaxic;
 import com.sporniket.scripting.sslpoi.vess.VessNode;

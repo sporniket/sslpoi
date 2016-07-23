@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import com.sporniket.scripting.sslpoi.core.SslpoiException;
-import com.sporniket.scripting.sslpoi.vess.VessNode;
 import com.sporniket.scripting.sslpoi.vess.VessNodeAccessor;
 import com.sporniket.scripting.sslpoi.vess.VessNodeCall;
 import com.sporniket.scripting.sslpoi.vess.VessNodeIdentifierMapping;
