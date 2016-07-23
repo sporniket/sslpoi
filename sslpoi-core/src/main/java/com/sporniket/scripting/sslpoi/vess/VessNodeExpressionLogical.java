@@ -3,7 +3,6 @@
  */
 package com.sporniket.scripting.sslpoi.vess;
 
-
 /**
  * Node for a logical expression (<code>[value] is ... [expected]</code>).
  * 

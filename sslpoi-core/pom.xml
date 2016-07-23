@@ -42,6 +42,19 @@
 				</configuration>
 			</plugin>
 
+			<!-- create a javadoc jar without processing generated code. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${version.maven-javadoc-plugin}</version>
+				<configuration>
+					<sourceFileExcludes>
+						<exclude>com/sporniket/scripting/sslpoi/vess/AnalyzerLexical.java</exclude>
+						<exclude>com/sporniket/scripting/sslpoi/vess/AnalyzerSyntaxic.java</exclude>
+					</sourceFileExcludes>
+				</configuration>
+			</plugin>
+			
 			<!-- Lexer -->
 			<plugin>
 				<groupId>de.jflex</groupId>

@@ -60,6 +60,7 @@ public abstract class StatementContainer extends Statement
 	 * Set the statements list.
 	 * 
 	 * @param statements
+	 *            the statements list.
 	 */
 	public void setStatements(List<Statement> statements)
 	{
