@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Statement <code>if ... [else if ...] [else if ...]...[else ...]</code>.
+ * Statement <code>if (...) ... [[else if (...) ...]...] [else ...] endif</code>.
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn

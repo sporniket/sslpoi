@@ -6,7 +6,7 @@ package com.sporniket.scripting.sslpoi.vess;
 import com.sporniket.scripting.sslpoi.core.InitialisationMode;
 
 /**
- * Node for <code>define (identifier) as (new|null|undefined) (classname) </code> statements.
+ * Node for <code>define IDENTIFIER as (new|null|undefined) CLASS_NAME </code> statements.
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn

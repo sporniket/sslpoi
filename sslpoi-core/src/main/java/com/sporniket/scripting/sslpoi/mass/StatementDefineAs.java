@@ -6,7 +6,7 @@ package com.sporniket.scripting.sslpoi.mass;
 import com.sporniket.scripting.sslpoi.core.InitialisationMode;
 
 /**
- * Statement <code>define (identifier) as (new|null|undefined) (classname) </code> statements.
+ * Statement <code>define IDENTIFIER as (new|null|undefined) CLASS_NAME['[]'] </code>.
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn

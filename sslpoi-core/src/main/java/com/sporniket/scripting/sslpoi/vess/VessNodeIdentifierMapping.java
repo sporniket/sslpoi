@@ -4,7 +4,7 @@
 package com.sporniket.scripting.sslpoi.vess;
 
 /**
- * Store the identifiers mapping ('on ...', functions definition, ...)
+ * Store the identifiers mapping (event manager, functions definition, ...)
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn

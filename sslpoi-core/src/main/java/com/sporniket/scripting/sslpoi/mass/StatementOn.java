@@ -6,7 +6,7 @@ package com.sporniket.scripting.sslpoi.mass;
 import java.util.List;
 
 /**
- * Statement <code>on eventName [with argumentMapping] ...</code>.
+ * Statement <code>on EVENT_NAME [with a CLASS_NAME named IDENTIFIER, ...] ... endon</code>.
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn

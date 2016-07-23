@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Statement <code>call method [from ...] [using expression as name [,...] ]</code>.
+ * Statement <code>call METHOD_NAME [from ...]... [using EXPRESSION as IDENTIFIER [,...] ]</code>.
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn

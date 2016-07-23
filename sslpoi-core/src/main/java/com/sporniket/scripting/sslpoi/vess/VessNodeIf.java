@@ -4,7 +4,7 @@
 package com.sporniket.scripting.sslpoi.vess;
 
 /**
- * Node for "if ... else if ... else ...".
+ * Node for <code>if (...) ... [[else if (...) ...]...] [else ...] endif</code>.
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn

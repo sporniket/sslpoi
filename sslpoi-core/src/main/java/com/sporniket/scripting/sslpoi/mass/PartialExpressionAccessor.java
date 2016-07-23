@@ -6,7 +6,7 @@ package com.sporniket.scripting.sslpoi.mass;
 import java.util.List;
 
 /**
- * Store an expression that is an accessor (<code>objet1->...->target</code>).
+ * Store an expression that is an accessor : <code>objet1->...->target</code>.
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn

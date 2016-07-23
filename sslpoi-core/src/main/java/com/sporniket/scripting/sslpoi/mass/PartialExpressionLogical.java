@@ -6,7 +6,7 @@ package com.sporniket.scripting.sslpoi.mass;
 import com.sporniket.scripting.sslpoi.core.LogicalOperator;
 
 /**
- * Store a logical expression (<code>expression-left [not] logical-operator expression-right</code>).
+ * Store a logical expression : <code>expression-left [not] logical-operator expression-right</code>.
  * 
  * <p>
  * &copy; Copyright 2015-2016 David Sporn
