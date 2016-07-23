@@ -39,8 +39,34 @@ import com.sporniket.scripting.sslpoi.vess.VessNode;
 /**
  * Test the convertion from a script to a list of {@link Statement}
  * 
- * @author dsporn
- *
+ * <p>
+ * &copy; Copyright 2015-2016 David Sporn
+ * </p>
+ * <hr>
+ * 
+ * <p>
+ * This file is part of <i>Sporny Script Language (Pun Obviously Intended) &#8211; core</i>.
+ * 
+ * <p>
+ * <i>Sporny Script Language (Pun Obviously Intended) &#8211; core</i> is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * <p>
+ * <i>Sporny Script Language (Pun Obviously Intended) &#8211; core</i> is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * <p>
+ * You should have received a copy of the GNU Lesser General Public License along with <i>Sporny Script Language (Pun Obviously
+ * Intended) &#8211; core</i>. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
+ * 
+ * <hr>
+ * 
+ * @author David SPORN
+ * @version 0.1.0
+ * @since 0.1.0
+ * 
  */
 public class IntegrationTest
 {
@@ -87,10 +113,10 @@ public class IntegrationTest
 		_current = _iterator.next();
 		assertThat(_current.getClass().getName(), is(StatementDefineAs.class.getName()));
 		{
-			StatementDefineAs _define = (StatementDefineAs) _current ;
-			assertThat(_define.getIdentifier().getIdentifier(),is("callback1"));
-			assertThat(_define.getIdentifier().getClassName(),is("com.foo.Callback"));
-			assertThat(_define.getIdentifier().isArray(),is(false));
+			StatementDefineAs _define = (StatementDefineAs) _current;
+			assertThat(_define.getIdentifier().getIdentifier(), is("callback1"));
+			assertThat(_define.getIdentifier().getClassName(), is("com.foo.Callback"));
+			assertThat(_define.getIdentifier().isArray(), is(false));
 			assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
 		}
 
@@ -98,10 +124,10 @@ public class IntegrationTest
 		_current = _iterator.next();
 		assertThat(_current.getClass().getName(), is(StatementDefineAs.class.getName()));
 		{
-			StatementDefineAs _define = (StatementDefineAs) _current ;
-			assertThat(_define.getIdentifier().getIdentifier(),is("callback2"));
-			assertThat(_define.getIdentifier().getClassName(),is("com.foo.Callback"));
-			assertThat(_define.getIdentifier().isArray(),is(false));
+			StatementDefineAs _define = (StatementDefineAs) _current;
+			assertThat(_define.getIdentifier().getIdentifier(), is("callback2"));
+			assertThat(_define.getIdentifier().getClassName(), is("com.foo.Callback"));
+			assertThat(_define.getIdentifier().isArray(), is(false));
 			assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
 		}
 
@@ -109,10 +135,10 @@ public class IntegrationTest
 		_current = _iterator.next();
 		assertThat(_current.getClass().getName(), is(StatementDefineAs.class.getName()));
 		{
-			StatementDefineAs _define = (StatementDefineAs) _current ;
-			assertThat(_define.getIdentifier().getIdentifier(),is("callback3"));
-			assertThat(_define.getIdentifier().getClassName(),is("com.foo.Callback"));
-			assertThat(_define.getIdentifier().isArray(),is(false));
+			StatementDefineAs _define = (StatementDefineAs) _current;
+			assertThat(_define.getIdentifier().getIdentifier(), is("callback3"));
+			assertThat(_define.getIdentifier().getClassName(), is("com.foo.Callback"));
+			assertThat(_define.getIdentifier().isArray(), is(false));
 			assertThat(_define.getInitialisationMode(), is(InitialisationMode.NEW));
 		}
 
@@ -122,23 +148,22 @@ public class IntegrationTest
 		{
 			StatementOn _statementOn = (StatementOn) _current;
 			assertThat(_statementOn.getEventName(), is("newSingleLineProperty"));
-			
-			//test identifiers
+
+			// test identifiers
 			List<PartialIdentifier> _identifierMapping = _statementOn.getIdentifierMapping();
 			assertThat(_identifierMapping.isEmpty(), is(false));
 			assertThat(_identifierMapping.size(), is(2));
-			
-			PartialIdentifier _identifier ;
-			Iterator<PartialIdentifier> _identifierIterator = _identifierMapping.iterator() ;
+
+			PartialIdentifier _identifier;
+			Iterator<PartialIdentifier> _identifierIterator = _identifierMapping.iterator();
 			_identifier = _identifierIterator.next();
-			assertThat(_identifier.getIdentifier(),is("name"));
-			assertThat(_identifier.getClassName(),is("java.lang.String"));
-			assertThat(_identifier.isArray(),is(false));
+			assertThat(_identifier.getIdentifier(), is("name"));
+			assertThat(_identifier.getClassName(), is("java.lang.String"));
+			assertThat(_identifier.isArray(), is(false));
 			_identifier = _identifierIterator.next();
-			assertThat(_identifier.getIdentifier(),is("value"));
-			assertThat(_identifier.getClassName(),is("java.lang.String"));
-			assertThat(_identifier.isArray(),is(false));
-			
+			assertThat(_identifier.getIdentifier(), is("value"));
+			assertThat(_identifier.getClassName(), is("java.lang.String"));
+			assertThat(_identifier.isArray(), is(false));
 
 			List<Statement> _statements = _statementOn.getStatements();
 			assertThat(_statements.isEmpty(), not(nullValue()));
@@ -161,53 +186,53 @@ public class IntegrationTest
 				_currentAlternative = _subSubIterator.next();
 				{
 					PartialExpressionLogical _test = _currentAlternative.getTest();
-					assertThat(_test,is(not(nullValue())));
+					assertThat(_test, is(not(nullValue())));
 					assertThat(_test.getOperator(), is(LogicalOperator.IS_LIKE));
 					assertThat(_test.getLeftExpression().getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 					{
-						PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _test.getLeftExpression() ;
+						PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _test.getLeftExpression();
 						assertThat(_accessor.getAccessStack().size(), is(1));
 						assertThat(_accessor.getAccessStack().get(0), is("name"));
 					}
 					assertThat(_test.getRightExpression().getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 					{
-						PartialExpressionLiteralString _literal = (PartialExpressionLiteralString) _test.getRightExpression() ;
+						PartialExpressionLiteralString _literal = (PartialExpressionLiteralString) _test.getRightExpression();
 						assertThat(_literal.getValue(), is("special1\\..+"));
 					}
 
-					List<Statement> _altStatements = _currentAlternative.getStatements() ;
+					List<Statement> _altStatements = _currentAlternative.getStatements();
 					assertThat(_altStatements.isEmpty(), not(nullValue()));
 					assertThat(_altStatements.size(), is(1));
-					Iterator<Statement> _subSubSubIterator = _altStatements.iterator() ;
+					Iterator<Statement> _subSubSubIterator = _altStatements.iterator();
 
 					// on newSingleLineProperty - if - first if - call
-					_current = _subSubSubIterator.next() ;
+					_current = _subSubSubIterator.next();
 					assertThat(_current.getClass().getName(), is(StatementCall.class.getName()));
 					{
-						StatementCall _call = (StatementCall) _current ;
+						StatementCall _call = (StatementCall) _current;
 						List<String> _methodAccessor = _call.getMethodAccessor();
-						assertThat(_methodAccessor.size(),is(2));
-						assertThat(_methodAccessor.get(0),is("callback1"));
-						assertThat(_methodAccessor.get(1),is("process"));
-						
-						PartialExpression _partialExpression ;
+						assertThat(_methodAccessor.size(), is(2));
+						assertThat(_methodAccessor.get(0), is("callback1"));
+						assertThat(_methodAccessor.get(1), is("process"));
+
+						PartialExpression _partialExpression;
 						Map<String, PartialExpression> _argumentMapping = _call.getArgumentMapping();
 						assertThat(_argumentMapping.size(), is(2));
 
-						assertThat(_argumentMapping.containsKey("propertyName"),is(true));
+						assertThat(_argumentMapping.containsKey("propertyName"), is(true));
 						_partialExpression = _argumentMapping.get("propertyName");
-						assertThat(_partialExpression.getClass().getName(),is(PartialExpressionAccessor.class.getName()));
+						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
-							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression ;
+							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
 							assertThat(_accessor.getAccessStack().size(), is(1));
 							assertThat(_accessor.getAccessStack().get(0), is("name"));
 						}
 
-						assertThat(_argumentMapping.containsKey("propertyValue"),is(true));
+						assertThat(_argumentMapping.containsKey("propertyValue"), is(true));
 						_partialExpression = _argumentMapping.get("propertyValue");
-						assertThat(_partialExpression.getClass().getName(),is(PartialExpressionAccessor.class.getName()));
+						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
-							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression ;
+							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
 							assertThat(_accessor.getAccessStack().size(), is(1));
 							assertThat(_accessor.getAccessStack().get(0), is("value"));
 						}
@@ -218,53 +243,53 @@ public class IntegrationTest
 				_currentAlternative = _subSubIterator.next();
 				{
 					PartialExpressionLogical _test = _currentAlternative.getTest();
-					assertThat(_test,is(not(nullValue())));
+					assertThat(_test, is(not(nullValue())));
 					assertThat(_test.getOperator(), is(LogicalOperator.IS_LIKE));
 					assertThat(_test.getLeftExpression().getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 					{
-						PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _test.getLeftExpression() ;
+						PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _test.getLeftExpression();
 						assertThat(_accessor.getAccessStack().size(), is(1));
 						assertThat(_accessor.getAccessStack().get(0), is("name"));
 					}
 					assertThat(_test.getRightExpression().getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 					{
-						PartialExpressionLiteralString _literal = (PartialExpressionLiteralString) _test.getRightExpression() ;
+						PartialExpressionLiteralString _literal = (PartialExpressionLiteralString) _test.getRightExpression();
 						assertThat(_literal.getValue(), is("special2\\..+"));
 					}
 
-					List<Statement> _altStatements = _currentAlternative.getStatements() ;
+					List<Statement> _altStatements = _currentAlternative.getStatements();
 					assertThat(_altStatements.isEmpty(), not(nullValue()));
 					assertThat(_altStatements.size(), is(1));
-					Iterator<Statement> _subSubSubIterator = _altStatements.iterator() ;
+					Iterator<Statement> _subSubSubIterator = _altStatements.iterator();
 
 					// on newSingleLineProperty - if - else if - call
-					_current = _subSubSubIterator.next() ;
+					_current = _subSubSubIterator.next();
 					assertThat(_current.getClass().getName(), is(StatementCall.class.getName()));
 					{
-						StatementCall _call = (StatementCall) _current ;
+						StatementCall _call = (StatementCall) _current;
 						List<String> _methodAccessor = _call.getMethodAccessor();
-						assertThat(_methodAccessor.size(),is(2));
-						assertThat(_methodAccessor.get(0),is("callback2"));
-						assertThat(_methodAccessor.get(1),is("process"));
-						
-						PartialExpression _partialExpression ;
+						assertThat(_methodAccessor.size(), is(2));
+						assertThat(_methodAccessor.get(0), is("callback2"));
+						assertThat(_methodAccessor.get(1), is("process"));
+
+						PartialExpression _partialExpression;
 						Map<String, PartialExpression> _argumentMapping = _call.getArgumentMapping();
 						assertThat(_argumentMapping.size(), is(2));
 
-						assertThat(_argumentMapping.containsKey("propertyName"),is(true));
+						assertThat(_argumentMapping.containsKey("propertyName"), is(true));
 						_partialExpression = _argumentMapping.get("propertyName");
-						assertThat(_partialExpression.getClass().getName(),is(PartialExpressionAccessor.class.getName()));
+						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
-							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression ;
+							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
 							assertThat(_accessor.getAccessStack().size(), is(1));
 							assertThat(_accessor.getAccessStack().get(0), is("name"));
 						}
 
-						assertThat(_argumentMapping.containsKey("propertyValue"),is(true));
+						assertThat(_argumentMapping.containsKey("propertyValue"), is(true));
 						_partialExpression = _argumentMapping.get("propertyValue");
-						assertThat(_partialExpression.getClass().getName(),is(PartialExpressionAccessor.class.getName()));
+						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
-							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression ;
+							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
 							assertThat(_accessor.getAccessStack().size(), is(1));
 							assertThat(_accessor.getAccessStack().get(0), is("value"));
 						}
@@ -275,41 +300,41 @@ public class IntegrationTest
 				_currentAlternative = _subSubIterator.next();
 				{
 					PartialExpressionLogical _test = _currentAlternative.getTest();
-					assertThat(_test,is(nullValue()));
+					assertThat(_test, is(nullValue()));
 
-					List<Statement> _altStatements = _currentAlternative.getStatements() ;
+					List<Statement> _altStatements = _currentAlternative.getStatements();
 					assertThat(_altStatements.isEmpty(), is(not(nullValue())));
 					assertThat(_altStatements.size(), is(1));
-					Iterator<Statement> _subSubSubIterator = _altStatements.iterator() ;
+					Iterator<Statement> _subSubSubIterator = _altStatements.iterator();
 
 					// on newSingleLineProperty - if - else - call
-					_current = _subSubSubIterator.next() ;
+					_current = _subSubSubIterator.next();
 					assertThat(_current.getClass().getName(), is(StatementCall.class.getName()));
 					{
-						StatementCall _call = (StatementCall) _current ;
+						StatementCall _call = (StatementCall) _current;
 						List<String> _methodAccessor = _call.getMethodAccessor();
-						assertThat(_methodAccessor.size(),is(2));
-						assertThat(_methodAccessor.get(0),is("callback3"));
-						assertThat(_methodAccessor.get(1),is("process"));
-						
-						PartialExpression _partialExpression ;
+						assertThat(_methodAccessor.size(), is(2));
+						assertThat(_methodAccessor.get(0), is("callback3"));
+						assertThat(_methodAccessor.get(1), is("process"));
+
+						PartialExpression _partialExpression;
 						Map<String, PartialExpression> _argumentMapping = _call.getArgumentMapping();
 						assertThat(_argumentMapping.size(), is(2));
 
-						assertThat(_argumentMapping.containsKey("propertyName"),is(true));
+						assertThat(_argumentMapping.containsKey("propertyName"), is(true));
 						_partialExpression = _argumentMapping.get("propertyName");
-						assertThat(_partialExpression.getClass().getName(),is(PartialExpressionAccessor.class.getName()));
+						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
-							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression ;
+							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
 							assertThat(_accessor.getAccessStack().size(), is(1));
 							assertThat(_accessor.getAccessStack().get(0), is("name"));
 						}
 
-						assertThat(_argumentMapping.containsKey("propertyValue"),is(true));
+						assertThat(_argumentMapping.containsKey("propertyValue"), is(true));
 						_partialExpression = _argumentMapping.get("propertyValue");
-						assertThat(_partialExpression.getClass().getName(),is(PartialExpressionAccessor.class.getName()));
+						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
-							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression ;
+							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
 							assertThat(_accessor.getAccessStack().size(), is(1));
 							assertThat(_accessor.getAccessStack().get(0), is("value"));
 						}

@@ -55,11 +55,11 @@ public class StatementFromNodeCallTest
 		assertThat(_argumentMapping.containsKey("foo1"), is(true));
 		PartialExpression _partialExpression = _argumentMapping.get("foo1");
 		assertThat(_partialExpression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
-		assertThat(((PartialExpressionLiteralString)_partialExpression).getValue(),is("bar1"));
+		assertThat(((PartialExpressionLiteralString) _partialExpression).getValue(), is("bar1"));
 		assertThat(_argumentMapping.containsKey("foo2"), is(true));
 		_partialExpression = _argumentMapping.get("foo2");
 		assertThat(_partialExpression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
-		assertThat(((PartialExpressionLiteralString)_partialExpression).getValue(),is("bar2"));
+		assertThat(((PartialExpressionLiteralString) _partialExpression).getValue(), is("bar2"));
 	}
 
 	@Test
@@ -89,11 +89,11 @@ public class StatementFromNodeCallTest
 		assertThat(_argumentMapping.containsKey("foo1"), is(true));
 		PartialExpression _partialExpression = _argumentMapping.get("foo1");
 		assertThat(_partialExpression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
-		assertThat(((PartialExpressionLiteralString)_partialExpression).getValue(),is("bar1"));
+		assertThat(((PartialExpressionLiteralString) _partialExpression).getValue(), is("bar1"));
 		assertThat(_argumentMapping.containsKey("foo2"), is(true));
 		_partialExpression = _argumentMapping.get("foo2");
 		assertThat(_partialExpression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
-		assertThat(((PartialExpressionLiteralString)_partialExpression).getValue(),is("bar2"));
+		assertThat(((PartialExpressionLiteralString) _partialExpression).getValue(), is("bar2"));
 	}
 
 }
