@@ -159,6 +159,11 @@ part_if_alternatives
 			RESULT = new VessNodeIf().withTest((VessNodeExpressionLogical) test).withStatement((VessNode) list).withAlternative((VessNodeIf) alternatives);
 		:}
 	|
+		ELSEIF expr_logic:test statm__list:list ENDIF
+		{:
+			RESULT = new VessNodeIf().withTest((VessNodeExpressionLogical) test).withStatement((VessNode) list);
+		:}
+	|
 		ELSE statm__list:list ENDIF
 		{:
 			RESULT = new VessNodeIf().withStatement((VessNode) list);
