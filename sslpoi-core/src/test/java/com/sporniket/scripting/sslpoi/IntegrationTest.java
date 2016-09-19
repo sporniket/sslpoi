@@ -89,11 +89,11 @@ public class IntegrationTest
 			"",
 			"on newSingleLineProperty with a java.lang.String named name, a java.lang.String named value",
 			"    if name is like \"special1\\\\..+\"",
-			"        call process from callback1 using name as propertyName, value as propertyValue",
+			"        call process from callback1 using name, value",
 			"    else if name is like \"special2\\\\..+\"",
-			"        call process from callback2 using name as propertyName, value as propertyValue",
+			"        call process from callback2 using name, value",
 			"    else",
-			"        call process from callback3 using name as propertyName, value as propertyValue",
+			"        call process from callback3 using name, value",
 			"    endif",
 			"endon",
 	};
@@ -216,11 +216,10 @@ public class IntegrationTest
 						assertThat(_methodAccessor.get(1), is("process"));
 
 						PartialExpression _partialExpression;
-						Map<String, PartialExpression> _argumentMapping = _call.getArgumentMapping();
+						List<PartialExpression> _argumentMapping = _call.getArgumentMapping();
 						assertThat(_argumentMapping.size(), is(2));
 
-						assertThat(_argumentMapping.containsKey("propertyName"), is(true));
-						_partialExpression = _argumentMapping.get("propertyName");
+						_partialExpression = _argumentMapping.get(0);
 						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
 							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
@@ -228,8 +227,7 @@ public class IntegrationTest
 							assertThat(_accessor.getAccessStack().get(0), is("name"));
 						}
 
-						assertThat(_argumentMapping.containsKey("propertyValue"), is(true));
-						_partialExpression = _argumentMapping.get("propertyValue");
+						_partialExpression = _argumentMapping.get(1);
 						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
 							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
@@ -273,11 +271,10 @@ public class IntegrationTest
 						assertThat(_methodAccessor.get(1), is("process"));
 
 						PartialExpression _partialExpression;
-						Map<String, PartialExpression> _argumentMapping = _call.getArgumentMapping();
+						List<PartialExpression> _argumentMapping = _call.getArgumentMapping();
 						assertThat(_argumentMapping.size(), is(2));
 
-						assertThat(_argumentMapping.containsKey("propertyName"), is(true));
-						_partialExpression = _argumentMapping.get("propertyName");
+						_partialExpression = _argumentMapping.get(0);
 						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
 							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
@@ -285,8 +282,7 @@ public class IntegrationTest
 							assertThat(_accessor.getAccessStack().get(0), is("name"));
 						}
 
-						assertThat(_argumentMapping.containsKey("propertyValue"), is(true));
-						_partialExpression = _argumentMapping.get("propertyValue");
+						_partialExpression = _argumentMapping.get(1);
 						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
 							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
@@ -318,11 +314,10 @@ public class IntegrationTest
 						assertThat(_methodAccessor.get(1), is("process"));
 
 						PartialExpression _partialExpression;
-						Map<String, PartialExpression> _argumentMapping = _call.getArgumentMapping();
+						List<PartialExpression> _argumentMapping = _call.getArgumentMapping();
 						assertThat(_argumentMapping.size(), is(2));
 
-						assertThat(_argumentMapping.containsKey("propertyName"), is(true));
-						_partialExpression = _argumentMapping.get("propertyName");
+						_partialExpression = _argumentMapping.get(0);
 						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
 							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;
@@ -330,8 +325,7 @@ public class IntegrationTest
 							assertThat(_accessor.getAccessStack().get(0), is("name"));
 						}
 
-						assertThat(_argumentMapping.containsKey("propertyValue"), is(true));
-						_partialExpression = _argumentMapping.get("propertyValue");
+						_partialExpression = _argumentMapping.get(1);
 						assertThat(_partialExpression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 						{
 							PartialExpressionAccessor _accessor = (PartialExpressionAccessor) _partialExpression;

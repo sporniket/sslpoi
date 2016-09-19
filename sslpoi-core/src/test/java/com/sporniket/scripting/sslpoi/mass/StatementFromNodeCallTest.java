@@ -35,9 +35,9 @@ public class StatementFromNodeCallTest
 	public void testConversion__directCall() throws Exception
 	{
 		// mapping to litteral strings
-		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withName("foo1").withValue(
+		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withValue(
 				new VessNodeLiteralString().withValue("bar1"));
-		VessNodeArgumentMapping _source2 = new VessNodeArgumentMapping().withName("foo2").withValue(
+		VessNodeArgumentMapping _source2 = new VessNodeArgumentMapping().withValue(
 				new VessNodeLiteralString().withValue("bar2"));
 		_source1.enqueue(_source2);
 
@@ -49,15 +49,14 @@ public class StatementFromNodeCallTest
 		assertThat(_methodAccessor, not(nullValue()));
 		assertThat(_methodAccessor.isEmpty(), is(false));
 		assertThat(_methodAccessor.get(0), is(IDENTIFIER));
-		Map<String, PartialExpression> _argumentMapping = _result.getArgumentMapping();
+		List<PartialExpression> _argumentMapping = _result.getArgumentMapping();
 		assertThat(_argumentMapping, not(nullValue()));
 		assertThat(_argumentMapping.isEmpty(), is(false));
-		assertThat(_argumentMapping.containsKey("foo1"), is(true));
-		PartialExpression _partialExpression = _argumentMapping.get("foo1");
+		assertThat(_argumentMapping.size(), is(2));
+		PartialExpression _partialExpression = _argumentMapping.get(0);
 		assertThat(_partialExpression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 		assertThat(((PartialExpressionLiteralString) _partialExpression).getValue(), is("bar1"));
-		assertThat(_argumentMapping.containsKey("foo2"), is(true));
-		_partialExpression = _argumentMapping.get("foo2");
+		_partialExpression = _argumentMapping.get(1);
 		assertThat(_partialExpression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 		assertThat(((PartialExpressionLiteralString) _partialExpression).getValue(), is("bar2"));
 	}
@@ -66,9 +65,9 @@ public class StatementFromNodeCallTest
 	public void testConversion__indirectCall() throws Exception
 	{
 		// mapping to litteral strings
-		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withName("foo1").withValue(
+		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withValue(
 				new VessNodeLiteralString().withValue("bar1"));
-		VessNodeArgumentMapping _source2 = new VessNodeArgumentMapping().withName("foo2").withValue(
+		VessNodeArgumentMapping _source2 = new VessNodeArgumentMapping().withValue(
 				new VessNodeLiteralString().withValue("bar2"));
 		_source1.enqueue(_source2);
 
@@ -83,15 +82,14 @@ public class StatementFromNodeCallTest
 		assertThat(_methodAccessor.size(), is(2));
 		assertThat(_methodAccessor.get(0), is(IDENTIFIER));
 		assertThat(_methodAccessor.get(1), is(METHOD_NAME));
-		Map<String, PartialExpression> _argumentMapping = _result.getArgumentMapping();
+		List<PartialExpression> _argumentMapping = _result.getArgumentMapping();
 		assertThat(_argumentMapping, not(nullValue()));
 		assertThat(_argumentMapping.isEmpty(), is(false));
-		assertThat(_argumentMapping.containsKey("foo1"), is(true));
-		PartialExpression _partialExpression = _argumentMapping.get("foo1");
+		assertThat(_argumentMapping.size(), is(2));
+		PartialExpression _partialExpression = _argumentMapping.get(0);
 		assertThat(_partialExpression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 		assertThat(((PartialExpressionLiteralString) _partialExpression).getValue(), is("bar1"));
-		assertThat(_argumentMapping.containsKey("foo2"), is(true));
-		_partialExpression = _argumentMapping.get("foo2");
+		_partialExpression = _argumentMapping.get(1);
 		assertThat(_partialExpression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 		assertThat(((PartialExpressionLiteralString) _partialExpression).getValue(), is("bar2"));
 	}

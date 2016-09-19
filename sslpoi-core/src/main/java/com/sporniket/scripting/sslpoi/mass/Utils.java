@@ -61,18 +61,18 @@ final class Utils
 		return _accessStack;
 	}
 
-	static Map<String, PartialExpression> argumentMappingFromVessNodeArgumentMapping(VessNodeArgumentMapping source)
+	static List<PartialExpression> argumentMappingFromVessNodeArgumentMapping(VessNodeArgumentMapping source)
 			throws SslpoiException
 	{
-		Map<String, PartialExpression> _buffer = new HashMap<String, PartialExpression>();
+		List<PartialExpression> _buffer = new ArrayList<PartialExpression>(20);
 		for (VessNodeArgumentMapping _current = source; _current != null;)
 		{
 			final VessNodeValue _value = (VessNodeValue) _current.getValue();
 			PartialExpression _expression = PartialExpressionFromNodeValue.convert(_value);
-			_buffer.put(_current.getName(), _expression);
+			_buffer.add(_expression);
 			_current = (VessNodeArgumentMapping) _current.getNext();
 		}
-		return new HashMap<String, PartialExpression>(_buffer);
+		return new ArrayList<PartialExpression>(_buffer);
 	}
 
 	static List<PartialIdentifier> identifierFromVessNodeIdentifierMapping(VessNodeIdentifierMapping mapping)

@@ -40,18 +40,18 @@ import java.util.Map;
  */
 public class StatementCall extends Statement
 {
-	private final Map<String, PartialExpression> myArgumentMapping;
+	private final List<PartialExpression> myArgumentMapping;
 
 	private final List<String> myMethodAccessor;
 
-	public StatementCall(List<String> methodAccessor, Map<String, PartialExpression> argumentMapping)
+	public StatementCall(List<String> methodAccessor, List<PartialExpression> argumentMapping)
 	{
 		super();
 		myMethodAccessor = methodAccessor;
 		myArgumentMapping = argumentMapping;
 	}
 
-	public Map<String, PartialExpression> getArgumentMapping()
+	public List<PartialExpression> getArgumentMapping()
 	{
 		return myArgumentMapping;
 	}

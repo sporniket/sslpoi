@@ -211,9 +211,9 @@ part_using__list
 
 part_using__single
 	::=
-		expr_value:val AS IDENTIFIER:id
+		expr_value:val
 		{:
-			RESULT = new VessNodeArgumentMapping().withName((String)id).withValue((VessNode)val);
+			RESULT = new VessNodeArgumentMapping().withValue((VessNode)val);
 		:}
 	;
 

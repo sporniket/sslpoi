@@ -113,20 +113,20 @@ public class UtilsTest
 	public void testArgumentMappingConvertion() throws SslpoiException
 	{
 		// mapping to litteral strings
-		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withName("foo1").withValue(
+		VessNodeArgumentMapping _source1 = new VessNodeArgumentMapping().withValue(
 				new VessNodeLiteralString().withValue("bar1"));
-		VessNodeArgumentMapping _source2 = new VessNodeArgumentMapping().withName("foo2").withValue(
+		VessNodeArgumentMapping _source2 = new VessNodeArgumentMapping().withValue(
 				new VessNodeLiteralString().withValue("bar2"));
 
 		// mapping to accessor
 		VessNodeAccessor _value = new VessNodeAccessor().withValue("foo");
 		VessNodeAccessor _valueFromBar = new VessNodeAccessor().withValue("bar");
 		_valueFromBar.enqueue(_value);
-		VessNodeArgumentMapping _source3 = new VessNodeArgumentMapping().withName("foo3").withValue(_valueFromBar);
+		VessNodeArgumentMapping _source3 = new VessNodeArgumentMapping().withValue(_valueFromBar);
 		_source1.enqueue(_source2);
 		_source1.enqueue(_source3);
 
-		Map<String, PartialExpression> _mapping = Utils.argumentMappingFromVessNodeArgumentMapping(_source1);
+		List<PartialExpression> _mapping = Utils.argumentMappingFromVessNodeArgumentMapping(_source1);
 
 		// testing the conversion result : general
 		assertThat(_mapping, notNullValue());
@@ -134,24 +134,21 @@ public class UtilsTest
 		assertThat(_mapping.size(), is(3));
 
 		// testing the conversion result : item by item
-		String _name;
+		int _index;
 		PartialExpression _expression;
 
-		_name = "foo1";
-		assertThat(_mapping.containsKey(_name), is(true));
-		_expression = _mapping.get(_name);
+		_index = 0;
+		_expression = _mapping.get(_index);
 		assertThat(_expression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 		assertThat(((PartialExpressionLiteralString) _expression).getValue(), is("bar1"));
 
-		_name = "foo2";
-		assertThat(_mapping.containsKey(_name), is(true));
-		_expression = _mapping.get(_name);
+		_index = 1;
+		_expression = _mapping.get(_index);
 		assertThat(_expression.getClass().getName(), is(PartialExpressionLiteralString.class.getName()));
 		assertThat(((PartialExpressionLiteralString) _expression).getValue(), is("bar2"));
 
-		_name = "foo3";
-		assertThat(_mapping.containsKey(_name), is(true));
-		_expression = _mapping.get(_name);
+		_index = 2;
+		_expression = _mapping.get(_index);
 		assertThat(_expression.getClass().getName(), is(PartialExpressionAccessor.class.getName()));
 		final List<String> _accessStack = ((PartialExpressionAccessor) _expression).getAccessStack();
 		assertThat(_accessStack, notNullValue());
