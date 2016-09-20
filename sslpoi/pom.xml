@@ -8,6 +8,7 @@
 
 	<properties>
 		<url.base>https://github.com/sporniket/sslpoi</url.base>
+		<url.base.site.deploy>file://${user.home}/mvnsites</url.base.site.deploy>
 		<version.jdk>1.8</version.jdk>
 
 		<!-- maven plugins version -->
@@ -146,6 +147,11 @@
 		</license>
 	</licenses>
 	<distributionManagement>
+		<site>
+			<id>localMvnSite-${project.artifactId}</id>
+			<name>SpornyScript Language</name>
+			<url>${url.base.site.deploy}/${project.artifactId}/${project.version}</url>
+		</site>
 		<repository>
 			<id>centralSonatype</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>

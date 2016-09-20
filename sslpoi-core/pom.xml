@@ -73,4 +73,11 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<site>
+			<id>localMvnSite-${project.artifactId}</id>
+			<name>SpornyScript Language - ${project.name}</name>
+			<url>${url.base.site.deploy}/${project.parent.artifactId}/${project.version}/module/${project.artifactId}</url>
+		</site>
+	</distributionManagement>
 </project>
