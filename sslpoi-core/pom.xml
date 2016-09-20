@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.sporniket.scripting.sslpoi</groupId>
 		<artifactId>sslpoi</artifactId>
-		<version>0.2.0-SNAPSHOT</version>
+		<version>0.2.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>sslpoi-core</artifactId>
