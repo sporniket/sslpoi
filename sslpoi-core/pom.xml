@@ -4,7 +4,7 @@
 		<groupId>com.sporniket.scripting.sslpoi</groupId>
 		<artifactId>sslpoi</artifactId>
 		<version>0.2.0-SNAPSHOT</version>
-		<relativePath>../sslpoi/pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>sslpoi-core</artifactId>
 	<packaging>jar</packaging>

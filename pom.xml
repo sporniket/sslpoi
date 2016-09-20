@@ -31,7 +31,7 @@
 	<url>${url.base}/blob/master/${project.artifactId}</url>
 
 	<modules>
-		<module>../sslpoi-core</module>
+		<module>./sslpoi-core</module>
 	</modules>
 	<build>
 		<plugins>
