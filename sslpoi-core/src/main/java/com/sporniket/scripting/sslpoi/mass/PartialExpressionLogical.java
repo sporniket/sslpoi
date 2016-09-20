@@ -33,7 +33,7 @@ import com.sporniket.scripting.sslpoi.core.LogicalOperator;
  * <hr>
  * 
  * @author David SPORN
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.1.0
  * 
  */
